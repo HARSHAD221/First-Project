@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from portotheme.com/html/molla/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:34:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.webmanifest">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Main CDN File --> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="order-confirmation-wrapper">
+        <%- include('../partials/header.ejs') %>
+        <br><br><br><br><br>
+        <div id="order-confirmation-container">
+            <div id="order-confirmation-message">
+                <h5>Thank You for Your Order!</h5>
+                <div id="order-success-image" style="margin-left: 190px;">
+                    <img src="/assets/images/icons/tick-mark.png" alt="Order Success" />
+                </div>
+                <p>Your order has been placed successfully. We appreciate your business!</p>
+                <p>You will receive a confirmation email shortly.</p>
+            </div>
+        </div>
+        <br><br>
+        <button id="shop-again-button" onclick="location.href='/'">Go to Shop</button> <!-- Button to go back to shop -->
+        <br><br><br>
+        <%- include('../partials/footer.ejs') %>
+    </div>
+    
+</body>
+
+
+<!-- Mirrored from portotheme.com/html/molla/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:34:42 GMT -->
+</html>

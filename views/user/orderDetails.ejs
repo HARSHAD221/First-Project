@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from portotheme.com/html/molla/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:34:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.webmanifest">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Main CDN File --> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <base href="/">
+</head>
+
+<body>
+    <div class="page-wrapper">
+       
+
+
+        <%- include('../partials/header.ejs') %>
+       
+    </div>
+
+      <br><br>
+      
+      <div class="order-details-page">
+        <div class="order-details-container">
+            <h1>Order Details</h1>
+    
+            <!-- Order Information -->
+            <!-- <h2>Order ID: <%= order._id %></h2> -->
+            <p><strong>Order Date:</strong> <%= new Date(order.orderDate).toDateString() %></p>
+            <p><strong>Status:</strong> <%= order.status %></p>
+            <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+            <p><strong>Payment Status:</strong> <%= order.paymentStatus %></p>
+            <p><strong>Estimated Delivery Date:</strong> <%= estimatedDeliveryDate %></p>
+             
+
+             <!-- Product Details -->
+             <h3>Product Details</h3>
+             <ul class="product-list">
+                 <% order.products.forEach(item => { %>
+                     <li class="product-item">
+                         <img src="<%= item.product.imagePaths[0]%>" alt="<%= item.product.name %>" class="product-image" />
+                         <div class="product-info">
+                             <h4><%= item.product.productName %></h4>
+                             <p><strong>Quantity:</strong> <%= item.quantity %></p>
+                             <p><strong>Price:</strong> $<%= (item.price * item.quantity).toFixed(2) %></p>
+                             <% if (item.status !== 'Cancelled') { %>
+                                <button 
+                                    class="cancel-button btn cancel-btn" 
+                                    data-product-id="<%= item.product._id %>" 
+                                    data-order-id="<%= order._id %>"
+                                    onclick="cancelProduct(this)"
+                                >
+                                    Cancel Product
+                                </button>
+                            <% } else { %>
+                                <p><em>Product Cancelled</em></p>
+                            <% } %>
+                         </div>
+                     </li>
+                 <% }) %>
+             </ul>
+     
+            <!-- Order Summary -->
+            <h3>Order Summary</h3>
+            <p><strong>Total Products:</strong> <%= order.products.length %></p>
+            <p><strong>Grand Total:</strong> $<%= order.totalPrice.toFixed(2) %></p>
+    
+           
+            <!-- Buttons -->
+            <div class="actions">
+                <a href="/myaccount" class="btn" style="width: 50px;">Back to Orders</a>
+               <%  if(order.status  !== 'Cancelled'){ %>
+                    <a href="/orders/<%= order._id %>/cancel"  style="width: 50px;" class="btn cancel-btn">Cancel Order</a>
+               <%  } %>
+               
+            </div>
+        </div>
+    </div>
+    
+    
+    <%- include('../partials/footer.ejs')%> 
+
+
+
+<script>
+
+// document.querySelector('.cancel-btn').addEventListener('click', async (event) => {
+//     event.preventDefault(); // Prevent default link behavior
+
+//     const orderId = '<%= order._id %>'; // Use the correct order ID
+//     const response = await fetch(`/order/cancel/${orderId}`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     });
+
+//     const data = await response.json();
+//     if (data.success) {
+//         // Show success message using SweetAlert
+//         await Swal.fire({
+//             title: 'Success!',
+//             text: data.message,
+//             icon: 'success',
+//             confirmButtonText: 'OK'
+//         });
+        
+//         // Redirect after cancellation
+//         window.location.href = '/myaccount'; // Redirect after cancellation
+//     } else {
+//         // Show error message using SweetAlert
+//         await Swal.fire({
+//             title: 'Error!',
+//             text: data.message,
+//             icon: 'error',
+//             confirmButtonText: 'Try Again'
+//         });
+//     }
+// });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cancelButton = document.querySelector('.cancel-btn');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', async (event) => {
+            event.preventDefault(); // Prevent default link behavior
+
+            const orderId = '<%= order._id %>'; // Use the correct order ID
+            const response = await fetch(`/order/cancel/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Show success message using SweetAlert
+                await Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                
+                // Redirect after cancellation
+                window.location.href = '/myaccount';
+            } else {
+                // Show error message using SweetAlert
+                await Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        });
+    }
+});
+
+
+</script>
+
+<script>
+
+ async function cancelProduct(button) {
+    const productId = button.getAttribute('data-product-id');
+    const orderId = button.getAttribute('data-order-id');
+    
+    try {
+        const response = await fetch(`/order/cancel-product/${orderId}/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+            // Check if the response is successful
+            if (!response.ok) {
+            // Handle response errors based on status code
+            const errorResult = await response.json();
+            let errorMessage = 'Something went wrong. Please try again.';
+            if (errorResult.message) {
+                errorMessage = errorResult.message; // Use backend message if available
+            }
+
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
+            return; // Exit the function early on error
+        }
+
+        // Handle successful cancellation
+        const result = await response.json();
+        console.log('Response:', response);
+        console.log('Result:', result);
+
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: result.message,
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // location.reload(); 
+
+                button.closest('.product-item').classList.add('cancelled');
+                button.disabled = true; // Disable the button
+                button.textContent = 'Cancelled'
+            });
+        } else {
+            // Handle unexpected success but false success flag
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message || 'Unexpected error occurred.',
+                confirmButtonText: 'OK'
+            });
+        }
+    } catch (error) {
+        // Log the error and show a friendly message to the user
+        console.error('Error cancelling product:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An unexpected error occurred. Please try again later.',
+            confirmButtonText: 'OK'
+        });
+    }
+}
+
+</script>
+
+<script>console.log('Footer loaded');</script>
+
+</body>
+
+
+<!-- Mirrored from portotheme.com/html/molla/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:34:41 GMT -->
+</html>

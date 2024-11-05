@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- Ajax script -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- CDN for sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li id="dashboard"  class="menu-item">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li  id="users" class="menu-item">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li  id="orders" class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li  id="products" class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li id="categories" class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li  id="salesReport" class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li  id="offers" class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li  id="coupons" class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <!-- <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div> -->
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <!-- <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">Users list</h2>
+                    <div>
+                        <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>Status</option>
+                                    <option>Active</option>
+                                    <option>Disabled</option>
+                                    <option>Show all</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>Show 20</option>
+                                    <option>Show 30</option>
+                                    <option>Show 40</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header>
+              <-- card-header end// -->
+                    <!-- <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Seller</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Registered</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Mary Monasa</h6>
+                                                    <small class="text-muted">Seller ID: #129</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>monalisa@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>11.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-3.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Jonatan Ive</h6>
+                                                    <small class="text-muted">Seller ID: #400</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>mrjohn@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-4.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Albert Pushkin</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>someone@mymail.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>20.11.2019</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Alexandra Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-3.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-4.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Alex Pushkina</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>alex@gmail.org</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-1.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%">
+                                            <a href="#" class="itemside">
+                                                <div class="left">
+                                                    <img src="assets/imgs/people/avatar-2.png" class="img-sm img-avatar" alt="Userpic" />
+                                                </div>
+                                                <div class="info pl-3">
+                                                    <h6 class="mb-0 title">Eleanor Pena</h6>
+                                                    <small class="text-muted">Seller ID: #439</small>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>eleanor2020@example.com</td>
+                                        <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                        <td>08.07.2020</td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table> -->
+                            <!-- table-responsive.// -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <!-- card-body end// -->
+                <!-- </div> -->
+                <!-- card end// -->
+                <!-- <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </section>  -->
+
+            <style>
+                /* Change placeholder color to white */
+                #search::placeholder {
+                    color: rgb(16, 15, 15); 
+                    opacity: 1; 
+                }
+            </style>
+
+
+
+
+
+
+
+
+
+            <section class="content-main">
+                <div class="content-header">
+                    <h2 class="content-title">Users list</h2>
+                    <div>
+                        <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                    </div>
+                </div>
+                <div class="search-container mb-4 d-flex">
+                    <input type="search" id="search" name="search"   placeholder="Search here..." 
+                           class="form-control me-2" 
+                           style="width: 50%; background-color: #f0f0f0; color: #333; border: 1px solid #ccc; border-radius: 4px;" />
+                    <!-- <button type="button" class="btn btn-secondary"  onclick="searchUsers()">Search</button> -->
+                    <button id="searchButton" style="background-color: grey; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                        Search
+                    </button>
+                    
+                </div>
+                <!-- <div class="card mb-4">
+                    <header class="card-header">
+                  Search and filter options -->
+                    </header> 
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Icon</th>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <!-- <th>Status</th> -->
+                                        <th>Registered</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                    <% users.forEach(function(user) { %>
+                                        <tr>
+                                            <td width="10%">
+                                                <img src="<%= user.icon || 'assets/imgs/icons/user.png' %>" class="img-responsive img-avatar" alt="User Icon"  style="width: 50px; height: auto;" />
+                                            </td>
+
+                                            <td><%= user.email %></td> 
+                                            <td><%= user.name %></td>
+                                            <td><%= user.phone %></td>
+                                            <!-- <td>
+                                                <span class="badge rounded-pill <%= user.status === 'Active' ? 'alert-success' : 'alert-danger' %>">
+                                                    <%= user.status %>
+                                                </span>
+                                            </td> -->
+                                            <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+                                            <td class="text-end">
+                                                <button data-user-id="<%= user._id %>" class="btn btn-sm block-unblock-btn <%= user.is_block ? 'btn-success' : 'btn-danger' %>">
+                                                    <%= user.is_block ? 'Unblock' : 'Block' %>
+                                                </button>
+                                            </td>
+                                            
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link">Previous</a>
+                                </li>
+                            <% } %>
+                
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link">Next</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+
+            
+            
+            
+            <!-- content-main end// -->
+            <!-- <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer> -->
+        </main>
+        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+           
+        <!-- script for highlighting the side bars -->
+        <script>
+            document.addEventListener('DOMContentLoaded',function(){
+                const path = window.location.pathname;
+                const menuItems = {
+                    "/admin/dashboard" : "dashboard",
+                    "/admin/users"   : "users",
+                    "/admin/orders" : "orders",
+                    "/admin/products" : "products",
+                    "/admin/categories" : "categories",
+                    "/admin/salesReport" : "salesReport",
+                    "/admin/offers" : 'offers',
+                    "/admin/coupons" : "coupons"
+                 };
+
+                 // Check if the path exists in the menuItems object
+                 if(menuItems[path]){
+                    document.getElementById(menuItems[path]).classList.add('active');
+                 }
+            });
+        </script>
+
+
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            attachBlockUnblockListeners();
+    // Function to search users
+    function searchUsers() {
+        // Get the value from the search input field
+        const query = document.getElementById('search').value.trim();
+        console.log('Search Query:', query); // Check if the query is being fetched properly
+        
+        if (!query) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Empty Search',
+                text: 'Please enter a search term!',
+            });
+            return;
+        }
+
+        // Send the search request using Fetch API
+        fetch(`/admin/search?search=${encodeURIComponent(query)}`)
+            .then(response => {
+                console.log('Response Status:', response.status); // Check the response status
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Search Results:', data); // Check the data returned from the backend
+                const users = data.users || []; // Ensure users is an array
+                const tableBody = document.getElementById('userTableBody');
+
+                tableBody.innerHTML = '';
+
+                if (users.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7">No users found</td></tr>';
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No Users',
+                        text: 'No users matched your search query.',
+                    });
+                    return;
+                }
+
+                users.forEach(user => {
+                    const row = `
+                        <tr>
+                            <td><img src="${user.icon || 'assets/imgs/icons/user.png'}" class="img-avatar" style="width: 50px;" /></td>
+                            <td>${user.email}</td>
+                            <td>${user.name}</td>
+                            <td>${user.phone}</td>
+                            <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                            <td class="text-end">
+                                <a href="#" data-user-id="${user._id}" class="btn btn-sm block-unblock-btn ${user.is_block ? 'btn-success' : 'btn-danger'}">
+                                    ${user.is_block ? 'Unblock' : 'Block'}
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+
+                attachBlockUnblockListeners(); // Reattach listeners after populating the table
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Search Error',
+                    text: 'There was a problem with the search request.',
+                });
+            });
+    }
+    // Function to attach event listeners to block/unblock buttons
+    function attachBlockUnblockListeners() {
+        const buttons = document.querySelectorAll('.block-unblock-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); 
+                const userId = this.getAttribute('data-user-id');
+                const isBlock = this.classList.contains('btn-danger'); 
+                blockOrUnblockUser(userId, isBlock);
+            });
+        });
+    }
+
+    // Function to block or unblock a user
+    function blockOrUnblockUser(userId, isBlock) {
+        const action = isBlock ? 'Block' : 'Unblock'; 
+
+        fetch(`/admin/blockuser/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: action }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Status Updated',
+                        text: `User successfully ${action.toLowerCase()}ed.`,
+                        ConfirmButton: false,
+                       
+                    });
+
+                    const button = document.querySelector(`[data-user-id="${userId}"]`);
+                    if (isBlock) {
+                        button.textContent = 'Unblock';
+                        button.classList.remove('btn-danger');
+                        button.classList.add('btn-success');
+                    } else {
+                        button.textContent = 'Block';
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-danger');
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Update Failed',
+                        text: 'Unable to update user status!',
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error during block/unblock fetch:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Block/Unblock Error',
+                    text: 'An error occurred while trying to update user status.',
+                });
+            });
+    }
+
+    // Attach event listeners to search elements
+    document.getElementById('searchButton').addEventListener('click', searchUsers);
+    document.getElementById('search').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            searchUsers();
+        }
+    });
+});
+
+        </script>
+        
+    </body>
+</html>

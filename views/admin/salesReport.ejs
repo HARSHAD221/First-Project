@@ -1,0 +1,499 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- CDN for sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- JavaScript for PDF and Excel export -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        
+
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li id="dashboard"  class="menu-item">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li  id="users" class="menu-item">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li  id="orders" class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li  id="products" class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li id="categories" class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li  id="salesReport" class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li  id="offers" class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li  id="coupons" class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <!-- <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i
+                                    class="material-icons md-search"></i></button>
+                        </div> -->
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                            class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Sales Reports</h2>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <header class="card-header" id="dateHeader">
+                        <div class="row gx-3">
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <label for="filter">Filter by Date</label>
+                                <select class="form-select" id="filter" onchange="toggleDateInputs(event)">
+                                    <option value="">Select Date</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Yearly">Yearly</option>
+                                    <option value="Custom">Custom Range</option>
+                                </select>
+                            </div>
+                            
+                            <div id="customDateInputs" style="display: none;">
+                                <label for="startDateInput">Start Date</label>
+                                <input type="date" id="startDateInput" style="display: none;">
+                                <label for="endDateInput">End Date</label>
+                                <input type="date" id="endDateInput" style="display: none;">
+                            </div>
+                            
+                            <button id="applyFilterBtn" class="btn btn-primary px-4 py-2 text-center w-100" style="max-width: 160px; height: 60px;">
+                                Apply Filter
+                            </button>
+                            
+                            
+
+                            
+                        </div>
+                    </header>
+
+                <div class="fullbody" >
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No:</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% orders.forEach((order, index) => { %>
+                                        <tr>
+                                            <td><%= index + 1 %></td>
+                                            <td><b><%= order.user.name %></b></td>
+                                            <td><%= order.user.email %></td>
+                                            <td>₹<%= order.totalPrice %></td>
+                                            <td>
+                                                <span class="badge rounded-pill alert-success" style="height: 20px; width: 65px;">Delivered</span>
+                                            </td>
+                                            <td><%= new Date(order.createdAt).toLocaleDateString('en-GB') %></td>
+                                            <td><%= order.paymentMethod %></td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Overall Summary</h5>
+                            <p>Total Sales Count: <%= totalOrders %></p>
+                            <p>Total Order Amount: ₹<%= totalPrice %></p>
+                            <div id="buttons">
+                                <button id="download-pdf-btn" class="btn btn-primary">
+                                    <i class="icon material-icons md-file_download"></i>
+                                    <span class="text" >Download PDF</span>
+                                </button>
+                                <button id="download-excel-btn" class="btn btn-primary">
+                                    <i class="icon material-icons md-file_download"></i>
+                                    <span class="text">Download Excel</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- here -->
+                </div>
+
+                </div>
+                
+                
+                <!-- Summary Section -->
+                
+
+                
+
+                <!-- Pagination Controls -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <% for(let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </section>
+
+           
+  
+            
+        </main>
+        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <script src="assets/js/vendors/chart.js"></script>
+        <!-- Main Script -->
+        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+        <script src="assets/js/custom-chart.js" type="text/javascript"></script>
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+         -->
+
+         <!-- Include these libraries in your HTML -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Handle PDF download
+    document.getElementById('download-pdf-btn').addEventListener('click',async function () {
+        try {
+
+        const dateHeader = document.getElementById('dateHeader');
+        const buttons = document.getElementById('buttons');
+        const pagination = document.querySelector('.pagination');
+
+        const elementsToHide = [
+                { element: dateHeader, display: dateHeader?.style.display },
+                { element: buttons, display: buttons?.style.display },
+                { element: pagination, display: pagination?.style.display }
+            ];
+            elementsToHide.forEach(item => {
+                if (item.element) {
+                    item.element.style.display = 'none';
+                }
+            });
+            const element = document.querySelector('.fullbody');
+
+            if (!element) {
+                throw new Error('Content element not found');
+            }
+
+            const clone = element.cloneNode(true);
+
+            const styleSheet = `
+                .card-body {
+                     margin-left: 150px !important; /* Adjust this value as needed */
+                }
+                .table {
+                    width: 100% !important;
+                    margin-bottom: 0 !important;
+                    border-collapse: collapse !important;
+                }
+                .table th, .table td {
+                    padding: 8px !important;
+                    border: 1px solid #dee2e6 !important;
+                }
+                .table th {
+                    background-color: #f8f9fa !important;
+                    font-weight: bold !important;
+                }
+                .badge {
+                    padding: 5px 10px !important;
+                    border-radius: 15px !important;
+                }
+                .badge.alert-success {
+                    background-color: #d1e7dd !important;
+                    color: #0f5132 !important;
+                }
+            `;
+            const style = document.createElement('style');
+            style.textContent = styleSheet;
+            clone.prepend(style);
+
+
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'Sales_Report.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: true,
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'landscape',
+                    compress: true
+                },
+                pagebreak: { avoid: ['tr', 'td'] }
+            };
+
+            await html2pdf().from(clone).set(opt).save();
+
+            elementsToHide.forEach(item => {
+                if (item.element) {
+                    item.element.style.display = item.display || 'block';
+                }
+            });
+
+            
+        } catch (error) {
+            console.error('PDF Generation Error:', error);
+            
+            // Restore elements in case of error
+            const dateHeader = document.getElementById('dateHeader');
+            const buttons = document.getElementById('buttons');
+            const pagination = document.querySelector('.pagination');
+            
+            if (dateHeader) dateHeader.style.display = 'block';
+            if (buttons) buttons.style.display = 'block';
+            if (pagination) pagination.style.display = 'block';
+            
+            // Show error to user
+            alert('Error generating PDF. Please try again.');
+        }
+        
+
+      
+    });
+
+
+
+    document.getElementById('download-excel-btn').addEventListener('click', function () {
+        const dateHeader = document.getElementById('dateHeader');
+        const buttons = document.getElementById('buttons');
+        const pagination = document.querySelector('.pagination');
+
+        // Hide elements to clean up the Excel
+        dateHeader.style.display = 'none';
+        buttons.style.display = 'none';
+        pagination.style.display = 'none';
+
+        exportToExcel();
+
+        // Restore elements after exporting
+        dateHeader.style.display = 'block';
+        buttons.style.display = 'block';
+        pagination.style.display = 'block';
+    });
+});
+
+function exportToExcel() {
+    // Get the table element
+    const table = document.querySelector('.table');
+
+    // Ensure the table exists
+    if (table) {
+        // Convert the table rows to an array of arrays
+        const rows = Array.from(table.querySelectorAll('tr')).map(row =>
+            Array.from(row.querySelectorAll('td, th')).map(cell => cell.innerText)
+        );
+
+        // Create a new workbook
+        const wb = XLSX.utils.book_new();
+
+        // Add a worksheet with the table data
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
+
+        // Add the overall summary after the table
+        const summaryRows = [
+            [], // Blank row
+            ['Overall Summary'], // Title
+            ['Total Sales Count:', <%= totalOrders %>], // Total orders
+            ['Total Order Amount:', '₹<%= totalPrice %>'] // Total price
+        ];
+
+        // Append the summary to the sheet
+        XLSX.utils.sheet_add_aoa(ws, summaryRows, { origin: -1 });
+
+        // Write the Excel file
+        XLSX.writeFile(wb, 'sales_report.xlsx');
+    } else {
+        console.error("Table element is missing in the DOM");
+    }
+}
+
+</script>
+
+
+
+        <!-- Script for highlight the sidebar -->
+        <script>
+            document.addEventListener('DOMContentLoaded',function(){
+                const path = window.location.pathname;
+                const menuItems = {
+                    "/admin/dashboard" : "dashboard",
+                    "/admin/users"   : "users",
+                    "/admin/orders" : "orders",
+                    "/admin/products" : "products",
+                    "/admin/categories" : "categories",
+                    "/admin/salesReport" : "salesReport",
+                    "/admin/offers" : 'offers',
+                    "/admin/coupons" : "coupons"
+                 };
+
+                 // Check if the path exists in the menuItems object
+                 if(menuItems[path]){
+                    document.getElementById(menuItems[path]).classList.add('active');
+                 }
+            });
+        </script>
+    
+    <script>
+function toggleDateInputs(event) {
+    const filterValue = event.target.value;
+    const customDateInputs = document.getElementById('customDateInputs');
+
+    if (filterValue === 'Custom') {
+        customDateInputs.style.display = 'block'; 
+        document.getElementById('startDateInput').style.display = 'block'; 
+        document.getElementById('endDateInput').style.display = 'block'; 
+    } else {
+        customDateInputs.style.display = 'none'; 
+        document.getElementById('startDateInput').style.display = 'none'; // Hide the start date input
+        document.getElementById('endDateInput').style.display = 'none'; // Hide the end date input
+    }
+}
+
+function applyFilter() {
+    const filter = document.getElementById('filter').value;
+    console.log('Filter selected:', filter); // Improved logging
+    const startDate = document.getElementById('startDateInput').value;
+    const endDate = document.getElementById('endDateInput').value;
+
+    // Construct the base URL with the selected filter
+    let url = `/admin/salesReport?filter=${filter}`;
+
+    // Add custom date parameters if the 'Custom' filter is selected
+    if (filter === 'Custom' && startDate && endDate) {
+        url += `&startDate=${startDate}&endDate=${endDate}`;
+    }
+
+    console.log('Redirecting to URL:', url); // Log the URL before redirection
+
+    // Redirect to the constructed URL
+    window.location.href = url;
+}
+
+// Add event listeners to the filter dropdown and apply filter button
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('filter').addEventListener('change', toggleDateInputs);
+    document.getElementById('applyFilterBtn').addEventListener('click', applyFilter);
+});
+
+    </script>
+
+
+                                                                                                                                                                                            
+    </body>
+</html>

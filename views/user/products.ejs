@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from portotheme.com/html/molla/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:05:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>First - project</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.webmanifest">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <%- include('../partials/header.ejs') %>
+       
+    </div>
+      
+    <h1 style="text-align: center; color: rgb(222, 17, 17); margin-top: 100px;">ALL PRODUCTS</h1>
+    
+    <label for="filter">Filter</label>
+    <select name="category" id="categorySelect" onchange="handleCategoryChange()">
+        <option value="">Select a Category</option>
+        <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+            <% categories.forEach(category => { %>
+                <option value="<%= category.categoryName %>"><%= category.categoryName %></option>
+            <% }) %>
+        <% } else { %>
+            <option value="">No categories available</option>
+        <% } %>
+    </select>
+    
+    <label for="sortBy">Sort By:</label>
+    <select id="sortBy" onchange="handleSortChange()">
+        <option value="">Default</option>
+        <option value="popularity">Sort by Popularity</option>
+        <option value="priceLowToHigh">Price: Low to High</option>
+        <option value="priceHighToLow">Price: High to Low</option>
+        <option value="newArrivals">New Arrivals</option>
+        <option value="nameAsc">Name: A-Z</option>
+        <option value="nameDesc">Name: Z-A</option>
+    </select>
+
+<br><br><br><br><br>
+    <!-- Container for the product list -->
+    <div class="product-list"  id="productContainer">
+        <% if (products.length === 0) { %>
+          <p>No products available.</p>
+        <% } else { %>
+          <div class="row justify-content-center">
+            <% products.forEach(function(product) { %>
+              <div class="col-6 col-md-4 col-lg-3">
+                <div class="product product-11 mt-v3 text-center">
+                    <figure class="product-media hover-image-container">
+                        <a href="/product?id=<%= product._id %>">
+                            <!-- Display first image and second image on hover -->
+                                <img src="<%= product.imagePaths[0] %>" alt="Product image" class="">
+                                <img src="<%= product.imagePaths[1] %>" alt="Product image" class="product-image-hover">
+                            </a>
+                        </a>
+                    
+                        <!-- Wishlist Button -->
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+                        </div>
+                    </figure>
+                    
+      
+                  <div class="product-body">
+                    <!-- Product Name -->
+                    <h3 class="product-title"><a href="/product/<%= product._id %>"><%= product.productName %></a></h3>
+      
+                    <!-- Product Price -->
+                      <div class="product-price">
+                        <% if (product.finalPrice && product.finalPrice < product.price) { %>
+                            <!-- Display original price with strikethrough if there's an offer -->
+                            <span class="original-price" style="text-decoration: line-through; color: gray;">
+                                $<%= product.price.toFixed(2) %>
+                            </span>
+                            <!-- Display the discounted price -->
+                            <span class="offer-price" style="color: rgb(13, 11, 11); font-weight: bold;">
+                                $<%= product.finalPrice.toFixed(2) %>
+                            </span>
+                        <% } else { %>
+                            <!-- Display regular price if no offer -->
+                            <span class="price">$<%= product.price.toFixed(2) %></span>
+                        <% } %>
+                        </div>
+                    
+                    <!-- Optional: Color dots (if applicable) -->
+                    <div class="product-nav product-nav-dots">
+                      <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                      <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                    </div>
+                  </div>
+      
+                  <!-- Add to Cart Button -->
+                  <div class="product-action">
+                    <a href="/cart/add/<%= product._id %>" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+
+    <%- include('../partials/footer.ejs') %>
+
+ 
+
+    <!-- Script for sorting the products -->
+    <!-- <script>
+        async function fetchSortedProducts(sortBy) {
+      try {
+          console.log('Sorting by:', sortBy);
+          const response = await fetch(`/sortproducts?sortBy=${sortBy}`);
+  
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          console.log('resp',response);
+          const products = await response.json();  // Expect JSON response from the server
+          console.log('Fetched Products:', JSON.stringify(products, null, 2));  // Pretty print the JSON
+  
+          updateProductList(products);  // Update the list dynamically
+      } catch (error) {
+          console.error('Error fetching sorted products:', error);
+      }
+  }
+  
+  function updateProductList(products) {
+      const productList = document.querySelector('.product-list');
+      console.log('Product list element:', productList);
+      productList.innerHTML = '';  // Clear existing products
+  
+      if (products.length === 0) {
+          productList.innerHTML = '<p>No products available.</p>';
+      } else {
+          const productContainer = document.createElement('div');
+          productContainer.classList.add('row', 'justify-content-center');
+          
+          products.forEach(product => {
+              const productDiv = document.createElement('div');
+              productDiv.classList.add('col-6', 'col-md-4', 'col-lg-3');
+              productDiv.innerHTML = `
+                  <div class="product product-11 mt-v3 text-center">
+                      <figure class="product-media">
+                          <a href="/product?id=${product._id}">
+                              <img src="/productImages/${product.imagePaths[0].split('\\').pop()}" alt="${product.productName} Image" class="product-image primary-image">
+                              <img src="/productImages/${product.imagePaths[1].split('\\').pop()}" alt="${product.productName} Image" class="product-image secondary-image">
+                          </a>
+                          <div class="product-action-vertical">
+                              <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+                          </div>
+                      </figure>
+                      <div class="product-body">
+                          <h3 class="product-title"><a href="/product/${product._id}">${product.productName}</a></h3>
+                          <div class="product-price">$${product.price.toFixed(2)}</div>
+                          <div class="product-nav product-nav-dots">
+                              <a href="#" class="active" style="background: #333333;"></a>
+                              <a href="#" style="background: #e8e8e8;"></a>
+                          </div>
+                      </div>
+                      <div class="product-action">
+                          <a href="/cart/add/${product._id}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                      </div>
+                  </div>
+              `;
+              productContainer.appendChild(productDiv);
+          });
+          
+          productList.appendChild(productContainer);
+      }
+  }
+  
+  function handleSortChange() {
+      const sortBy = document.getElementById('sortBy').value;
+      fetchSortedProducts(sortBy);  // Fetch products when the sort option changes
+  }
+  
+      </script> -->
+
+
+
+
+<!-- Script for filtering the products -->
+<!-- <script>
+  async function handleCategoryChange() {
+    const selectedCategory = document.getElementById('categorySelect').value;
+    const productContainer = document.getElementById('productContainer');
+    productContainer.innerHTML = '<p>Loading...</p>'; // Show loading message
+
+    if (selectedCategory) {
+        try {
+            const response = await fetch(`/filterByCategory?category=${selectedCategory}`);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const filteredProducts = await response.json(); // Expect JSON from server
+
+            // Check if the response indicates success and has a products array
+            if (filteredProducts.success && Array.isArray(filteredProducts.products)) {
+                updateProductList(filteredProducts.products); // Pass the products array
+            } else {
+                console.error('No products found or response not valid:', filteredProducts);
+            }
+        } catch (error) {
+            console.error('Error fetching filtered products:', error);
+        }
+    } else {
+        console.log('No category selected');
+    }
+}
+
+</script> -->
+
+
+
+
+
+<script>
+    async function fetchProducts(sortBy, category) {
+        try {
+            console.log('Fetching products with:', { sortBy, category });
+
+            // Create the query string based on provided sortBy and category
+            let query = `/searchAndFilterProducts?`;
+            if (sortBy) query += `sortBy=${sortBy}&`;
+            if (category) query += `category=${category}`;
+
+            const response = await fetch(query);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const products = await response.json();
+            console.log('Fetched Products:', JSON.stringify(products, null, 2));
+
+            updateProductList(products.products || products);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    }
+
+    function updateProductList(products) {
+        const productList = document.querySelector('.product-list');
+        productList.innerHTML = ''; // Clear existing products
+
+        if (products.length === 0) {
+            productList.innerHTML = '<p>No products available.</p>';
+        } else {
+            const productContainer = document.createElement('div');
+            productContainer.classList.add('row', 'justify-content-center');
+
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('col-6', 'col-md-4', 'col-lg-3');
+                productDiv.innerHTML = `
+                    <div class="product product-11 mt-v3 text-center">
+                        <figure class="product-media">
+                            <a href="/product?id=${product._id}">
+                                <img src="${product.imagePaths[0]}" alt="${product.productName} Image" class="">
+                                <img src="${product.imagePaths[1]}" alt="${product.productName} Image" class="product-image-hover">
+                            </a>
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+                            </div>
+                        </figure>
+                        <div class="product-body">
+                        <h3 class="product-title"><a href="/product/${product._id}">${product.productName}</a></h3>
+                        <div class="product-price">
+                            ${
+                                product.discount > 0 
+                                ? `<span style="text-decoration: line-through;">$${product.price.toFixed(2)}</span> 
+                                   $${product.finalPrice.toFixed(2)}`
+                                : `$${product.price.toFixed(2)}`
+                            }
+                        </div>
+                        <div class="product-nav product-nav-dots">
+                            <a href="#" class="active" style="background: #333333;"></a>
+                            <a href="#" style="background: #e8e8e8;"></a>
+                        </div>
+                    </div>
+                    <div class="product-action">
+                        <a href="/cart/add/${product._id}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                    </div>
+                </div>
+            `;
+                productContainer.appendChild(productDiv);
+            });
+
+            productList.appendChild(productContainer);
+        }
+    }
+
+    function handleSortChange() {
+        const sortBy = document.getElementById('sortBy').value;
+        const selectedCategory = document.getElementById('categorySelect').value;
+        fetchProducts(sortBy, selectedCategory);  // Fetch products with both sorting and category
+    }
+
+    function handleCategoryChange() {
+        const sortBy = document.getElementById('sortBy').value;
+        const selectedCategory = document.getElementById('categorySelect').value;
+        fetchProducts(sortBy, selectedCategory);  // Fetch products with both sorting and category
+    }
+</script>
+
+</body>
+
+</html>

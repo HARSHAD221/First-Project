@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Products</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+     <!-- CDN for sweet alert -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li id="dashboard"  class="menu-item">
+                    <a class="menu-link" href="/admin/dashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li  id="users" class="menu-item">
+                    <a class="menu-link" href="/admin/users">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li  id="orders" class="menu-item">
+                    <a class="menu-link" href="/admin/orders">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <li  id="products" class="menu-item">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li id="categories" class="menu-item">
+                    <a class="menu-link" href="/admin/categories">
+                        <i class="icon material-icons md-category"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li  id="salesReport" class="menu-item">
+                    <a class="menu-link" href="/admin/salesReport">
+                        <i class="icon material-icons md-business"></i>
+                        <span class="text">Sales Reports</span>
+                    </a>
+                </li>
+                <li  id="offers" class="menu-item">
+                    <a class="menu-link" href="/admin/offers">
+                        <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                </li>
+                <li  id="coupons" class="menu-item">
+                    <a class="menu-link" href="/admin/coupons">
+                        <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="row">
+                <div class="col-6">
+                    <div class="content-header" style="display: flex; align-items: center;">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div style="margin-left: auto;">
+                            <a href="/admin/createproducts" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>1. General info</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Product title</label>
+                                        <input type="text" placeholder="Type here" class="form-control">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Brand name</label>
+                                        <select class="form-select">
+                                            <option> Adidas </option>
+                                            <option> Nike </option>
+                                            <option> Puma </option>
+                                        </select>
+                                    </div> -->
+                                <!-- </div> col.// -->
+                            <!-- </div> row.// -->
+                            <!-- <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>2. Pricing</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Cost in USD</label>
+                                        <input type="text" placeholder="$00.0" class="form-control">
+                                    </div> -->
+                                <!-- </div> col.// -->
+                            <!-- </div> row.// -->
+                            <!-- <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>3. Category</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" checked="" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Clothes </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Electronics </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Sports </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Automobiles </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Home interior </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Smartphones </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Books </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Kids item </span>
+                                        </label>
+                                        <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                            <input class="form-check-input" name="mycategory" type="radio">
+                                            <span class="form-check-label"> Others </span>
+                                        </label>
+                                    </div> -->
+                                <!-- </div> col.// -->
+                            <!-- </div> row.// -->
+                            <!-- <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>4. Media</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Images</label>
+                                        <input class="form-control" type="file">
+                                    </div> -->
+                                <!-- </div> col.// -->
+                            <!-- </div> .row end// -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                <!-- </div>
+            </div>
+            </div> -->
+        <!-- </section> content-main end// -->
+        <!-- <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> &copy; Nest - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer> -->
+
+
+
+
+
+        <!-- views/products.ejs -->
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Products</title>
+            <style>
+                /* Basic styles */
+                body {
+                    font-family: Arial, sans-serif;
+                }
+        
+                /* Product list container */
+                .product-list {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 20px;
+                }
+        
+                /* Individual product layout */
+                .product {
+                    display: flex;
+                    align-items: center;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    margin: 10px 0;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+        
+                /* Product image */
+                .product img {
+                    width: 150px; /* Fixed width for the image */
+                    height: auto;
+                    border-radius: 8px;
+                    margin-right: 20px;
+                }
+        
+                /* Product details */
+                .product-details {
+                    display: flex;
+                    flex-direction: row; /* Align items in a row */
+                    justify-content: space-between; /* Spread out the items */
+                    width: 100%;
+                }
+        
+                /* Product title */
+                .product-title {
+                    font-size: 20px;
+                    margin-right: 20px;
+                    flex: 1; /* Allow the title to take available space */
+                }
+        
+                /* Stock and price on the right */
+                .product-stock, .product-price {
+                    white-space: nowrap; /* Prevent wrapping */
+                }
+        
+                /* Product description (optional styling) */
+                .product-description {
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body>
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Product list container */
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Individual product container */
+        .product {
+            display: flex;
+            align-items: flex-start;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            gap: 20px;
+        }
+
+        /* Product image styling */
+        .product img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Product details container */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* Product title styling */
+        .product-title {
+            font-size: 22px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* Product description styling */
+        .product-description {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Bottom section for stock and price */
+        .product-bottom-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .product-stock {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* Container for stock, price, and button */
+        .bottom-right-container {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Space between price, stock, and button */
+        }
+
+        /* List/Unlist Button */
+        .toggle-button {
+            padding: 6px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .toggle-button.unlisted {
+            background-color: #dc3545; /* Red for unlisted state */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+    <div class="product-list">
+        <% if (products.length === 0) { %>
+            <p>No products available.</p>
+        <% } else { %>
+            <% products.forEach(function (product) { %>
+                <div class="product">
+                    <!-- Product image -->
+                    <% if (product.imagePaths && product.imagePaths.length > 0) { %>
+                        <img src="<%= product.imagePaths[0] %>" alt="<%= product.productName %> Image">
+                    <% } else { %>
+                        <img src="/path/to/default/image.png" alt="Default Image"> <!-- Placeholder image -->
+                    <% } %>
+                    
+                    <!-- Product details -->
+                    <div class="product-details">
+                        <h2 class="product-title"><%= product.productName %></h2>
+                        <p class="product-description"><%= product.description %></p>
+    
+                        <div class="product-bottom-details">
+                            <div class="bottom-right-container">
+                                <!-- Product stock -->
+                                <div class="product-stock">
+                                    <p>Stock: <%= product.stock %></p>
+                                </div>
+    
+                                <!-- Product price -->
+                                <div class="product-price">
+                                    <p>$<%= product.price.toFixed(2) %></p>
+                                </div>
+    
+                                <!-- Edit Button -->
+                                <a href="/admin/editproducts?id=<%= product._id %>" class="edit-button">Edit</a>
+    
+                                <!-- List/Unlist Button -->
+                                <button 
+                                    class="toggle-button <%= product.isBlock ? 'unlisted' : '' %>" 
+                                    onclick="toggleProductStatus('<%= product._id %>', this)">
+                                    <%= product.isBlock ? 'List' : 'Unlist' %>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+    
+</body>
+</html>
+
+            
+            <!-- Pagination Controls -->
+            <div id="paginationControls" class="d-flex justify-content-between align-items-center mt-4">
+                <!-- Previous Button -->
+                <% if (currentPage > 1) { %>
+                    <button id="prevBtn" class="btn btn-secondary">
+                        <a href="?page=<%= currentPage - 1 %>" class="text-white">Previous</a>
+                    </button>
+                <% } else { %>
+                    <button id="prevBtn" class="btn btn-secondary" disabled>Previous</button>
+                <% } %>
+            
+                <!-- Page Indicator -->
+                <span id="pageIndicator">Page <%= currentPage %> of <%= totalPages %></span>
+            
+                <!-- Next Button -->
+                <% if (currentPage < totalPages) { %>
+                    <button id="nextBtn" class="btn btn-secondary">
+                        <a href="?page=<%= currentPage + 1 %>" class="text-white">Next</a>
+                    </button>
+                <% } else { %>
+                    <button id="nextBtn" class="btn btn-secondary" disabled>Next</button>
+                <% } %>
+            </div>
+            
+        <!-- </body>
+        </html>
+         -->
+
+    </main>
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/select2.min.js"></script>
+    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+       
+       <!-- script for highlighting the side bars -->
+       <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            const path = window.location.pathname;
+            const menuItems = {
+                "/admin/dashboard" : "dashboard",
+                "/admin/users"   : "users",
+                "/admin/orders" : "orders",
+                "/admin/products" : "products",
+                "/admin/categories" : "categories",
+                "/admin/salesReport" : "salesReport",
+                "/admin/offers" : 'offers',
+                "/admin/coupons" : "coupons"
+             };
+
+             // Check if the path exists in the menuItems object
+             if(menuItems[path]){
+                document.getElementById(menuItems[path]).classList.add('active');
+             }
+        });
+    </script>
+
+
+    <script>
+        // JavaScript to handle listing/unlisting the product using SweetAlert
+        async function toggleProductStatus(productId, button) {
+            try {
+                const response = await fetch(`/admin/products/${productId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+    
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Toggle the button class and text
+                    const isUnlisted = button.classList.toggle('unlisted');
+                    button.textContent = isUnlisted ? 'List' : 'Unlist';
+    
+                    // Show SweetAlert for success
+                    Swal.fire({
+                        icon: 'success',
+                        title: isUnlisted ? 'Product Unlisted' : 'Product Listed',
+                        text: isUnlisted ? 'The product has been successfully unlisted.' : 'The product has been successfully listed.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    // Show SweetAlert for failure
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Failed to update product status.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } catch (error) {
+                console.error('Error toggling product status:', error);
+                
+                // Show SweetAlert for error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while updating the product status.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

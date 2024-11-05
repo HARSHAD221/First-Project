@@ -1,0 +1,224 @@
+<header class="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-left">
+                <div class="header-dropdown">
+                    <a href="#">Usd</a>
+                    <div class="header-menu">
+                        <ul>
+                            <li><a href="#">Eur</a></li>
+                            <li><a href="#">Usd</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-dropdown">
+                    <a href="#">Eng</a>
+                    <div class="header-menu">
+                        <ul>
+                            <li><a href="#">English</a></li>
+                            <li><a href="#">Malayalam</a></li>
+                            <li><a href="#">Spanish</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <ul class="top-menu">
+                    <li>
+                        <a href="#">Links</a>
+                        <ul>
+                            <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                            <li><a href="/wishlist"><i class="icon-heart-o"></i>My Wishlist <span>(0)</span></a></li>
+                            <li><a href="/about"><i class="icon-info-circle"></i>About Us</a></li>
+                            <li><a href="/contact"><i class="icon-envelope"></i>Contact Us</a></li>
+                            
+                            <% console.log("Current user in EJS:", user); %> <!-- Add this line for debugging -->
+                            <% if (!user) { %> 
+                                <% console.log('heyy') %>
+                                <li><a href="/login"><i class="icon-user"></i>Login</a></li>
+                            <% }else{ %>
+                                 <% console.log('bro') %>
+                                 <% } %>
+                        </ul>
+                        
+                     
+                            
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-middle sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+
+                <a href="index.html" class="logo">
+                    <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                </a>
+            </div>
+            
+                <!-- Include your navbar here within the header -->
+    <nav class="main-nav">
+        <ul class="menu sf-arrows">
+            <li>
+                <a href="/" class="p-5">Home</a>
+            </li>
+            <li class="category-container">
+                <a href="/category" class="p-5">Category</a>
+              
+            </li>
+            
+            
+            <li>
+                <a href="/productsPage" class="p-5">Products</a>
+                
+            </li>
+            <li>
+                <a href="/myaccount" class="p-5">My Account</a>
+            </li>
+        </ul>
+    </nav>
+    
+            <div class="header-right">
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                    <form  id="search-form" action="javascript:void(0);">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                        </div>
+                    </form>
+                </div>
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-shopping-cart"></i>
+                    </a>
+                
+                    <!-- The dropdown menu container -->
+                    <div class="dropdown-menu">
+                        <div class="dropdown-cart-action">
+                            <a href="/cart" class="btn btn-primary">View Cart</a>
+                            <a href="/checkout" class="btn btn-outline-primary-2">
+                                <span>Checkout</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+       
+
+</header>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Perform search only on the products page
+        if (window.location.pathname === '/productsPage') {
+            const searchForm = document.getElementById('search-form');
+            const productContainer = document.querySelector('.product-list'); 
+            
+            if (!productContainer) {
+                console.error('Product list container not found on the page');
+                return;
+            }
+
+            searchForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const query = document.getElementById('q').value;
+
+                try {
+                    // Send the request to the backend using fetch
+                    const response = await fetch(`/searchproducts?q=${query}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Dynamically update the product list
+                        updateProductList(data.products, query);
+                    } else {
+                        console.error('Search request failed:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Error fetching search results:', error);
+                }
+            });
+
+    function updateProductList(products, searchTerm) {
+    const productContainer = document.getElementById('productContainer');
+    productContainer.innerHTML = ''; // Clear current product list
+
+    if (products.length === 0) {
+        productContainer.innerHTML = `<p>No products found for "<strong>${searchTerm}</strong>".</p>`;
+        return;
+    }
+
+    const productRow = document.createElement('div');
+    productRow.classList.add('row', 'justify-content-center');
+
+    products.forEach(product => {
+        // Create the column container
+        const productCol = document.createElement('div');
+        productCol.classList.add('col-6', 'col-md-4', 'col-lg-3');
+
+        // Determine the primary and secondary images
+        const primaryImage = product.imagePaths && product.imagePaths[0] 
+            ?  product.imagePaths[0]
+            : '/path/to/default/image.png'; 
+
+        const secondaryImage = product.imagePaths && product.imagePaths[1] 
+            ?  product.imagePaths[1]
+            : '/path/to/default/image.png'; // Fallback secondary image
+
+        // Create the product HTML structure, matching your EJS template
+        productCol.innerHTML = `
+            <div class="product product-11 mt-v3 text-center">
+                <figure class="product-media hover-image-container">
+                    <a href="/product?id=${product._id}">
+                        <!-- Display first image and second image on hover -->
+                        <img src="${primaryImage}" alt="${product.productName} Image" class="">
+                        <img src="${secondaryImage}" alt="${product.productName} Image" class="product-image-hover">
+                    </a>
+                    
+                    <!-- Wishlist Button -->
+                    <div class="product-action-vertical">
+                        <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+                    </div>
+                </figure>
+                
+                <div class="product-body">
+                    <!-- Product Name -->
+                    <h3 class="product-title"><a href="/product/${product._id}">${product.productName}</a></h3>
+
+                    <!-- Product Price -->
+                    <div class="product-price">
+                        $${product.price.toFixed(2)}
+                    </div>
+
+                    <!-- Optional: Color dots (if applicable) -->
+                    <div class="product-nav product-nav-dots">
+                        <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                        <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <div class="product-action">
+                    <a href="/cart/add/${product._id}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                </div>
+            </div>
+        `;
+
+        productRow.appendChild(productCol);
+    });
+
+    productContainer.appendChild(productRow);
+}
+
+        }
+    });
+</script>

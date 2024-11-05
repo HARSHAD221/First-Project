@@ -1,0 +1,361 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Nest Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+      <!-- CDN for sweet alert -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/dashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/users">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/orders">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-category"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/salesReport">
+                        <i class="icon material-icons md-business"></i>
+                        <span class="text">Sales Reports</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/offers">
+                        <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/coupons">
+                        <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="editProductForm" enctype="multipart/form-data">
+                                <!-- Hidden Product ID -->
+                                <input type="hidden" id="productId" name="productId" value="<%= product._id %>">
+        
+                                <!-- Product title -->
+                                <div class="mb-4">
+                                    <label class="form-label">Product title</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="productName" name="productName" value="<%= product.productName %>">
+                                    <span id="productNameError" class="error-message"></span>
+                                </div>
+                                <!-- Description -->
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description"><%= product.description %></textarea>
+                                    <span id="descriptionError" class="error-message"></span>
+                                </div>
+                                <!-- Price -->
+                                <div class="mb-4">
+                                    <label class="form-label">Cost in USD</label>
+                                    <input type="number" placeholder="$00.0" class="form-control" id="price" name="price" value="<%= product.price %>">
+                                    <span id="priceError" class="error-message"></span>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Stock Quantity</label>
+                                    <input type="number" placeholder="Enter stock quantity" class="form-control" id="stock" name="stock" min="0" value="<%= product.stock%>">
+                                    <span id="stockError" style="color:red;" class="error-message"></span>
+                                </div>
+                                <!-- Category -->
+                                <div class="mb-4">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-control" id="category" name="category">
+                                        <option value="">Select a category</option>
+                                        <% categories.forEach(function(category) { %>
+                                            <option value="<%= category.categoryName %>" <%= product.category === category.categoryName ? "selected" : "" %>><%= category.categoryName %></option>
+                                        <% }) %>
+                                    </select>
+                                    <span id="categoryError" style="color:red;"></span>
+                                </div>
+                                
+                                
+                               <!-- Images -->
+<div class="mb-4">
+    <label class="form-label">Images</label>
+    <div class="image-inputs">
+        <div class="mb-2">
+            <input class="form-control" type="file" id="productImage1" name="images" accept="image/*">
+            <span id="image1Error" style="color:red;" class="error-message"></span>
+        </div>
+        <div class="mb-2">
+            <input class="form-control mt-2" type="file" id="productImage2" name="images" accept="image/*">
+            <span id="image2Error" style="color:red;" class="error-message"></span>
+        </div>
+        <div class="mb-2">
+           <input class="form-control mt-2" type="file" id="productImage3" name="images" accept="image/*">
+            <span id="image3Error" style="color:red;" class="error-message"></span>
+        </div>
+    </div>
+
+    <!-- Display existing images -->
+    <div class="existing-images">
+        <% product.imagePaths.forEach(function(imagePath, index) { %>
+            <div class="image-container mb-2">
+                <!-- Display the existing image using its relative path -->
+                <img src="<%= imagePath %>" alt="<%= product.productName %> Image <%= index + 1 %>" width="100" class="product-img">
+    
+                <!-- Displaying the image file name (formatted for better readability) -->
+                <span class="image-filename"><%= imagePath.split('/').pop() %></span>
+    
+                <!-- Input field for uploading a new image (name attribute includes index for uniqueness) -->
+                <input type="file" name="images[<%= index %>]" accept="image/*" class="upload-input">
+    
+                <!-- Checkbox for removing the image -->
+                <label>
+                    <input type="checkbox" name="removeImages[]" value="<%= imagePath %>" class="remove-checkbox">
+                    Remove
+                </label>
+    
+                <!-- Hidden input to preserve the existing image paths -->
+                <input type="hidden" name="existingImagePaths[]" value="<%= imagePath %>">
+            </div>
+        <% }); %>
+    </div>
+        
+                    <!-- Submit button -->
+                                <button type="button" class="btn btn-primary" id="editProductBtn">Edit Product</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <script>
+   
+   document.addEventListener('DOMContentLoaded', () => {
+    const editProductBtn = document.getElementById('editProductBtn');
+
+    // Validation functions
+    const isValidProductName = (name) => name && /^[A-Za-z0-9\s]+$/.test(name);
+    const isValidDescription = (description) => description && /^[A-Za-z0-9\s]+$/.test(description);
+    const isValidPrice = (price) => price && !isNaN(price) && Number(price) > 0;
+    const isValidStock = (stock) => stock && !isNaN(stock) && Number(stock) >= 0;
+    const isValidCategory = (category) => category && category.trim() !== '';
+
+    // Validate fields on input
+    const validateField = (field, validationFn, errorMessage) => {
+        const value = field.value.trim();
+        if (!validationFn(value)) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: errorMessage,
+            });
+            return false;
+        }
+        return true;
+    };
+
+    editProductBtn.addEventListener('click', async () => {
+        const productIdElement = document.getElementById('productId');
+        const productNameElement = document.getElementById('productName');
+        const descriptionElement = document.getElementById('description');
+        const priceElement = document.getElementById('price');
+        const stockElement = document.getElementById('stock');
+        const categoryElement = document.getElementById('category');
+        
+
+
+        // Final validation before submitting
+        const isProductNameValid = validateField(productNameElement, isValidProductName, 'Product name cannot be empty and must contain only letters and numbers.');
+        const isDescriptionValid = validateField(descriptionElement, isValidDescription, 'Description cannot be empty and must contain only letters and numbers.');
+        const isPriceValid = validateField(priceElement, isValidPrice, 'Price must be a number greater than zero.');
+        const isStockValid = validateField(stockElement,isValidStock, 'Stock must be a non-negative number.')
+        const isCategoryValid = validateField(categoryElement, isValidCategory, 'Please select a category.');
+
+        if (!isProductNameValid || !isDescriptionValid || !isPriceValid ||  !isStockValid || !isCategoryValid) {
+            return; // Stop execution if any validation fails
+        }
+
+        const formData = new FormData();
+        formData.append('productId', productIdElement.value);
+        formData.append('productName', productNameElement.value);
+        formData.append('description', descriptionElement.value);
+        formData.append('price', priceElement.value);
+        formData.append('stock',stockElement.value);
+        formData.append('category', categoryElement.value);
+          
+       
+      
+        // Collect files from each image input field
+        const imageInputs = [
+            document.getElementById('productImage1'),
+            document.getElementById('productImage2'),
+            document.getElementById('productImage3'),
+        ];
+
+        imageInputs.forEach((input) => {
+            const files = input.files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append('images', files[i]);
+            }
+        });
+
+        
+        try {
+            const response = await fetch('/admin/editproducts', {
+                method: 'POST',
+                body: formData,
+            });
+           console.log('response',response);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            SweetAlert.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Product updated successfully!',
+            });
+            console.log(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            SweetAlert.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to update product: ' + error.message,
+            });
+        }
+    });
+});
+
+
+        </script>
+        
+
+
+
+
+    </main>
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/select2.min.js"></script>
+    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+</body>
+
+</html>

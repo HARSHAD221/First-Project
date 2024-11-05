@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- CDN for sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item active">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                    </form>
+                </div>
+                
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                            class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="content-header">
+                            <h2 class="content-title">Add New Coupon</h2>
+                            <!-- <div>
+                                <button class="btn btn-md rounded font-sm hover-up"
+                                    onclick="createCoupon(event)">Create</button>
+                                <a href="/admin/coupons"><button
+                                        class="btn btn-light rounded font-sm mr-5 text-body hover-up">Cancel</button></a>
+                            </div> -->
+                        </div>
+                        <form id="couponForm">
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label for="couponName" class="form-label">Coupon name</label>
+                                            <input type="text" placeholder="Enter coupon name" name="name" class="form-control" id="couponName" />
+                                            <small id="couponNameError"  class="form-text text-danger"></small>
+                                            <div id="errmsgName" class="text-danger"></div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="couponCode" class="form-label">Coupon Code</label>
+                                            <input type="text" placeholder="Enter unique code" name="code" class="form-control" id="couponCode" required />
+                                            <small id="couponCodeError"  class="form-text text-danger"></small>
+                                            <div id="errmsgCode" class="text-danger"></div>
+                                        </div>
+                                        <div class="row gx-3">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="couponAmount" class="form-label">Discount Amount</label>
+                                                <input type="number" placeholder="Enter the amount" name="amount" class="form-control" id="couponAmount" />
+                                                <small id="couponAmountError" class="form-text text-danger"></small>
+                                                <div id="errmsgAmount" class="text-danger"></div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="startDate" class="form-label">Start date</label>
+                                                <input type="date" placeholder="starting date" name="startdate" class="form-control" id="startDate" />
+                                                <small  id="startDateError"  class="form-text text-danger"></small>
+                                                <div id="errmsgStartDate" class="text-danger"></div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="endDate" class="form-label">End date</label>
+                                                <input type="date" placeholder="Type here" name="enddate" class="form-control" id="endDate" />
+                                                <small id="endDateError"  class="form-text text-danger"></small>
+                                                <div id="errmsgEndDate" class="text-danger"></div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-4 mb-3">
+                                            <label for="discountType" class="form-label">Discount Type</label>
+                                            <select class="form-select" id="discountType" name="discounttype" required>
+                                                <option value="flat">Flat</option>
+                                                <option value="percentage">Percentage</option>
+                                            </select>
+                                            <div id="errmsgDiscountType" class="text-danger"></div>
+                                        </div> -->
+                                        <div class="mb-4">
+                                            <label for="minPurchaseAmt" class="form-label">Minimum Purchase Amount</label>
+                                            <input type="number" placeholder="Enter minimum purchase amount" name="minpurchaseamount" class="form-control" id="minPurchaseAmt" />
+                                            <small  id="minPurchaseAmtError"  class="form-text text-danger"></small>
+                                            <div id="errmsgMinPA" class="text-danger"></div>
+                                        </div> 
+                                        <div class="mb-4">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea placeholder="Enter the description" name="description" class="form-control" rows="4" id="description"></textarea>
+                                            <small id="descriptionError"  class="form-text text-danger"></small>
+                                            <div id="errmsgDescription" class="text-danger"></div>
+                                        </div>
+                                        <!-- Removed the extra Add Coupon button -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Use these buttons for form actions -->
+                            <div>
+                                <button  type="button" class="btn btn-md rounded font-sm hover-up"  id="createCouponButton">Create</button>
+                                <a href="/admin/coupons">
+                                    <button type="button" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Cancel</button>
+                                </a>
+                            </div>
+                        </form>
+                        
+                        
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.getElementById('createCouponButton').addEventListener('click', createCoupon);
+                    
+                    function createCoupon(event) {
+                        event.preventDefault();
+        
+                        const formData = {
+                            name: document.getElementById('couponName').value,
+                            code: document.getElementById('couponCode').value,
+                            amount: document.getElementById('couponAmount').value,
+                            startdate: document.getElementById('startDate').value,
+                            enddate: document.getElementById('endDate').value,
+                            discounttype: document.getElementById('discountType').value,
+                            minpurchaseamount: document.getElementById('minPurchaseAmt').value,
+                            description: document.getElementById('description').value
+                        };
+        
+                        fetch('/admin/addCoupon', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(response => {
+                            console.log('response', response);
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                alert('Coupon created successfully');
+                                console.log('coupon created');
+                            } else {
+                                alert('Coupon not created',data.message);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Error:', err);
+                        });
+                    }
+                });
+
+            </script> -->
+
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+   
+    const couponName = document.getElementById('couponName');
+    const couponCode = document.getElementById('couponCode');
+    const couponAmount = document.getElementById('couponAmount');
+    const startDate = document.getElementById('startDate');
+    const endDate = document.getElementById('endDate');
+    const minPurchaseAmt = document.getElementById('minPurchaseAmt');
+    const descriptionField = document.getElementById('description');
+
+    // Event listeners for real-time validation
+    couponName.addEventListener('input', validateCouponName);
+    couponCode.addEventListener('input', validateCouponCode);
+    couponAmount.addEventListener('input', validateCouponAmount);
+    startDate.addEventListener('input', validateDates);
+    endDate.addEventListener('input', validateDates);
+    minPurchaseAmt.addEventListener('input', validateMinPurchaseAmount);
+    descriptionField.addEventListener('input',validateDescription);
+
+    function validateCouponName() {
+        const name = couponName.value.trim();
+        const errorElement = document.getElementById('couponNameError');
+        const words = name.split(/\s+/);
+
+        if (words.length < 2) {
+            errorElement.textContent = "Coupon name must be at least 2 words.";
+        } else if (/^\s+$/.test(name)) {
+            errorElement.textContent = "Coupon name cannot contain only spaces.";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+
+    function validateCouponCode() {
+        const code = couponCode.value.trim();
+        const errorElement = document.getElementById('couponCodeError');
+
+        // Check if the code contains at least one letter and one number
+        const hasLetters = /[a-zA-Z]/.test(code);
+        const hasNumbers = /\d/.test(code);
+
+        if (code.length < 4) {
+            errorElement.textContent = "Coupon code must be at least 4 characters long.";
+        } else if (!hasLetters || !hasNumbers) {
+            errorElement.textContent = "Coupon code must contain both letters and numbers.";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+
+    function validateCouponAmount() {
+        const amount = couponAmount.value;
+        const errorElement = document.getElementById('couponAmountError');
+        if (isNaN(amount) || amount <= 0) {
+            errorElement.textContent = "Discount amount must be a positive number.";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+
+    function validateDates() {
+        const start = new Date(startDate.value);
+        const end = new Date(endDate.value);
+        const errorElement = document.getElementById('startDateError');
+        const endDateErrorElement = document.getElementById('endDateError');
+
+        if (start >= end) {
+            endDateErrorElement.textContent = "End date must be later than the start date.";
+        } else {
+            endDateErrorElement.textContent = "";
+        }
+    }
+
+    function validateMinPurchaseAmount() {
+        const minAmount = minPurchaseAmt.value;
+        const errorElement = document.getElementById('minPurchaseAmtError');
+        if (isNaN(minAmount) || minAmount <= 0) {
+            errorElement.textContent = "Minimum purchase amount must be a positive number.";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+  
+    function validateDescription() {
+        const description = descriptionField.value.trim();
+        const errorElement = document.getElementById('descriptionError');
+        const cleanDescription = description.replace(/\s+/g, ' '); // remove excess spaces
+
+        if (cleanDescription.length < 10) {
+            errorElement.textContent = "Description must be at least 10 characters long.";
+        } else if (cleanDescription.length > 200) {
+            errorElement.textContent = "Description must not exceed 200 characters.";
+        } else {
+            errorElement.textContent = "";
+        }
+    }
+
+    // On form submission
+    document.getElementById('createCouponButton').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        // Perform validation on all fields before submission
+        validateCouponName();
+        validateCouponCode();
+        validateCouponAmount();
+        validateDates();
+        validateMinPurchaseAmount();
+        validateDescription();
+
+        // If all fields are valid, proceed to submit the form (you can add additional checks here)
+        const allErrors = document.querySelectorAll('.form-text.text-danger');
+        let hasError = false;
+
+        allErrors.forEach(function (errorElement) {
+            if (errorElement.textContent !== "") {
+                hasError = true;
+            }
+        });
+
+        if (!hasError) {
+            // Proceed with form submission
+            const formData = {
+                name: couponName.value,
+                code: couponCode.value,
+                amount: couponAmount.value,
+                startdate: startDate.value,
+                enddate: endDate.value,
+                minpurchaseamount: minPurchaseAmt.value,
+                description: descriptionField.value.trim()
+            };
+
+            fetch('/admin/addCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon : 'success',
+                        title : 'Success',
+                        text : 'Coupon created successfully!',
+                        confirmButtonText : 'OK'
+                    }).then(()=> {
+                        window.location.href = '/admin/coupons';
+                    })
+                } else {
+                    Swal.fire({
+                        icon : 'error',
+                        title : 'Failed',
+                        text : data.message || 'Coupon not created',
+                        confirmButtonText : 'OK'
+                    })
+                }
+            })
+            .catch(err => {
+                Swal.fire({
+                        icon : 'error',
+                        title : 'Failed',
+                        text : data.message || 'Server error while creating coupon.',
+                        confirmButtonText : 'OK'
+                    })
+             
+            });
+        } else {
+            Swal.fire({
+                        icon : 'error',
+                        title : 'Failed',
+                        text : 'Please correct all errors before submitting',
+                        confirmButtonText : 'OK'
+                    })
+        }
+    });
+});
+
+            </script>

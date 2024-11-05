@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- CDN for sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li id="dashboard"  class="menu-item">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li  id="users" class="menu-item">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li  id="orders" class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li  id="products" class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li id="categories" class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li  id="salesReport" class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li  id="offers" class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li  id="coupons" class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <!-- <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i
+                                    class="material-icons md-search"></i></button>
+                        </div> -->
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                            class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Coupons List</h2>
+                        <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+                    </div>
+                    <div>
+                        <a href="/admin/createCoupon" class="btn btn-primary btn-sm rounded">Create new</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Coupon Name</th>
+                                    <th scope="col">Coupon Code</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Min Spend</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% coupons.forEach(coupon => { %>
+                                <tr>
+                                    <td>
+                                        <a class="itemside d-flex align-items-center" href="#">
+                                            <div class="info">
+                                                <h6 class="mb-0"><%= coupon.name %></h6>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td><span><%= coupon.code %></span></td>
+                                    <td><span>₹<%= coupon.discountAmount %></span></td>
+                                    <td><span><%= new Date(coupon.startDate).toLocaleDateString() %></span></td>
+                                    <td><span><%= new Date(coupon.endDate).toLocaleDateString() %></span></td>
+                                    <td><span>₹<%= coupon.minPurchaseAmount %></span></td>
+                                    <td class="text-center">
+                                        <span>
+                                            <a onclick="deleteCoupon(event, '<%= coupon._id %>')" href="#" class="btn btn-sm font-sm btn-light rounded">
+                                                <i class="material-icons md-delete_forever"></i> Delete
+                                            </a>
+                                        </span>
+                                        <span class="ms-2">
+                                            <a href="javascript:void(0)" onclick="openEditModal('<%= coupon._id %>', '<%= coupon.name %>', '<%= coupon.code %>', '<%= coupon.discountAmount %>', '<%= coupon.startDate %>', '<%= coupon.endDate %>', '<%= coupon.minPurchaseAmount %>')" class="btn btn-sm font-sm btn-light rounded">
+                                                <i class="material-icons md-edit"></i> Edit
+                                            </a>
+                                        </span>
+                                        
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                    </section>
+                    <!-- content-main end// -->
+                   
+                </main>
+
+
+
+ <!-- Modal for Editing Coupon -->
+ <div class="modal fade" id="editCouponModal" tabindex="-1" role="dialog" aria-labelledby="editCouponModalLabel" aria-hidden="true" data-backdrop="true" data-keyboard="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCouponModalLabel">Edit Coupon</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editCouponForm">
+            <div class="form-group">
+              <label for="couponName">Coupon Name</label>
+              <input type="text" class="form-control" id="editCouponName" name="editCouponName" required>
+               <span id="editCouponNameError"  class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+              <label for="couponCode">Coupon Code</label>
+              <input type="text" class="form-control" id="editCouponCode" name="editCouponCode" required>
+              <span id="editCouponCodeError" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+              <label for="discountAmount">Discount Amount</label>
+              <input type="number" class="form-control" id="editDiscountAmount" name="editDiscountAmount" required>
+              <span  id="editDiscountAmountError"  class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <input type="date" class="form-control" id="editStartDate" name="editStartDate" required>
+              <span id="editStartDateError" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date</label>
+              <input type="date" class="form-control" id="editEndDate" name="editEndDate" required>
+              <span id="editEndDateError"  class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+              <label for="minPurchaseAmount">Minimum Spend</label>
+              <input type="number" class="form-control" id="editMinPurchaseAmount" name="editMinPurchaseAmount" required>
+              <span id="editMinPurchaseAmountError"  class="text-danger small"></span>
+            </div>
+            <input type="hidden" id="editCouponId" name="editCouponId">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="submitEditForm()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+                <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+                <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+                <script src="assets/js/vendors/select2.min.js"></script>
+                <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+                <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+                <!-- Main Script -->
+                <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+                
+
+                 
+        <!-- Script for highlight the sidebar -->
+        <script>
+            document.addEventListener('DOMContentLoaded',function(){
+                const path = window.location.pathname;
+                const menuItems = {
+                    "/admin/dashboard" : "dashboard",
+                    "/admin/users"   : "users",
+                    "/admin/orders" : "orders",
+                    "/admin/products" : "products",
+                    "/admin/categories" : "categories",
+                    "/admin/salesReport" : "salesReport",
+                    "/admin/offers" : 'offers',
+                    "/admin/coupons" : "coupons"
+                 };
+
+                 // Check if the path exists in the menuItems object
+                 if(menuItems[path]){
+                    document.getElementById(menuItems[path]).classList.add('active');
+                 }
+            });
+        </script>
+
+                <script>
+
+                    function openEditModal(editId,editName,editCode,editDiscount,editStartDate,
+                        editEndDate,editminpurchase
+                    ){
+                        document.getElementById('editCouponId').value = editId;
+                        document.getElementById('editCouponName').value = editName;
+                        document.getElementById('editCouponCode').value = editCode;
+                        document.getElementById('editDiscountAmount').value = editDiscount;
+                        document.getElementById('editStartDate').value = new Date(editStartDate).toISOString().split('T')[0];
+                        document.getElementById('editEndDate').value =new Date(editEndDate).toISOString().split('T')[0];
+                        document.getElementById('editMinPurchaseAmount').value = editminpurchase;
+
+                        $('#editCouponModal').modal('show');
+                    }
+
+                    function submitEditForm() {
+    // Perform all validations
+    const isValidName = validateCouponName();
+    const isValidCode = validateCouponCode();
+    const isValidDiscount = validateDiscountAmount();
+    const isValidDates = validateDates();
+    const isValidMinPurchase = validateMinPurchaseAmount();
+
+    if (isValidName && isValidCode && isValidDiscount && isValidDates && isValidMinPurchase) {
+        // If all fields are valid, submit the form
+        const formData = new FormData(document.getElementById('editCouponForm'));
+        const formObj = {};
+        formData.forEach((value, key) => {
+            formObj[key] = value;
+        });
+
+        fetch(`/admin/editCoupon/${formObj.editCouponId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formObj)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                $('#editCouponModal').modal('hide');
+                Swal.fire({
+                    icon : 'success',
+                    title : 'Success',
+                    text : 'Coupon edited successfully',
+                    confirmButtonText : 'OK'
+                }).then(result => {
+                    if(result.isConfirmed){
+                        location.reload();
+                    }
+                })
+            } else {
+               Swal.fire({
+                icon : 'error',
+                title : 'Failed',
+                text : data.message || 'Coupon edit failed',
+                confirmButtonText : 'RETRY'
+               }).then(result => {
+                if(result.isConfirmed){
+                    location.reload();
+                }
+               })
+            }
+        })
+        .catch(err => {
+            Swal.fire({
+                icon : 'error',
+                title : 'Failed',
+                text : data.message || 'Coupon edit failed due to server issue',
+                confirmButtonText : 'OK'
+               }).then(result => {
+                if(result.isConfirmed){
+                    location.reload();
+                }
+               })
+        });
+    } else {
+        Swal.fire({
+                icon : 'error',
+                title : 'Failed',
+                text : 'Please correct all inputs before submitting',
+                confirmButtonText : 'OK'
+               }).then(result => {
+                if(result.isConfirmed){
+                    location.reload();
+                }
+               })
+    }
+}
+
+
+
+document.getElementById('editCouponName').addEventListener('input', validateCouponName);
+document.getElementById('editCouponCode').addEventListener('input', validateCouponCode);
+document.getElementById('editDiscountAmount').addEventListener('input', validateDiscountAmount);
+document.getElementById('editStartDate').addEventListener('change', validateDates);
+document.getElementById('editEndDate').addEventListener('change', validateDates);
+document.getElementById('editMinPurchaseAmount').addEventListener('input', validateMinPurchaseAmount);
+
+function validateCouponName() {
+    const name = document.getElementById('editCouponName').value.trim();
+    const nameError = document.getElementById('editCouponNameError');
+    
+    if (!name) {
+        nameError.textContent = "Coupon name cannot be empty.";
+        return false;
+    } else if (name.length < 4) {
+        nameError.textContent = "Coupon name must be at least 4 characters long.";
+        return false;
+    } else {
+        nameError.textContent = "";
+        return true;
+    }
+}
+
+function validateCouponCode() {
+    const code = document.getElementById('editCouponCode').value.trim();
+    const codeError = document.getElementById('editCouponCodeError');
+    
+    if (!code) {
+        codeError.textContent = "Coupon code cannot be empty.";
+        return false;
+    }
+
+    // Allow alphanumeric and uppercase characters only
+    const regex = /^[A-Z0-9]+$/;
+    if (!regex.test(code)) {
+        codeError.textContent = "Coupon code must be alphanumeric and uppercase.";
+        return false;
+    } else if (code.length < 5 || code.length > 10) {
+        codeError.textContent = "Coupon code must be between 5 and 10 characters.";
+        return false;
+    } else {
+        codeError.textContent = "";
+        return true;
+    }
+}
+
+function validateDiscountAmount() {
+    const discount = parseFloat(document.getElementById('editDiscountAmount').value.trim());
+    const discountError = document.getElementById('editDiscountAmountError');
+    
+    if (isNaN(discount)) {
+        discountError.textContent = "Discount must be a valid number.";
+        return false;
+    } else if (discount <= 0) {
+        discountError.textContent = "Discount must be a positive number.";
+        return false;
+    } else {
+        discountError.textContent = "";
+        return true;
+    }
+}
+
+function validateDates() {
+    const startDate = document.getElementById('editStartDate').value;
+    const endDate = document.getElementById('editEndDate').value;
+    const startDateError = document.getElementById('editStartDateError');
+    const endDateError = document.getElementById('editEndDateError');
+
+    if (!startDate) {
+        startDateError.textContent = "Start date cannot be empty.";
+        return false;
+    }
+
+    if (!endDate) {
+        endDateError.textContent = "End date cannot be empty.";
+        return false;
+    }
+
+    if (new Date(startDate) > new Date(endDate)) {
+        startDateError.textContent = "Start date cannot be later than end date.";
+        return false;
+    } else {
+        startDateError.textContent = "";
+        endDateError.textContent = "";
+        return true;
+    }
+}
+
+function validateMinPurchaseAmount() {
+    const minPurchase = parseFloat(document.getElementById('editMinPurchaseAmount').value.trim());
+    const minPurchaseError = document.getElementById('editMinPurchaseAmountError');
+    
+    if (isNaN(minPurchase)) {
+        minPurchaseError.textContent = "Minimum purchase amount must be a valid number.";
+        return false;
+    } else if (minPurchase < 1) {
+        minPurchaseError.textContent = "Minimum purchase amount must be at least 1.";
+        return false;
+    } else {
+        minPurchaseError.textContent = "";
+        return true;
+    }
+}
+
+
+
+//                     $(document).ready(function() {
+//     console.log("jQuery is working");
+//     $('#editCouponModal').on('show.bs.modal', function () {
+//         console.log('Modal is opened');
+//     });
+//     $('#editCouponModal').on('hide.bs.modal', function () {
+//         console.log('Modal is closed');
+//     });
+// });
+
+  </script>
+  
+  
+  <script>
+   $('.close').on('click', function() {
+    $('#editCouponModal').modal('hide');
+  });
+  $('.btn-secondary').on('click', function() {
+    $('#editCouponModal').modal('hide');
+   });
+
+     </script>
+
+
+
+  <script>
+
+    // function deleteCoupon(event,couponId){
+    //     event.preventDefault();
+          
+    //     fetch(`/admin/removeCoupon/${couponId}`,{
+    //        method : 'POST',
+    //        headers : {
+    //         'Content-Type' : 'application/json'
+    //        },
+    //        body : JSON.stringify({couponId})
+    //     })
+    //     .then(response => {
+    //         console.log('response',response)
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         if(data.success){
+    //             Swal.fire({
+    //                 icon : 'success',
+    //                 title : 'Success',
+    //                 text : 'Coupon removed successfully',
+    //                 confirmButtonText : 'OK'
+    //             })
+    //             .then(result => {
+    //                 if(result.isConfirmed){
+    //                     location.reload();
+    //                 }
+    //             })
+    //         }else{
+    //             Swal.fire({
+    //                 icon : 'error',
+    //                 title : 'Failed',
+    //                 text : data.message || "Coupon not removed",
+    //                 confirmButtonText : 'RETRY'
+    //             })
+    //             // .then(result => {
+    //             //     if(result.isConfirmed){
+    //             //         location.reload();
+    //             //     }
+    //             // })
+    //         }
+    //     }).catch(err => {
+    //         Swal.fire({
+    //                 icon : 'error',
+    //                 title : 'Failed',
+    //                 text : "Internal server issue while removing the coupon",
+    //                 confirmButtonText : 'OK'
+    //             })
+    //             // .then(result => {
+    //             //     if(result.isConfirmed){
+    //             //         location.reload();
+    //             //     }
+    //             // })   
+    //     })
+    // }
+
+
+    function deleteCoupon(event, couponId) {
+    // Prevent the anchor tag's default behavior
+    event.preventDefault();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action will permanently delete the coupon!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Send the delete request to the backend
+            fetch(`/admin/removeCoupon/${couponId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Coupon has been deleted successfully.',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Reload the page after successful deletion
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: data.message || 'Failed to delete the coupon.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was a problem with the server.',
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+    });
+}
+
+  </script>
+            </body>
+        </html>
+        

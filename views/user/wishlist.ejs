@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from portotheme.com/html/molla/product-fullwidth.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:35:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.webmanifest">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css"> 
+    <!-- Main CSS File -->
+   <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
+      <!-- Main CDN File -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head> 
+
+ <body>
+    <div class="page-wrapper">
+
+        <%- include('../partials/header.ejs') %>
+       
+    </div>
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title" style="color: rgb(188, 80, 118);">Wishlist<span>Shop</span></h1>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                </ol>
+            </div>
+        </nav>
+    
+        <div class="page-content">
+            <div class="container">
+              <table class="table table-wishlist table-mobile">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock Status</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+          
+                <tbody>
+                    <% products.forEach(function(item) { %>
+                      <tr>
+                        <td class="product-col">
+                          <div class="product">
+                            <figure class="product-media">
+                              <a href="#">
+                                <% if (item.products && item.products.imagePaths && item.products.imagePaths.length > 0) { %>
+                                  <!-- Display product image -->
+                                  <img src="<%= item.products.imagePaths[0] %>" alt="Product image">
+                                <% } else { %>
+                                  <!-- Display default image if no image exists -->
+                                  <img src="/path/to/default-image.jpg" alt="No Image Available">
+                                <% } %>
+                              </a>
+                            </figure>
+                            <h3 class="product-title">
+                              <a href="#"><%= item.products.productName %></a>
+                            </h3>
+                          </div>
+                        </td>
+                  
+                        <!-- Price Column -->
+                        <td class="price-col">
+                          <% if (item.products.discount > 0) { %>
+                              <span class="original-price">$<%= item.products.price.toFixed(2) %></span> <!-- Original price -->
+                              <% if (item.products.finalPrice) { %>
+                                  <span class="offer-price">$<%= item.products.finalPrice.toFixed(2) %></span> <!-- Discounted price -->
+                              <% } else { %>
+                                  <span class="offer-price">$<%= item.products.price.toFixed(2) %></span> <!-- Fallback to original price -->
+                              <% } %>
+                          <% } else { %>
+                              $<%= item.products.price.toFixed(2) %> <!-- No discount, show original price -->
+                          <% } %>
+                      </td>
+                      
+                      
+                  
+                        <!-- Action Column: Add to Cart or Go to Cart -->
+                        <td class="action-col">
+                          <% if (item.products   && item.products.stock > 0) { %>
+                            <% if (item.isInCart) { %>
+                              <!-- Product already in the cart, show "Go to Cart" button -->
+                              <a href="/cart" class="btn btn-block btn-outline-primary-2">
+                                <i class="icon-cart-plus"></i>Go to Cart
+                              </a>
+                            <% } else { %>
+                              <!-- Product not in the cart, show "Add to Cart" button -->
+                              <button class="btn btn-block btn-outline-primary-2 btn-add-to-cart" data-product-id="<%= item.products._id %>">
+                                <i class="icon-cart-plus"></i>Add to Cart
+                              </button>
+                            <% } %>
+                          <% } else { %>
+                            <!-- If the product is out of stock, show "Out of Stock" button -->
+                            <button class="btn btn-block btn-outline-primary-2 disabled">Out of Stock</button>
+                          <% } %>
+                        </td>
+                  
+                        <!-- Remove Column -->
+                        <td class="remove-col">
+                          <button class="btn-remove" data-product-id="<%= item.products._id %>"><i class="icon-close"></i></button>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                  
+              </table><!-- End .table table-wishlist -->
+               
+            </div>
+        </div>
+    </div>
+</main>
+  
+    <%- include('../partials/footer.ejs')%>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            const removeButton = document.querySelectorAll('.btn-remove');
+            
+            removeButton.forEach(button => {
+                button.addEventListener('click',function(e){
+                    e.preventDefault();
+
+                    const productId = this.getAttribute('data-product-id');
+                    const productRow = this.closest('tr')
+
+                    fetch('/removeWishList',{
+                        method : 'POST',
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        },
+                        body : JSON.stringify({productId : productId}),
+                    })
+                    .then(response => {
+                        console.log('resp',response);
+                       return response.json();
+                    })
+                    .then(data => {
+                        console.log('data',data)
+                        if(data.success){
+                            productRow.remove();
+                            Swal.fire({
+                                icon : 'success',
+                                title : 'Success',
+                                text : 'Product removed from wishList',
+                                confirmButtonText : 'OK'
+                            })
+                            
+                        }else{
+                            Swal.fire({
+                                icon : 'error',
+                                title : 'Failed',
+                                text : data.message,
+                                confirmButtonText : 'OK'
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error while removing');
+                        Swal.fire({
+                                icon : 'error',
+                                title : 'Failed',
+                                text : data.message,
+                                confirmButtonText : 'RETRY'
+                            })
+                    });
+                });
+            })
+        });
+
+    </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click',function(){
+                const productId = this.getAttribute('data-product-id');
+                addToCart(productId);
+            
+            })
+        })
+    });
+    function addToCart(productId){
+        fetch('/addToCart',{
+            method : 'POST',
+            headers : {
+                'Content-Type' : "application/json"
+            },
+            body : JSON.stringify({
+                productId : productId,
+                quantity : 1
+            })
+        })
+        .then(response => {
+            console.log('resp',response);
+            return response.json();
+        })
+        .then(data => {
+            console.log('data',data)
+            if(data.success){
+                Swal.fire({
+                     icon : 'success',
+                     title : 'Success',
+                     text : 'Product added to the  cart',
+                     confirmButtonText : 'OK'
+                 })
+                const button = document.querySelector(`.btn-add-to-cart[data-product-id="${productId}"]`);
+                if (button) {
+                    button.innerHTML = '<i class="icon-cart-plus"></i> Go to Cart'; 
+                    button.classList.remove('btn-add-to-cart'); 
+                    button.onclick = function() { window.location.href = '/cart'; }; 
+                }
+                // setTimeout(() => {
+                //     window.location.href = '/cart';
+                // }, 1500); // Wait for 1.5 seconds before redirecting
+            }else{
+                Swal.fire({
+                    icon : 'error',
+                    title : 'Failed',
+                    text : data.message,
+                    confirmButtonText : 'OK'
+                  })
+            }
+        })
+        .catch(err => {
+            Swal.fire({
+                    icon : 'error',
+                    title : 'Failed',
+                    text : data.message || "Product not able to add to cart",
+                    confirmButtonText : 'OK'
+                  })
+        });
+    }
+
+</script>
+</body>
+
+<!-- Mirrored from portotheme.com/html/molla/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Aug 2024 11:34:41 GMT -->
+</html>

@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- CDN for sweet alert -->    
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li id="dashboard"  class="menu-item">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li  id="users" class="menu-item">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li  id="orders" class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li  id="products" class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li id="categories" class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li  id="salesReport" class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li  id="offers" class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li  id="coupons" class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <!-- <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div> -->
+                    
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                   
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li> -->
+                        <!-- <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li> -->
+                        <!-- <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </header>
+            
+
+                                <!-- <form id="categoryForm">
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Name</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="product_name" name="categoryName" required />
+                                             <span id="product_nameError" class="text-danger" style="display: none;">Category name is required and cannot contain special characters!</span>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <textarea placeholder="Type here" class="form-control" id="product_description" name="categoryDescription" required></textarea>
+                                        <span id="product_descriptionError" class="text-danger" style="display: none;">Description must contain more than 6 words!</span>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary  btn-custom-size"  type="submit">Create category</button>
+                                    </div>
+                                    <div id="updateCategory" style="display: none;">
+                                        <h2>Update Category</h2>
+                                        <input type="hidden" id="updateCategoryId">
+                                        <input type="text" id="updateCategoryName" name="updateCategoryName" placeholder="Category Name">
+                                        <textarea id="updateCategoryDescription" name="updateCategoryDescription" placeholder="Category Description"></textarea>
+                                        <button type="button" id="updateCategoryButton">Update Category</button>
+                                        <button type="button" id="cancelUpdateButton">Cancel</button>
+                                    </div>
+                                    
+                                    
+                                </form> -->
+                                
+                                <section class="content-main">
+                                    <div class="content-header">
+                                        <div>
+                                            <h2 class="content-title card-title">Category List</h2>
+                                        </div>
+                                        <div>
+                                            <a href="/admin/createCategory" class="btn btn-primary btn-sm rounded">Create new</a>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Category Name</th>
+                                                            <th>Created At</th>
+                                                            <th>Action</th>
+                                                            <th>Update</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="categoryTableBody">
+                                                        <% categories.forEach((category, index) => { %>
+                                                            <tr>
+                                                                <td><%= (currentPage - 1) * 5 + (index + 1) %></td>
+
+                                                                <td><%= category.categoryName %></td>
+                                                                <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+                                                                <td>
+                                                                    <button    class="toggle-block-btn" data-id="<%= category._id %>">
+                                                                        <%= category.isBlock ? 'Unlist' : 'List' %>
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="update-category-btn" 
+                                                                        onClick="openUpdateModal('<%= category._id %>', '<%= category.categoryName %>', '<%= category.categoryDescription %>')">
+                                                                        Update Category
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        <% }) %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+  
+                                </section>
+
+                                <div id="paginationControls" class="d-flex justify-content-between align-items-center mt-4">
+                                    <button id="prevBtn" class="btn btn-secondary" 
+                                            <% if (currentPage === 1) { %>disabled<% } %>>Previous</button>
+                                    <span id="pageIndicator">Page <%= currentPage %> of <%= totalPages %></span>
+                                    <button id="nextBtn" class="btn btn-secondary" 
+                                            <% if (currentPage === totalPages) { %>disabled<% } %>>Next</button>
+                                </div>
+                                
+                                
+                                <!-- <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Slug</th>
+                                                <th>Order</th>
+                                                <th class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> -->
+                                            <!-- <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>21</td>
+                                                <td><b>Cake & Milk</b></td>
+                                                <td>Cake & Milk</td>
+                                                <td>/cake</td>
+                                                <td>1</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr> -->
+                                            <!-- <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>2</td>
+                                                <td><b>Oganic Kiwi</b></td>
+                                                <td>EU standard</td>
+                                                <td>/kiwi</td>
+                                                <td>2</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>3</td>
+                                                <td><b>Peach</b></td>
+                                                <td>Peach</td>
+                                                <td>/peach</td>
+                                                <td>3</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"><i class="material-icons md-subdirectory_arrow_right text-muted"></i></td>
+                                                <td>4</td>
+                                                <td><b>Red Apple</b></td>
+                                                <td>Red Apple</td>
+                                                <td>/apple</td>
+                                                <td>4</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"><i class="material-icons md-subdirectory_arrow_right text-muted"></i></td>
+                                                <td>5</td>
+                                                <td><b>Snack</b></td>
+                                                <td>Snack</td>
+                                                <td>/snack</td>
+                                                <td>5</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>6</td>
+                                                <td><b>Vegetables</b></td>
+                                                <td>Vegetables</td>
+                                                <td>/vegetables</td>
+                                                <td>6</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>7</td>
+                                                <td><b>Strawberry</b></td>
+                                                <td>Strawberry</td>
+                                                <td>/strawberry</td>
+                                                <td>7</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>8</td>
+                                                <td><b>Black plum</b></td>
+                                                <td>Black plum</td>
+                                                <td>/plum</td>
+                                                <td>8</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- dropdown //end -->
+                                                <!-- </td>
+                                            </tr> -->
+                                        <!-- </tbody> -->
+                                    <!-- </table> -->
+                                <!-- </div> -->
+                            </div>
+                            <!-- .col// -->
+                        </div>
+                        <!-- .row // -->
+                    </div>
+                    <!-- card body .// -->
+                </div>
+                <!-- card .// -->
+
+
+
+
+
+
+            </section>
+            <!-- content-main end// -->
+            <!-- <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer> -->
+
+
+
+<!-- Update Category Modal -->
+<div id="updateCategoryModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeUpdateModal">&times;</span>
+        <h2>Update Category</h2>
+        <input type="hidden" id="modalCategoryId">
+        <label for="modalCategoryName">Category Name:</label>
+        <input type="text" id="modalCategoryName" name="modalCategoryName" placeholder="Category Name">
+        <label for="modalCategoryDescription">Category Description:</label>
+        <textarea id="modalCategoryDescription" name="modalCategoryDescription" placeholder="Category Description"></textarea>
+        <button type="button" id="saveUpdateCategoryButton">Save</button>
+    </div>
+</div>
+
+
+
+
+
+<!-- Add some CSS for modal -->
+<style>
+    .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); }
+    .modal-content { background-color: #fff; margin: 15% auto; padding: 20px; width: 400px; border-radius: 8px; }
+    .close { float: right; cursor: pointer; }
+</style>
+
+
+            
+        </main>
+        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+          
+         
+
+        <!-- Script for pagination -->
+        <script>
+            (function() {
+                const currentPage = Number("<%= currentPage %>"); // Wrapping in quotes to avoid EJS parsing errors
+                const totalPages = Number("<%= totalPages %>"); // Wrapping in quotes and converting to number
+        
+                document.getElementById('prevBtn').onclick = function() {
+                    if (currentPage > 1) {
+                        window.location.href = `/admin/categories?page=${currentPage - 1}`;
+                    }
+                };
+        
+                document.getElementById('nextBtn').onclick = function() {
+                    if (currentPage < totalPages) {
+                        window.location.href = `/admin/categories?page=${currentPage + 1}`;
+                    }
+                };
+            })();
+        </script>
+        
+        
+        
+
+          <!-- script for highlighting the side bars -->
+          <script>
+            document.addEventListener('DOMContentLoaded',function(){
+                const path = window.location.pathname;
+                const menuItems = {
+                    "/admin/dashboard" : "dashboard",
+                    "/admin/users"   : "users",
+                    "/admin/orders" : "orders",
+                    "/admin/products" : "products",
+                    "/admin/categories" : "categories",
+                    "/admin/salesReport" : "salesReport",
+                    "/admin/offers" : 'offers',
+                    "/admin/coupons" : "coupons"
+                 };
+
+                 // Check if the path exists in the menuItems object
+                 if(menuItems[path]){
+                    document.getElementById(menuItems[path]).classList.add('active');
+                 }
+            });
+        </script>
+         
+
+         <script>
+          console.log('reached for toggle category');
+document.querySelectorAll('.toggle-block-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const categoryId = this.dataset.id;
+
+        fetch(`/admin/categories/${categoryId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ categoryId })
+        })
+        .then(response => response.json())
+.then(data => {
+    console.log("Server response data:", data); // Check if data contains `isBlock`
+    if (data.success) {
+        this.textContent = data.isBlock ? 'Unlist' : 'List';
+        Swal.fire({
+            icon : 'success',
+            text: `Category is ${data.isBlock ? 'listed' : 'unlisted'}.`,
+            confirmButtonText : 'OK'
+        })
+    } else {
+        Swal.fire({
+            icon : 'error',
+            text : `Not able to update the category status || ${data.message}`,
+            confirmButtonText : 'RETRY'
+        })
+    }
+})
+
+        .catch(error => {
+            console.error('Error while updating category status');
+            Swal.fire({
+            icon : 'error',
+            text : `Not able to update the category status`,
+            confirmButtonText : 'OK'
+        })
+        });
+    });
+});
+
+
+         </script>
+
+
+<!-- Script for update the category -->
+<script>
+// Function to open the modal and populate data
+document.querySelectorAll('.updateButtonClass').forEach(button => {
+    button.onclick = function() {
+        const categoryId = this.getAttribute('data-category-id');
+        const categoryName = this.getAttribute('data-category-name');
+        const categoryDescription = this.getAttribute('data-category-description');
+        openUpdateModal(categoryId, categoryName, categoryDescription);
+    };
+});
+
+// Open modal function
+function openUpdateModal(categoryId, categoryName, categoryDescription) {
+    document.getElementById('modalCategoryId').value = categoryId;
+    document.getElementById('modalCategoryName').value = categoryName;
+    document.getElementById('modalCategoryDescription').value = categoryDescription;
+
+    // Show the modal
+    document.getElementById('updateCategoryModal').style.display = 'block';
+}
+
+// Close modal function
+document.getElementById('closeUpdateModal').onclick = function() {
+    document.getElementById('updateCategoryModal').style.display = 'none';
+}
+
+// Save category updates
+document.getElementById('saveUpdateCategoryButton').onclick = function() {
+    const categoryId = document.getElementById('modalCategoryId').value;
+    const updatedCategoryName = document.getElementById('modalCategoryName').value.trim();
+    const updatedCategoryDescription = document.getElementById('modalCategoryDescription').value.trim();
+
+    // Validation for Category Name
+    const nameRegex = /^[a-zA-Z0-9\s]+$/; // Allows letters, numbers, and spaces
+    if (!updatedCategoryName) {
+        Swal.fire({
+            icon: 'error',
+            text: 'Category name is required!',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+    if (!nameRegex.test(updatedCategoryName)) {
+        Swal.fire({
+            icon: 'error',
+            text: 'Category name can only contain letters, numbers, and spaces!',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+    // Validation for Category Description
+    const descriptionRegex = /^[a-zA-Z0-9\s.,'"]*$/; // Allows letters, numbers, spaces, and common punctuation
+    if (!updatedCategoryDescription) {
+        Swal.fire({
+            icon: 'error',
+            text: 'Category description is required!',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+    if (!descriptionRegex.test(updatedCategoryDescription)) {
+        Swal.fire({
+            icon: 'error',
+            text: 'Category description can only contain letters, numbers, spaces, and basic punctuation!',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+    // Make the fetch request to update the category
+    fetch(`/admin/updateCategory/${categoryId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            categoryName: updatedCategoryName,
+            categoryDescription: updatedCategoryDescription
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Category updated successfully!',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                location.reload();
+                // Close the modal
+                document.getElementById('updateCategoryModal').style.display = 'none';
+
+                // Update the UI with the new category details
+                document.getElementById(`categoryName-${categoryId}`).innerText = updatedCategoryName;
+                document.getElementById(`categoryDescription-${categoryId}`).innerText = updatedCategoryDescription;
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: data.message,
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error updating category:', error);
+        Swal.fire({
+            icon: 'error',
+            text: 'Error updating category. Please try again.',
+            confirmButtonText: 'OK'
+        });
+    });
+};
+
+
+
+
+</script>
+    </body>
+</html>

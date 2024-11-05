@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <!-- CDN for sweet alert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item active">
+                        <a class="menu-link" href="/admin/dashboard">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/users">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category">
+                            <i class="icon material-icons md-category"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/salesReport">
+                            <i class="icon material-icons md-business"></i>
+                            <span class="text">Sales Reports</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/offers">
+                            <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupons">
+                            <i class="icon material-icons md-card_giftcard"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <!-- <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i
+                                    class="material-icons md-search"></i></button>
+                        </div> -->
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                            class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="content-header">
+                            <h2 class="content-title">Add New Offers</h2>
+                            <div>
+                                <button class="btn btn-md rounded font-sm hover-up" type="submit" form="offerForm">Create</button>
+                                <a href="/admin/offers">
+                                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up" type="button">Cancel</button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <form id="offerForm">
+                                        <div class="mb-4">
+                                            <label for="offer-type" class="form-label">Offer Type</label>
+                                            <select id="offer-type" name="offerType" class="form-control" onchange="toggleOfferFields()">
+                                                <option value="Products">Product Offer</option>
+                                                <option value="Category">Category Offer</option>
+                                            </select>
+                                        </div>
+                                    
+                                        <div class="row gx-3">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="offerAmount" class="form-label">Discount Amount</label>
+                                                <input type="number" placeholder="Type here" class="form-control" id="offerAmount" name="discount" required />
+                                                <div id="errmsgAmount" class="text-danger"></div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="startDate" class="form-label">Start Date</label>
+                                                <input type="date" placeholder="Type here" class="form-control" id="startDate" name="startDate" required />
+                                                <div id="errmsgStartDate" class="text-danger"></div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="endDate" class="form-label">End Date</label>
+                                                <input type="date" placeholder="Type here" class="form-control" id="endDate" name="endDate" required />
+                                                <div id="errmsgEndDate" class="text-danger"></div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="mb-4" id="pro">
+                                            <label for="products" class="form-label">Select Product</label>
+                                            <select id="products" class="form-control" name="productId">
+                                                <% products.forEach(product => { %>
+                                                    <option value="<%= product.id %>"><%= product.name %></option>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                    
+                                        <div class="mb-4" id="cate" style="display: none;">
+                                            <label for="category" class="form-label">Select Category</label>
+                                            <select id="category" class="form-control" name="categoryId">
+                                                <% categories.forEach(category => { %>
+                                                    <option value="<%= category.id %>"><%= category.name %></option>
+                                                <% }); %>
+                                            </select>
+                                        </div>  
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+            
+             
+<script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="assets/js/vendors/select2.min.js"></script>
+<script src="assets/js/vendors/perfect-scrollbar.js"></script>
+<script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+<!-- Main Script -->
+<script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+<script>
+    function toggleOfferFields(){
+        const offerType = document.getElementById('offer-type').value;
+        const productSection = document.getElementById('pro');
+        const categorySection = document.getElementById('cate');
+
+        if(offerType === 'Products'){
+            productSection.style.display = 'block';
+            categorySection.style.display = 'none';
+        }else{
+            productSection.style.display = 'none';
+            categorySection.style.display = 'block';
+        }
+    }
+</script>
+
+<script>
+
+    function validateDiscount(){
+        const discountInput = document.getElementById('offerAmount');
+        const errorMessage = document.getElementById('errmsgAmount');
+        const discountValue = discountInput.value.trim();
+
+        errorMessage.textContent = '';
+
+        if(!discountValue){
+            errorMessage.textContent = 'Discount percentage is required';
+            return false;
+        }else if (discountValue <= 0 || discountValue > 100) {
+        errorMessage.textContent = 'Discount must be a positive number between 1 and 100';
+        return false;
+       }
+        return true;
+    };
+
+
+    function validateStartDate(){
+        const startDate = document.getElementById('startDate');
+        const errorMessage = document.getElementById('errmsgStartDate');
+        const startDateValue = startDate.value.trim();
+         
+         errorMessage.textContent = ''
+        if(!startDateValue){
+            errorMessage.textContent = 'Start date is required.';
+            return false;
+        }else{
+            return true;
+        }
+    };
+
+    function validateEndDate(){
+        const endDate = document.getElementById('endDate');
+        const startDate = document.getElementById('startDate');
+        const errorMessage = document.getElementById('errmsgEndDate');
+        const endDateValue = endDate.value.trim();
+        const startDateValue = startDate.value.trim();
+
+        errorMessage.textContent = '';
+        
+        if(!endDateValue){
+            errorMessage.textContent = 'End date is required.';
+            return false;
+        }
+        if (new Date(endDateValue) < new Date(startDateValue)) {
+        errorMessage.textContent = 'End date must be after the start date.';
+        return false;
+       }
+
+       return true; 
+    };
+   
+    document.getElementById('offerAmount').addEventListener('input', validateDiscount);
+    document.getElementById('startDate').addEventListener('input', validateStartDate);
+   document.getElementById('endDate').addEventListener('input', validateEndDate);
+
+    document.getElementById('offerForm').addEventListener('submit',async function(e){
+     e.preventDefault();
+     
+     const isDiscountValid = validateDiscount();
+     const isStartDateValid = validateStartDate();
+     const isEndDateValid = validateEndDate();
+
+     if(!isDiscountValid || !isStartDateValid || !isEndDateValid){
+          Swal.fire({
+           icon : 'error',
+           text : 'Please provide valid details'
+          })
+        return;
+     }
+
+     const  offerType = document.getElementById('offer-type').value;
+     const offerAmount = document.getElementById('offerAmount').value;
+     const startDate =  document.getElementById('startDate').value;
+     const endDate = document.getElementById('endDate').value;
+     const productId = offerType === 'Products' ? document.getElementById('products').value : null;
+     const categoryId = offerType === 'Category' ? document.getElementById('category').value : null
+
+
+     const offerData = {
+        offerType,offerAmount,startDate,endDate,productId,categoryId,
+     };
+       
+     fetch('/admin/offersCreate',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(offerData)
+     })
+      .then(response => {
+        console.log('response when offerr',response)
+        return response.json();
+      })
+      .then(data => {
+        if(data.success){
+           Swal.fire({
+            icon : 'success',
+            text : 'Offer created successfully',
+            confirmButtonText : 'OK'
+           }).then(() => window.location.href = '/admin/offers');
+            
+        }else{
+           Swal.fire({
+            icon : 'error',
+            text : data.message,
+            confirmButtonText : 'OK'
+           });
+            
+        }
+      })
+      .catch(err => {
+        console.error('Error while creating offer',err);
+           Swal.fire({
+            icon : 'error',
+            text : 'Error while creating offer' || data.message,
+            confirmButtonText : 'OK'
+           });
+            
+      })
+
+    });
+
+</script>
+</body>
+</html>
