@@ -69,9 +69,9 @@
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
 								    </li>
-								    <li class="nav-item">
+								    <!-- <li class="nav-item">
 								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-								    </li>
+								    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="true">Account </a>
                                     </li>
@@ -268,17 +268,22 @@
                                         
                                         <div class="wallet-transactions">
                                             <h3>Transaction History</h3>
-                                            <% if (wallet && wallet.transaction && wallet.transaction.length > 0) { %>
+                                            <% if (wallet && wallet.transactions && wallet.transactions.length > 0) { %>
                                                 <ul class="transaction-list">
-                                                    <% wallet.transaction.forEach(transaction => { %>
+                                                    <% wallet.transactions.forEach(transaction => { %>
                                                         <li class="transaction-item">
-                                                            <div class="transaction-type <%= transaction.type === 'credit' ? 'credit' : 'debit' %>">
-                                                                <i class="fas fa-<%= transaction.type === 'credit' ? 'arrow-down' : 'arrow-up' %>"></i>
-                                                                <span class="transaction-amount">₹<%= transaction.amount %></span>
+                                                            <!-- Using dynamic class for type and amount -->
+                                                            <div class="transaction-info">
+                                                                <div class="transaction-type <%= transaction.type === 'credit' ? 'credit' : 'debit' %>">
+                                                                    <i class="fas fa-<%= transaction.type === 'credit' ? 'arrow-down' : 'arrow-up' %>"></i>
+                                                                    <span class="transaction-amount">₹<%= transaction.amount %></span>
+                                                                </div>
                                                             </div>
+                                                            <!-- Showing transaction type as text (for debugging or display) -->
+                                                            <p><%= transaction.type %></p>
                                                             <div class="transaction-details">
                                                                 <span class="transaction-description"><%= transaction.description %></span>
-                                                                <span class="transaction-date"><%= new Date(transaction.returnDate).toLocaleDateString() %></span>
+                                                                <span class="transaction-date"><%= new Date(transaction.data).toLocaleDateString() %></span>
                                                             </div>
                                                         </li>
                                                     <% }); %>
@@ -286,7 +291,15 @@
                                             <% } else { %>
                                                 <p class="no-transactions"><strong>No transactions available in your wallet.</strong></p>
                                             <% } %>
+                                          
+                                             <!-- Pagination Controls -->
+                                             <div id="pagination-controls">
+                                                <button id="prev-page" onclick="prevPage()">Previous</button>
+                                                <span id="page-info"></span>
+                                                <button id="next-page" onclick="nextPage()">Next</button>
+                                            </div>
                                         </div>
+                                        
                                     
                                         <div class="wallet-action">
                                             <button class="btn btn-primary" id="add-money-button" style="width: 150px;">Add Money</button>
@@ -862,6 +875,71 @@
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+
+    <script type="application/json" id="transaction-data">
+        <%- JSON.stringify(wallet.transactions) %>
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Parse JSON data from the script tag
+            const transactions = JSON.parse(document.getElementById('transaction-data').textContent);
+            const itemsPerPage = 20;
+            let currentPage = 1;
+    
+            function renderTransactions(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedTransactions = transactions.slice(start, end);
+    
+                // Render transactions in the list
+                const transactionList = document.getElementById('transaction-list');
+                if (transactionList) {
+                    transactionList.innerHTML = paginatedTransactions.map(transaction => `
+                        <li class="transaction-item">
+                            <div class="transaction-type ${transaction.type === 'credit' ? 'credit' : 'debit'}">
+                                <span class="transaction-amount">₹${transaction.amount}</span>
+                            </div>
+                            <div class="transaction-details">
+                                <span class="transaction-description">${transaction.description}</span>
+                                <span class="transaction-date">${new Date(transaction.data).toLocaleDateString()}</span>
+                            </div>
+                        </li>
+                    `).join('');
+                }
+    
+                // Update pagination info
+                document.getElementById('page-info').innerText = `Page ${currentPage} of ${Math.ceil(transactions.length / itemsPerPage)}`;
+    
+                // Toggle button availability
+                document.getElementById('prev-page').disabled = currentPage === 1;
+                document.getElementById('next-page').disabled = end >= transactions.length;
+            }
+    
+            function nextPage() {
+                if ((currentPage * itemsPerPage) < transactions.length) {
+                    currentPage++;
+                    renderTransactions(currentPage);
+                }
+            }
+    
+            function prevPage() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTransactions(currentPage);
+                }
+            }
+    
+            // Initial render
+            renderTransactions(currentPage);
+        });
+    </script>
+
+    
+    
+
+
  
 <script>
 

@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Main CDN File --> 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+     <!-- Main CDN FOR RAZORPAY  --> 
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 
@@ -73,7 +73,7 @@
                         <div class="checkout-coupons">
                             <h4>Available Coupons</h4>
                             <% if (typeof userCoupons !== 'undefined' && userCoupons.length > 0) { %>
-                                <select id="couponSelect" class="form-control">
+                                <select id="couponSelect" style="width: 260px;" class="form-control">
                                     <option value="">Select a coupon</option>
                                     <% userCoupons.forEach(coupon => { %>
                                         <option value="<%= coupon.couponId.discountAmount %>" data-coupon-id="<%= coupon.couponId._id %>">
@@ -92,13 +92,15 @@
                         <form id="orderForm">
                             <h4>Select a Delivery Address:</h4>
                             <div class="row">
+                                <div class="col-lg-9">
+                                    <div class="row">
                                 <% if (addresses && addresses.length > 0) { %>
                                     <% addresses.forEach(address => { %>
                                         <div class="col-lg-4 col-md-6 mb-3">
                                             <div class="card card-address position-relative">
                                                 <div class="card-body">
                                                     <div class="form-check">
-                                                        <input type="radio" class="form-check-input" id="address<%= address._id %>" name="selectedAddress" value="<%= address._id %>" required>
+                                                        <input type="radio" class="form-check-input" id="address<%= address._id %>" name="selectedAddress"  value='<%= JSON.stringify(address) %>' required>
                                                         <label class="form-check-label" style="margin-left: 40px;" for="address<%= address._id %>">
                                                             firstName: <strong><%= address.firstName %></strong><br>
                                                             lastName: <strong><%= address.lastName %></strong><br>
@@ -114,11 +116,21 @@
                                             </div>
                                         </div>
                                     <% }); %>
+                                    
                                 <% } else { %>
-                                    <p>No saved addresses. <a href="/add-address">Add a new address</a></p>
+                                    <p>No saved addresses.  <a href="#" id="addAddressLink">Add a new address</a></p>
                                 <% } %>
                             </div>
-                        
+                        </div>
+
+                        <!-- Add Address Button Column -->
+                        <div class="col-lg-3 d-flex align-items-start justify-content-end">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAddressModal">
+                                + Add a New Address
+                            </button>
+                        </div>
+                    </div>
+                      
                             <!-- Order Summary -->
                             <aside class="col-lg-3">
                                 <div class="summary">
@@ -194,6 +206,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card">
+                                        <div class="card-header" id="heading-5">
+                                            <h2 class="card-title">
+                                                <label>
+                                                    <input type="radio" name="paymentMethod" value="wallet"> wallet
+                                                </label>
+                                            </h2>
+                                        </div>
                                 </div>
                                 
                         
@@ -209,10 +229,209 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
+       
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Add a New Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addressForm">
+                    <!-- Address Form Fields -->
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <small id="firstNameErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <small id="lastNameErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <small id="phoneErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="streetAddress">Street Address</label>
+                        <input type="text" class="form-control" id="streetAddress" name="streetAddress" required>
+                        <small id="streetAddressErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                        <small id="cityErr" class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" name="state" required>
+                        <small id="stateErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">Zip Code</label>
+                        <input type="text" class="form-control" id="zip" name="zip" required>
+                        <small  id="zipErr"  class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" required>
+                        <small id="countryErr"  class="text-danger"></small>
+                    </div>
+
+                    <!-- Save Address Button -->
+                    <button type="submit" class="btn btn-primary">Save Address</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
      
     <%- include('../partials/footer.ejs') %>    
 
 
+  
+    <script>
+   // Function to show/hide error message under each input field
+function validateField(field, errorElement, condition, errorMessage) {
+    if (condition) {
+        errorElement.innerText = ''; // Hide error message if input is valid
+    } else {
+        errorElement.innerText = errorMessage; // Show error message if input is invalid
+    }
+}
+
+// Real-time validation for each input field
+document.getElementById('addressForm').addEventListener('input', function (event) {
+    const field = event.target;
+    const fieldValue = field.value.trim();
+    
+    // Get the corresponding error message element
+    let errorElement;
+    switch (field.id) {
+        case 'firstName':
+            errorElement = document.getElementById('firstNameErr');
+            validateField(field, errorElement, /^[A-Za-z]+$/.test(fieldValue), 'First Name can only contain letters.');
+            break;
+        case 'lastName':
+            errorElement = document.getElementById('lastNameErr');
+            validateField(field, errorElement, /^[A-Za-z]+$/.test(fieldValue), 'Last Name can only contain letters.');
+            break;
+        case 'phone':
+            errorElement = document.getElementById('phoneErr');
+            validateField(field, errorElement, /^\d{10}$/.test(fieldValue), 'Phone number must be exactly 10 digits.');
+            break;
+        case 'streetAddress':
+            errorElement = document.getElementById('streetAddressErr');
+            validateField(field, errorElement, /^[A-Za-z0-9\s]+$/.test(fieldValue), 'Street Address can contain only letters, numbers, and spaces.');
+            break;
+        case 'city':
+            errorElement = document.getElementById('cityErr');
+            validateField(field, errorElement, /^[A-Za-z\s]+$/.test(fieldValue), 'City can only contain letters.');
+            break;
+        case 'state':
+            errorElement = document.getElementById('stateErr');
+            validateField(field, errorElement, /^[A-Za-z\s]+$/.test(fieldValue), 'State can only contain letters.');
+            break;
+        case 'zip':
+            errorElement = document.getElementById('zipErr');
+            validateField(field, errorElement, /^\d{6}$/.test(fieldValue), 'Zip Code must be exactly 6 digits.');
+            break;
+        case 'country':
+            errorElement = document.getElementById('countryErr');
+            validateField(field, errorElement, /^[A-Za-z\s]+$/.test(fieldValue), 'Country can only contain letters.');
+            break;
+        default:
+            break;
+    }
+});
+
+// Final form validation and submission
+document.getElementById('addressForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    
+    // Collect form data and normalize it
+    const formData = new FormData(this);
+    const normalizedData = {
+        firstName: formData.get('firstName').trim().toLowerCase(),
+        lastName: formData.get('lastName').trim().toLowerCase(),
+        phone: formData.get('phone').trim(),
+        streetAddress: formData.get('streetAddress').trim().toLowerCase(),
+        city: formData.get('city').trim().toLowerCase(),
+        state: formData.get('state').trim().toLowerCase(),
+        zip: formData.get('zip').trim(),
+        country: formData.get('country').trim().toLowerCase()
+    };
+
+    // Validate each field one last time before submitting
+    const validations = [
+        { field: 'firstName', value: normalizedData.firstName, regex: /^[A-Za-z]+$/, error: 'First Name can only contain letters.' },
+        { field: 'lastName', value: normalizedData.lastName, regex: /^[A-Za-z]+$/, error: 'Last Name can only contain letters.' },
+        { field: 'phone', value: normalizedData.phone, regex: /^\d{10}$/, error: 'Phone number must be exactly 10 digits.' },
+        { field: 'streetAddress', value: normalizedData.streetAddress, regex: /^[A-Za-z0-9\s]+$/, error: 'Street Address can contain only letters, numbers, and spaces.' },
+        { field: 'city', value: normalizedData.city, regex: /^[A-Za-z\s]+$/, error: 'City can only contain letters.' },
+        { field: 'state', value: normalizedData.state, regex: /^[A-Za-z\s]+$/, error: 'State can only contain letters.' },
+        { field: 'zip', value: normalizedData.zip, regex: /^\d{6}$/, error: 'Zip Code must be exactly 6 digits.' },
+        { field: 'country', value: normalizedData.country, regex: /^[A-Za-z\s]+$/, error: 'Country can only contain letters.' }
+    ];
+
+    let formIsValid = true;
+    validations.forEach(({ field, value, regex, error }) => {
+        const errorElement = document.getElementById(`${field}Err`);
+        if (!regex.test(value)) {
+            errorElement.innerText = error;
+            formIsValid = false;
+        } else {
+            errorElement.innerText = '';
+        }
+    });
+
+    // If form is valid, submit data
+    if (formIsValid) {
+        fetch('/addressFromCheckout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(normalizedData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close the modal if successful
+                $('#addAddressModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Address added successfully',
+                    confirmButtonText: 'Ok'
+                }).then(() => location.reload());
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    text: data.message,
+                    confirmButtonText: 'Ok'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                text: 'Internal server issue',
+                confirmButtonText: 'RETRY'
+            });
+        });
+    }
+});
+
+
+    </script>
 
     <script>
         // JavaScript to handle coupon selection
@@ -440,6 +659,7 @@
 //         }
 //     }
 // });
+
 document.getElementById('orderForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -447,7 +667,7 @@ document.getElementById('orderForm').addEventListener('submit', async function (
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const couponSelect = document.getElementById('couponSelect');
    
-    const selectedAddressValue = selectedAddress ? selectedAddress.value : null;
+    const selectedAddressValue = selectedAddress ? JSON.parse(selectedAddress.value) : null;
     const paymentMethodValue = paymentMethod ? paymentMethod.value : null;
     let selectedCouponId = couponSelect ? couponSelect.options[couponSelect.selectedIndex].dataset.couponId : null;
     console.log('Payment method:', paymentMethodValue);

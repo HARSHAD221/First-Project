@@ -47,21 +47,21 @@ const topSellingProducts = async () => {
                 $lookup: {
                     from: "products",
                     localField: "products.product",   // Should match the product ID in "Order"
-                    foreignField: "_id",              // Should match "_id" in "Product"
+                    foreignField: "_id",             
                     as: "productInfo"
                 }
             },
             { $unwind: "$productInfo" },            // Flatten the productInfo array
-            { $match: { "productInfo.isBlock": false } },
+            { $match: { "productInfo.isBlock": false , "status" : "Delivered"} },
             { 
                 $group: {
-                    _id: "$products.product",                  // Group by product ID
+                    _id: "$products.product",                  
                     productName: { $first: "$productInfo.productName" },  // Use the correct field name
-                    totalSales: { $sum: "$products.quantity" } // Sum the quantity sold
+                    totalSales: { $sum: "$products.quantity" } 
                 }
             },
-            { $sort: { totalSales: -1 } },            // Sort by total sales descending
-            { $limit: 10 }                            // Limit to top 10
+            { $sort: { totalSales: -1 } },         
+            { $limit: 10 }                           
         ]);
     } catch (error) {
         console.error("Error in topSellingProducts:", error.message);
@@ -83,7 +83,7 @@ const topSellingCategory = async () => {
                 }
             },
             { $unwind: "$productInfo" },
-            { $match: { "productInfo.isBlock": false } }, // Should exclude blocked products
+            { $match: { "productInfo.isBlock": false , "status" : "Delivered"} }, 
             {
                 $lookup: {
                     from: "categories",

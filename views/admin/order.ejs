@@ -226,26 +226,69 @@
 
                    <!-- Pagination section -->
 
-                    <div class="pagination-container" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-    
-                        <!-- Previous Button -->
-                        <% if (currentPage > 1) { %>
-                            <a href="/admin/orders?page=<%= currentPage - 1 %>" class="btn btn-secondary">Previous</a>
-                        <% } else { %>
-                            <span class="btn btn-secondary disabled">Previous</span>
-                        <% } %>
+                   <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <!-- Previous Button -->
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/admin/orders?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link">Previous</a>
+                                </li>
+                            <% } %>
+                            
+                            <!-- First Page -->
+                            <% if (currentPage > 3) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/admin/orders?page=1">1</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            <% } %>
+                
+                            <!-- Middle Pages (6 pages around the current page) -->
+                            <% let startPage = Math.max(2, currentPage - 2); %>
+                            <% let endPage = Math.min(totalPages - 1, currentPage + 2); %>
+                            
+                            <% for (let i = startPage; i <= endPage; i++) { %>
+                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="/admin/orders?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                
+                            <!-- Ellipses Before Last Page (if needed) -->
+                            <% if (currentPage < totalPages - 2) { %>
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            <% } %>
+                
+                            <!-- Last Page -->
+                            <% if (currentPage < totalPages - 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/admin/orders?page=<%= totalPages %>"><%= totalPages %></a>
+                                </li>
+                            <% } %>
+                
+                            <!-- Next Button -->
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/admin/orders?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link">Next</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+                
                     
-                        <!-- Current Page Number (Center) -->
-                        <span>Page <%= currentPage %> of <%= totalPages %></span>
-                    
-                        <!-- Next Button -->
-                        <% if (currentPage < totalPages) { %>
-                            <a href="/admin/orders?page=<%= currentPage + 1 %>" class="btn btn-primary">Next</a>
-                        <% } else { %>
-                            <span class="btn btn-primary disabled">Next</span>
-                        <% } %>
-                    
-                    </div>
                     
                     
                     

@@ -69,7 +69,7 @@
                              <h4><%= item.product.productName %></h4>
                              <p><strong>Quantity:</strong> <%= item.quantity %></p>
                              <p><strong>Price:</strong> $<%= (item.price * item.quantity).toFixed(2) %></p>
-                             <% if (item.status !== 'Cancelled') { %>
+                             <% if (item.status !== 'Cancelled' && order.status !== 'Delivered') { %>
                                 <button 
                                     class="cancel-button btn cancel-btn" 
                                     data-product-id="<%= item.product._id %>" 
@@ -78,8 +78,18 @@
                                 >
                                     Cancel Product
                                 </button>
+                             <%} else if(order.status === 'Delivered'  && item.returnStatus !== 'returned'){ %>
+                                <button 
+                                 class="return-button btn return-btn"
+                                 data-product-id="<%= item.product._id %>"
+                                 data-order-id="<%= order._id %>"
+                                 onclick="showReturnModal(this)"
+                                 >
+                                 Return Product
+                                </button>
+                                
                             <% } else { %>
-                                <p><em>Product Cancelled</em></p>
+                                <p><em><%= item.status === 'Cancelled' ? 'Product Cancelled' : (item.returnStatus === 'returned' ? 'Product Already Returned' : 'Product Delivered') %></em></p>
                             <% } %>
                          </div>
                      </li>
@@ -95,62 +105,54 @@
             <!-- Buttons -->
             <div class="actions">
                 <a href="/myaccount" class="btn" style="width: 50px;">Back to Orders</a>
-               <%  if(order.status  !== 'Cancelled'){ %>
-                    <a href="/orders/<%= order._id %>/cancel"  style="width: 50px;" class="btn cancel-btn">Cancel Order</a>
-               <%  } %>
+                <% if(order.status !== 'Cancelled' && order.status !== 'Delivered'){ %>
+                    <button class="btn cancel-btn" data-order-id="<%= order._id %>"  style="width: 50px;">Cancel Order</button>
+                <% } %>                           
+               <%  if(order.status !== 'Cancelled'){ %>
+                    <a href="/Invoice/<%= order._id %>" class="btn download-btn" style="width: 150px;">
+                        Download Invoice
+                    </a>
+                <% } %>
                
             </div>
         </div>
     </div>
     
+
+     <div id="returnModal" class="modal">
+      <div class="modal-content">
+       <span class="close" onclick="closeReturnModal()">&times;</span>
+       <h3>Return Product</h3>
+       <p>Select a reason for returning :</p>
+       <select  id="returnReason" required>
+       <option value="">Choose a reason</option>
+       <option value="damaged">Damaged</option>
+       <option value="defective">Defective</option>
+       <option value="Incorrect item">Incorrect item</option>
+        <option value="Delivery delays">Delivery delays</option>
+       <option value="Other">Other</option>
+      </select>
+      <input type="hidden" id="return-product-id" />
+      <input type="hidden" id="return-order-id" />
+      <button onclick="submitReturnProduct()">Submit</button>
+      </div>
+     </div>
     
     <%- include('../partials/footer.ejs')%> 
 
 
 
 <script>
-
-// document.querySelector('.cancel-btn').addEventListener('click', async (event) => {
-//     event.preventDefault(); // Prevent default link behavior
-
-//     const orderId = '<%= order._id %>'; // Use the correct order ID
-//     const response = await fetch(`/order/cancel/${orderId}`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//     });
-
-//     const data = await response.json();
-//     if (data.success) {
-//         // Show success message using SweetAlert
-//         await Swal.fire({
-//             title: 'Success!',
-//             text: data.message,
-//             icon: 'success',
-//             confirmButtonText: 'OK'
-//         });
-        
-//         // Redirect after cancellation
-//         window.location.href = '/myaccount'; // Redirect after cancellation
-//     } else {
-//         // Show error message using SweetAlert
-//         await Swal.fire({
-//             title: 'Error!',
-//             text: data.message,
-//             icon: 'error',
-//             confirmButtonText: 'Try Again'
-//         });
-//     }
-// });
-
 document.addEventListener('DOMContentLoaded', () => {
-    const cancelButton = document.querySelector('.cancel-btn');
-    if (cancelButton) {
+    const cancelButtons = document.querySelectorAll('.cancel-btn');  // Use querySelectorAll
+
+    cancelButtons.forEach(cancelButton => {
         cancelButton.addEventListener('click', async (event) => {
             event.preventDefault(); // Prevent default link behavior
 
-            const orderId = '<%= order._id %>'; // Use the correct order ID
+            const orderId = cancelButton.getAttribute('data-order-id');  // Use the correct order ID
+            console.log('Order ID:', orderId); // Log the order ID
+
             const response = await fetch(`/order/cancel/${orderId}`, {
                 method: 'POST',
                 headers: {
@@ -159,19 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const data = await response.json();
+            console.log('Response:', data); // Log server response
+
             if (data.success) {
-                // Show success message using SweetAlert
                 await Swal.fire({
                     title: 'Success!',
                     text: data.message,
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
-                
-                // Redirect after cancellation
                 window.location.href = '/myaccount';
             } else {
-                // Show error message using SweetAlert
                 await Swal.fire({
                     title: 'Error!',
                     text: data.message,
@@ -180,8 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    }
+    });
 });
+
+
 
 
 </script>
@@ -262,6 +264,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>console.log('Footer loaded');</script>
 
+
+<script>
+
+function showReturnModal(button){
+    const productId = button.getAttribute('data-product-id')
+    const orderId = button.getAttribute('data-order-id')
+     console.log('hell',productId,orderId)
+    document.getElementById('return-product-id').value = productId;
+    document.getElementById('return-order-id').value = orderId;
+
+    // Show the modal
+    document.getElementById('returnModal').style.display = 'block'
+}
+
+  function closeReturnModal(){
+    document.getElementById('returnModal').style.display = 'none'
+  };
+
+     // Function to submit the return request
+     async function submitReturnProduct() {
+        const productId = document.getElementById('return-product-id').value;
+        const orderId = document.getElementById('return-order-id').value;
+        const returnReason = document.getElementById('returnReason').value;
+
+        try {
+            const response = await fetch('/returnProduct',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({productId,orderId,returnReason})
+            });
+
+            const result = await response.json();
+            if(result.success){
+                 Swal.fire({
+                    icon : 'success',
+                    text : 'Return is successfull',
+                    confirmButtonText : 'OK'
+                 })
+                 .then(() => {
+                    closeReturnModal();
+                    location.reload()
+                 })
+               
+            }else{
+                console.log('Not returned',result.message)
+               Swal.fire({
+                icon : 'error',
+                text : result.message,
+                confirmButtonText : 'OK'
+               })
+            }
+        } catch (error) {
+            console.error('An error occurred while returning the product',error.message);
+            Swal.fire({
+                icon : 'error',
+                text : 'Internal server issue while returning the product',
+                confirmButtonText : 'RETRY'
+            })
+        }
+     };
+
+</script>
 </body>
 
 

@@ -91,27 +91,43 @@ const updateOrder = async (req, res, next) => {
     }
 };
 
-const updateOrderStatus = async (req,res,next) => {
+const updateOrderStatus = async (req, res, next) => {
     try {
-        console.log('reached for order status updation');
-        const {status } = req.body;
-         console.log('status',status);
-         const orderId = req.params.id;
+        console.log('Reached for order status update');
+        const { status } = req.body;
+        const orderId = req.params.id;
 
-         const updateOrder = await Order.findByIdAndUpdate(orderId, {status : status},{new : true});
+        const updateOrder = await Order.findByIdAndUpdate(orderId, { status: status }, { new: true });
 
-         if(updateOrder){
-            res.json({success : true,message : "Order status updated successfully"})
-         }else{
-            res.json({success : false,message : 'Order not found'})
-         }
+        if (!updateOrder) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+       
+        let newProductStatus;
+        if (status === 'Delivered') {
+            newProductStatus = 'Delivered';
+        } else if (status === 'Cancelled') {
+            newProductStatus = 'Cancelled';
+        } else if (status === 'Pending') {
+            newProductStatus = 'Pending';
+        }
+
+        //  Update all products' statuses in the order
+        if (newProductStatus) {
+            await Order.updateOne(
+                { _id: orderId },
+                { $set: { "products.$[].status": newProductStatus } } // Update all items in the products array
+            );
+        }
+
+        res.json({ success: true, message: "Order and product statuses updated successfully" });
     } catch (error) {
-        console.error("Error while updating order status",error.message);
-        next();
-        res.json({success : false,message : 'Failed to update order status'})
-        
+        console.error("Error while updating order status:", error.message);
+        res.status(500).json({ success: false, message: 'Failed to update order status' });
     }
-}
+};
+
 
 module.exports = {
     adOrderLoad,

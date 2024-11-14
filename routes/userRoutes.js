@@ -13,6 +13,7 @@ const paymentController = require('../paymentController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController');
 const wishListController = require('../controller/wishListController');
+const {generateInvoice} = require('../generateInvoice');
 const applyOffer = require('../middleware/applyOfferMiddleware');
 
 // user_route.get('/',userController.loadHomePage)
@@ -58,6 +59,9 @@ user_route.get('/searchproducts',userController.searchProducts);
 user_route.get('/wishlist',authmiddleware.isLogin,authmiddleware.isLogin,wishListController.loadWishList);
 user_route.post('/addToWishList',authmiddleware.isLogin,wishListController.addToWishList);
 user_route.post('/removeWishList',authmiddleware.isLogin,wishListController.removeFromWishList);
+user_route.get('/Invoice/:orderId',generateInvoice);
+user_route.post('/addressFromCheckout',orderController.addAddressFromCheckOut);
+user_route.post('/returnProduct',orderController.returnProduct);
 
 user_route.post('/logout',authmiddleware.isLogin,accountController.logOut);
 

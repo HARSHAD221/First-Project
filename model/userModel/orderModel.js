@@ -24,7 +24,15 @@ const orderSchema = new mongoose.Schema({
             type : String,
             enum : ['Pending','Delivered','Cancelled'],
             default : 'Pending',
-        }
+        },
+        deliveryDate : Date,
+        returnStatus : {
+            type : String,
+            enum : ['none','requested','approved','returned'],
+            default : 'none',
+        },
+        returnReason : String,
+        returnDate : Date,
     }],
     totalPrice: {
         type: Number,
@@ -41,7 +49,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ['COD','cash_on_delivery','Razorpay','Wallet'],
+        enum: ['COD','cash_on_delivery','Razorpay','wallet'],
         default: 'COD',
         required: true,
     },
@@ -57,9 +65,14 @@ const orderSchema = new mongoose.Schema({
         default: 'Pending',
     },
     deliveryAddress: {
-        type:  mongoose.Schema.Types.ObjectId,
-        ref: 'addresses',
-        required: true,
+        firstName: String,
+        lastName: String,
+        phone: String,
+        streetAddress: String,
+        city: String,
+        state: String,
+        zip: String,
+        country: String,
     },
 }, {
     timestamps: true,
