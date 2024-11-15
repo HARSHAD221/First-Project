@@ -17,7 +17,7 @@ const {generateInvoice} = require('../generateInvoice');
 const applyOffer = require('../middleware/applyOfferMiddleware');
 
 // user_route.get('/',userController.loadHomePage)
-user_route.get('/', userController.loadHomePage);
+user_route.get('/', userController.loadHomePage, applyOffer);
 
 user_route.get('/login', authmiddleware.isLogOut, (req, res) => {
     res.set('Cache-Control', 'no-store'); // Prevent caching of this page

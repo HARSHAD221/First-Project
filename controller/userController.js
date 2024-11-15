@@ -26,8 +26,8 @@ const { successPage } = require('./orderController');
 const categories = require('../model/adminModel/CategoryModel');
 const applyOfferToProduct = require('../offerHelper');
 
-const loadHomePage = async (req, res) => {
-    // try {
+const loadHomePage = async (req, res, next) => {
+    try {
         
       const { user, userId } = req.session;
       const categories = await Category.find({ isBlock: false });
@@ -39,7 +39,7 @@ const loadHomePage = async (req, res) => {
         req.products = findAllProducts;
 
         // Apply offers
-        // await  applyoffer(req, res,next);
+        await  applyoffer(req, res,next);
 
         const showCoupon = req.session.showCoupon || false;
           console.log('showCoup',showCoupon);
@@ -65,26 +65,23 @@ const loadHomePage = async (req, res) => {
     //         categories
     //     });
     // };
-        return res.send('harshad home page')
-//    return res.render('home',
-//      {
-//         products: req.products,
-//         user: userId,
-//         categories,
-//         showWelcomePopup: showCoupon,
-//         user: user || undefined
-//     }
-// )
-    ;
+        
+    res.render('home', {
+        products: req.products,
+        user: userId,
+        categories,
+        showWelcomePopup: showCoupon,
+        user: user || undefined
+    });
 
     if (req.session.showCoupon) {
         req.session.showCoupon = false; // Reset it only after use
     }
     console.log('showcou',showCoupon)
-    // } catch (error) {
-    //   console.log("Error loading home:", error.message);
-    // //   next(error);
-    // }
+    } catch (error) {
+      console.log("Error loading home:", error.message);
+      next(error);
+    }
   };
   
 
