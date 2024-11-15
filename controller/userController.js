@@ -26,7 +26,7 @@ const { successPage } = require('./orderController');
 const categories = require('../model/adminModel/CategoryModel');
 const applyOfferToProduct = require('../offerHelper');
 
-const loadHomePage = async (req, res, next) => {
+const loadHomePage = async (req, res) => {
     try {
         
       const { user, userId } = req.session;
@@ -80,7 +80,7 @@ const loadHomePage = async (req, res, next) => {
     console.log('showcou',showCoupon)
     } catch (error) {
       console.log("Error loading home:", error.message);
-      next(error);
+    //   next(error);
     }
   };
   
