@@ -39,7 +39,7 @@ const loadHomePage = async (req, res, next) => {
         req.products = findAllProducts;
 
         // Apply offers
-        await  applyoffer(req, res,next);
+        // await  applyoffer(req, res,next);
 
         const showCoupon = req.session.showCoupon || false;
           console.log('showCoup',showCoupon);
@@ -66,7 +66,7 @@ const loadHomePage = async (req, res, next) => {
     //     });
     // };
         
-    res.render('home', {
+   return res.render('home', {
         products: req.products,
         user: userId,
         categories,
