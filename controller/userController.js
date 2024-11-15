@@ -65,14 +65,17 @@ const loadHomePage = async (req, res) => {
     //         categories
     //     });
     // };
-        
-   return res.render('home', {
-        products: req.products,
-        user: userId,
-        categories,
-        showWelcomePopup: showCoupon,
-        user: user || undefined
-    });
+        return res.send('harshad home page')
+//    return res.render('home',
+//      {
+//         products: req.products,
+//         user: userId,
+//         categories,
+//         showWelcomePopup: showCoupon,
+//         user: user || undefined
+//     }
+// )
+    ;
 
     if (req.session.showCoupon) {
         req.session.showCoupon = false; // Reset it only after use
