@@ -1,8 +1,12 @@
 
 const mongoose = require('mongoose')
-mongoose.connect("mongodb://127.0.0.1:27017/first-project")
-.then(() => console.log("Mongodb connected..."))
-.catch(err => console.log('Mongodb connection error:',err))
+mongoose.connect("mongodb+srv://harshadharshuk:X42gzS5VaV17ymCV@cluster0.q9r38.mongodb.net/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+  })
+  .then(() => console.log("Connected to Mongo DB"))
+  .catch((error) => console.log("Error connecting to Mongo DB", error));
 const express = require('express');
 const dotenv = require('dotenv')
 dotenv.config()
