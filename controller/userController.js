@@ -27,7 +27,7 @@ const categories = require('../model/adminModel/CategoryModel');
 const applyOfferToProduct = require('../offerHelper');
 
 const loadHomePage = async (req, res) => {
-    try {
+    // try {
         
       const { user, userId } = req.session;
       const categories = await Category.find({ isBlock: false });
@@ -81,10 +81,10 @@ const loadHomePage = async (req, res) => {
         req.session.showCoupon = false; // Reset it only after use
     }
     console.log('showcou',showCoupon)
-    } catch (error) {
-      console.log("Error loading home:", error.message);
-    //   next(error);
-    }
+    // } catch (error) {
+    //   console.log("Error loading home:", error.message);
+    // //   next(error);
+    // }
   };
   
 
