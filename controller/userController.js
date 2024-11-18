@@ -451,7 +451,6 @@ const loadSingleProduct = async (req, res, next) => {
             throw new Error('Product not found');
         }
         
-        // Get user session data
         const { user, userId } = req.session;   
      
         
@@ -482,17 +481,26 @@ const loadSingleProduct = async (req, res, next) => {
         ];
          
         const productWithOffer = await applyOfferToProduct(findProduct);
-
+        
+        const relatedProducts = await Products.find({
+            category : findProduct.category,
+            _id :  {$ne : productId}
+        }).limit(4)
+         
+        const relatedProductsWithOffers = await Promise.all(relatedProducts.map(applyOfferToProduct));
+        //   console.log('relatedProductsWithOffers',relatedProductsWithOffers);
         res.render('singleProduct', { 
             product: productWithOffer, 
             breadcrumbs: breadcrumbs,  
             user: req.session.user,
             isInCart: isInCart,
-            isInWishlist : isInWishlist
+            isInWishlist : isInWishlist,
+            relatedProducts : relatedProductsWithOffers,
         });
 
     } catch (error) {
-        next(error);
+       console.error('Error while rendering single product page')
+       return res.status(500).json({ success : false ,message :'Internal server issue while loading single product page'})
     }
 };
 

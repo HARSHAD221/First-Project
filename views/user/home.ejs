@@ -67,7 +67,7 @@
                                             <h3 class="intro-subtitle">Topsale Collection</h3><!-- End .h3 intro-subtitle -->
                                             <h1 class="intro-title">Vibrant<br>Toys</h1><!-- End .intro-title -->
 
-                                            <a href="category.html" class="btn btn-outline-white">
+                                            <a href="/productsPage" class="btn btn-outline-white" style="width: 50px;">
                                                 <span>SHOP NOW</span>
                                                 <i class="icon-long-arrow-right"></i>
                                             </a>
@@ -86,7 +86,7 @@
                                             <h3 class="intro-subtitle">Best collection of toys</h3><!-- End .h3 intro-subtitle -->
                                             <h1 class="intro-title">New Arrivals</h1><!-- End .intro-title -->
 
-                                            <a href="category.html" class="btn btn-outline-white">
+                                            <a href="/productsPage" class="btn btn-outline-white" style="width: 50px;">
                                                 <span>SHOP NOW</span>
                                                 <i class="icon-long-arrow-right"></i>
                                             </a>
@@ -105,7 +105,7 @@
                                             <h3 class="intro-subtitle">Toys are the building blocks of childhood</h3><!-- End .h3 intro-subtitle -->
                                             <h1 class="intro-title">Enjoyable memories<br>Toy</h1><!-- End .intro-title -->
 
-                                            <a href="category.html" class="btn btn-outline-white">
+                                            <a href="/productsPage" class="btn btn-outline-white" style="width: 50px;">
                                                 <span>SHOP NOW</span>
                                                 <i class="icon-long-arrow-right"></i>
                                             </a>
@@ -128,7 +128,7 @@
                                             <div class="banner-content">
                                                 <h4 class="banner-subtitle text-darkwhite"><a href="#">Clearence</a></h4><!-- End .banner-subtitle -->
                                                 <h3 class="banner-title text-white"><a href="#">Chairs & Chaises <br>Up to 40% off</a></h3><!-- End .banner-title -->
-                                                <a href="#" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                                                <a href="/productsPage" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
                                             </div><!-- End .banner-content -->
                                         </div><!-- End .banner -->
                                     </div><!-- End .col-md-6 col-lg-12 -->
@@ -153,7 +153,7 @@
 
                     <div class="mb-6"></div><!-- End .mb-6 -->
 
-                    <div class="owl-carousel owl-simple" data-toggle="owl" 
+                    <!-- <div class="owl-carousel owl-simple" data-toggle="owl" 
                         data-owl-options='{
                             "nav": false, 
                             "dots": false,
@@ -200,7 +200,8 @@
                         <a href="#" class="brand">
                             <img src="assets/images/brands/6.png" alt="Brand Name">
                         </a>
-                    </div><!-- End .owl-carousel -->
+                    </div> -->
+                    <!-- End .owl-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .bg-lighter -->
 
@@ -533,15 +534,15 @@
                                                         <% } %>
                                                     </a>
                                                 
-                                                    <div class="product-action-vertical">
+                                                    <!-- <div class="product-action-vertical">
                                                         <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
-                                                    </div>
+                                                    </div> -->
                                                 </figure>
                                                 
                                   
                                               <div class="product-body">
                                                 <!-- Product Name -->
-                                                <h3 class="product-title"><a href="/product/<%= product._id %>"><%= product.productName %></a></h3>
+                                                <h3 class="product-title"><a href="/product?id=<%= product._id %>"><%= product.productName %></a></h3>
                                   
                                                 <!-- Product Price -->
                                                 <!-- Product Price -->
@@ -563,16 +564,16 @@
                                                 
   
                                                 <!-- Optional: Color dots (if applicable) -->
-                                                <div class="product-nav product-nav-dots">
+                                                <!-- <div class="product-nav product-nav-dots">
                                                   <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
                                                   <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
-                                                </div>
+                                                </div> -->
                                               </div>
                                   
                                               <!-- Add to Cart Button -->
-                                              <div class="product-action">
+                                              <!-- <div class="product-action">
                                                 <a href="/cart/add/<%= product._id %>" class="btn-product btn-cart"><span>Add to Cart</span></a>
-                                              </div>
+                                              </div> -->
                                             </div>
                                           </div>
                                         <% }); %>
@@ -1506,9 +1507,10 @@
                     </div><!-- End .owl-carousel -->
                 </div><!-- container -->
 
-                <div class="more-container text-center mb-0 mt-3">
+                <!-- <div class="more-container text-center mb-0 mt-3">
                     <a href="blog.html" class="btn btn-outline-darker btn-more"><span>View more articles</span><i class="icon-long-arrow-right"></i></a>
-                </div><!-- End .more-container -->
+                </div> -->
+                <!-- End .more-container -->
             </div>
             <div class="cta cta-display bg-image pt-4 pb-4" style="background-image: url(assets/images/backgrounds/cta/bg-6.jpg);">
                 <div class="container">
@@ -1521,7 +1523,7 @@
                                 </div><!-- End .col -->
 
                                 <div class="col-auto">
-                                    <a href="login.html" class="btn btn-outline-white"><span>SIGN UP</span><i class="icon-long-arrow-right"></i></a>
+                                    <a href="/login" class="btn btn-outline-white"><span>SIGN UP</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .col-auto -->
                             </div><!-- End .row no-gutters -->
                         </div><!-- End .col-md-10 col-lg-9 -->

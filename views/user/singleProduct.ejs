@@ -94,9 +94,9 @@
                                                      data-zoom-image="<%= product.imagePaths && product.imagePaths[0] ? product.imagePaths[0] : '/path/to/placeholder.jpg' %>" 
                                                      alt="<%= product.productName %>">
                                             
-                                                <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <!-- <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                     <i class="icon-arrows"></i>
-                                                </a>
+                                                </a> -->
                                             </figure>
                                             
                                             <!-- End .product-main-image -->
@@ -139,10 +139,10 @@
                                             <div class="product-price">
                                                 <% if (product.finalPrice && product.finalPrice < product.price) { %>
                                                     <span class="original-price" style="text-decoration: line-through; color: gray;">
-                                                        $<%= product.price.toFixed(2) %>
+                                                        <%= product.price.toFixed(2) %>
                                                     </span>
                                                     <span class="offer-price" style="color: rgb(16, 13, 13); font-weight: bold;">
-                                                        $<%= product.finalPrice.toFixed(2) %>
+                                                        <%= product.finalPrice.toFixed(2) %>
                                                     </span>
                                                 <% } else { %>
                                                     <span class="price">$<%= product.price.toFixed(2) %></span>
@@ -232,7 +232,7 @@
                                                         <span>Add to Cart</span>
                                                     </a>
                                                 <% } %>
-                                                
+                                            
                                             
                                                 <div class="details-action-wrapper">
                                                     <br><br>
@@ -240,9 +240,7 @@
                                                         <span><%= isInWishlist ? 'Added to Wishlist' : 'Add to Wishlist' %></span>
                                                     </a>
                                                     
-                                                    <a href="#" class="btn-product btn-compare" title="Compare">
-                                                        <span>Add to Compare</span>
-                                                    </a>
+                                                   
                                                 </div><!-- End .details-action-wrapper -->
                                             </div><!-- End .product-details-action -->
                                             
@@ -255,19 +253,64 @@
                                                     <a href="#">Yellow</a> -->
                                                 </div><!-- End .product-cat -->
 
-                                                <div class="social-icons social-icons-sm">
-                                                    <span class="social-label">Share:</span>
-                                                    <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                                                    <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                                                    <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                                                    <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
-                                                </div>
                                             </div><!-- End .product-details-footer -->
 
                                            
                                               
 
         </main><!-- End .main -->
+
+
+        <% if (relatedProducts && relatedProducts.length > 0) { %>
+            <div class="container">
+                <h2 class="title text-center mb-4">You May Also Like</h2>
+                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                    data-owl-options='{
+                        "nav": false, 
+                        "dots": true,
+                        "margin": 20,
+                        "loop": false,
+                        "center": true,
+                        "responsive": {
+                            "0": {"items":1, "center":true},
+                            "480": {"items":2},
+                            "768": {"items":3},
+                            "992": {"items":4},
+                            "1200": {"items":4, "nav": true, "dots": false}
+                        }
+                    }'>
+                    <% relatedProducts.forEach(product => { %>
+                        <div class="product product-7">
+                            <figure class="product-media">
+                                <a href="/product?id=<%= product._id %>">
+                                    <img src="<%= product.imagePaths[0] %>" alt="Product image" class="">
+                                </a>
+                            </figure>
+                            <div class="product-body">
+                                <h3 class="product-title text-center">
+                                    <a href="/product?id=<%= product._id %>" ><%= product.productName %></a>
+                                </h3>
+                                <div class="product-price text-center">
+                                    <% if (product.finalPrice && product.finalPrice < product.price) { %>
+                                        <span class="related-offer-price"><%= product.finalPrice.toFixed(2) %></span>
+                                        <span class="related-original-price"><%= product.price.toFixed(2) %></span>
+                                    <% } else { %>
+                                        <span class="related-normal-price"><%= product.price.toFixed(2) %></span>
+                                    <% } %>
+                                </div>
+                                                       
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+        
+        
+        
+        
+        
+        
 
         <footer class="footer footer-2">
             <div class="footer-middle">

@@ -362,7 +362,15 @@ if (couponCode) {
             };
             if(userWallet.balance >= totalPrice){
                 userWallet.balance -= totalPrice;
+
+                userWallet.transactions.push({
+                    amount : totalPrice,
+                    type : 'debit',
+                    description : 'Product Order',
+                    data : Date.now(),
+                });
                 await userWallet.save();
+                
             }else{
                 return res.status(404).json({success : false,message : 'Insufficient balance in wallet'})
             };
@@ -764,6 +772,12 @@ const returnProduct = async(req,res,next) => {
         const {orderId,productId,returnReason} = req.body;
         console.log('Req body :',req.body);
         const returnLimit = 10;
+        const userId = req.session.user ? req.session.user.id : null;
+
+        console.log('userId',userId)
+        if(!userId){
+            return res.status(401).json({success : false, message : 'User not authenticated'})
+        };
         const order = await Order.findById(orderId);
         if(!order){
             return res.status(404).json({success : false,message : 'Order not found'})
@@ -782,6 +796,21 @@ const returnProduct = async(req,res,next) => {
         if(daysinceDelivery > returnLimit){
             return res.status(404).json({success : false,message : 'Return period has expired.'})
         }
+         
+        const userWallet = await wallet.findOne({userId : userId})
+        console.log('waaallet',userWallet)
+        if(!userWallet){
+            return res.status(404).json({success : false ,message : 'Wallet not found'})
+        }
+        userWallet.balance += product.price;
+        
+        userWallet.transactions.push({
+            amount : product.price,
+            type : 'credit',
+            description : 'Return Refund',
+            data : Date.now(),
+        });
+        await userWallet.save();
 
         product.returnStatus = 'returned';
         product.returnReason = returnReason;
