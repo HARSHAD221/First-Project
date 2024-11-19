@@ -1,9 +1,9 @@
 
 const mongoose = require('mongoose')
 // mongoose.connect("mongodb://127.0.0.1:27017/first-project")
-mongooose.connect('mongodb+srv://harshadharshuk:<db_password>@cluster0.q9r38.mongodb.net/first-project?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://harshadharshuk:X42gzS5VaV17ymCV@cluster0.q9r38.mongodb.net/first-project?retryWrites=true&w=majority&appName=Cluster0')
 .then(() => console.log("Mongodb connected..."))
-.catch(err => console.log('Mongodb connection error:',err))
+.catch(err => console.log('Mongodb connection error:'))
 const express = require('express');
 const dotenv = require('dotenv')
 dotenv.config()
