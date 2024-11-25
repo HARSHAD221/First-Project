@@ -87,10 +87,10 @@
             <header class="main-header navbar">
                 <div class="col-search">
                     <form class="searchform">
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
                             <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-                        </div>
+                        </div> -->
                         <datalist id="search_terms">
                             <option value="Products"></option>
                             <option value="New orders"></option>
@@ -102,19 +102,19 @@
                 <div class="col-nav">
                     <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
                     <ul class="nav">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link btn-icon" href="#">
                                 <i class="material-icons md-notifications animation-shake"></i>
                                 <span class="badge rounded-pill">3</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                        </li>
-                        <li class="dropdown nav-item">
+                        </li> -->
+                        <!-- <li class="dropdown nav-item">
                             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
                                 <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
@@ -134,7 +134,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </header>
@@ -144,9 +144,7 @@
                         <h2 class="content-title card-title">Dashboard</h2>
                         <p>Whole data about your business here</p>
                     </div>
-                    <div>
-                        <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
-                    </div>
+                  
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
@@ -749,23 +747,32 @@
          
         <!-- Script for highlight the sidebar -->
         <script>
-            document.addEventListener('DOMContentLoaded',function(){
+            document.addEventListener('DOMContentLoaded', function () {
                 const path = window.location.pathname;
-                const menuItems = {
-                    "/admin/dashboard" : "dashboard",
-                    "/admin/users"   : "users",
-                    "/admin/orders" : "orders",
-                    "/admin/products" : "products",
-                    "/admin/categories" : "categories",
-                    "/admin/salesReport" : "salesReport",
-                    "/admin/offers" : 'offers',
-                    "/admin/coupons" : "coupons"
-                 };
-
-                 // Check if the path exists in the menuItems object
-                 if(menuItems[path]){
-                    document.getElementById(menuItems[path]).classList.add('active');
-                 }
+    
+                const menuMap = {
+                    "dashboard": ["/admin/dashboard"],
+                    "users": ["/admin/users"],
+                    "orders": ["/admin/orders", "/admin/order-details"],
+                    "products": ["/admin/products"],
+                    "categories": ["/admin/categories"],
+                    "salesReport": ["/admin/salesReport"],
+                    "offers": ["/admin/offers"],
+                    "coupons": ["/admin/coupons"]
+                };
+    
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));
+    
+                for (const [id, paths] of Object.entries(menuMap)) {
+                    if (paths.some(p => path.startsWith(p))) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.add('active');
+                        }
+                        break;
+                    }
+                }
             });
         </script>
        

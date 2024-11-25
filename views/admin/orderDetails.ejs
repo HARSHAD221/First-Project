@@ -35,49 +35,49 @@
             </div>
             <nav>
                 <ul class="menu-aside">
-                    <li class="menu-item active">
+                    <li id="dashboard" class="menu-item">
                         <a class="menu-link" href="/admin/dashboard">
                             <i class="icon material-icons md-home"></i>
                             <span class="text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="menu-item ">
+                    <li id="users" class="menu-item">
                         <a class="menu-link" href="/admin/users">
                             <i class="icon material-icons md-person"></i>
                             <span class="text">Users</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="orders" class="menu-item">
                         <a class="menu-link" href="/admin/orders">
                             <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Orders</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="products" class="menu-item">
                         <a class="menu-link" href="/admin/products">
                             <i class="icon material-icons md-shopping_bag"></i>
                             <span class="text">Products</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="categories" class="menu-item">
                         <a class="menu-link" href="/admin/categories">
                             <i class="icon material-icons md-category"></i>
                             <span class="text">Categories</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="salesReport" class="menu-item">
                         <a class="menu-link" href="/admin/salesReport">
                             <i class="icon material-icons md-business"></i>
                             <span class="text">Sales Reports</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="offers" class="menu-item">
                         <a class="menu-link" href="/admin/offers">
                             <i class="icon material-icons md-local_offer"></i>
                             <span class="text">Offers</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="coupons" class="menu-item">
                         <a class="menu-link" href="/admin/coupons">
                             <i class="icon material-icons md-card_giftcard"></i>
                             <span class="text">Coupons</span>
@@ -85,36 +85,37 @@
                     </li>
                 </ul>
             </nav>
+            
         </aside>
         <main class="main-wrap">
             <header class="main-header navbar">
                 <div class="col-search">
                     <form class="searchform">
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
                             <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-                        </div>
-                        <!-- <datalist id="search_terms"> -->
-                            <!-- <option value="Products"></option>
+                        </div> -->
+                       <datalist id="search_terms"> 
+                             <option value="Products"></option>
                             <option value="New orders"></option>
                             <option value="Apple iphone"></option>
-                            <option value="Ahmed Hassan"></option> -->
-                        <!-- </datalist> -->
+                            <option value="Ahmed Hassan"></option> 
+                         </datalist>
                     </form>
                 </div>
                 <div class="col-nav">
                     <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
                     <ul class="nav">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link btn-icon" href="#">
                                 <i class="material-icons md-notifications animation-shake"></i>
                                 <span class="badge rounded-pill">3</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
                         </li>
                         <li class="dropdown nav-item">
@@ -137,7 +138,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </header>
@@ -204,24 +205,23 @@
                             </div>
                             <div class="col-md-4">
                                 <article class="icontext align-items-start">
-                                    <!-- <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
                                         <i class="text-primary material-icons md-place"></i>
-                                    </span> -->
-                                    <!-- <div class="text">
-                                        <h6 class="mb-1">Deliver To</h6>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Deliver to</h6>
                                         <p class="mb-1">
-                                            <%console.log(order.deliveryAddress)%>
-                                            <% if (order.deliveryAddress) { %>
-                                                City: <%= order.deliveryAddress.city %>, <%= order.deliveryAddress.country %> <br />
-                                                <%= order.deliveryAddress.streetAddress %> <br />
-                                                <%= order.deliveryAddress.zip %> 
-                                            <% } else { %>
-                                                <span class="text-muted">Delivery address not available.</span>
-                                            <% } %>
+                                            City: <%= address.city  || 'null' %><br />
+                                            State : <%= address.state  || 'null' %> <br>
+                                            Zip : <%= address.zip  || 'null' %> <br>
+                                            Country : <%= address.country  || 'null' %> <br>
+                                            
                                         </p>
-                                        
-                                        <a href="#">View profile</a>
-                                    </div> -->
+                                        <!-- <a href="#">View profile</a> -->
+                                    </div>
+                                </article>
+                            </div>
+                            <!-- col// -->
                                 </article>
                             </div>
                         </div>
@@ -317,7 +317,39 @@
         <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+       
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const path = window.location.pathname;
+        
+                const menuMap = {
+                    "dashboard": ["/admin/dashboard"],
+                    "users": ["/admin/users"],
+                    "orders": ["/admin/orders", "/admin/order-details"],  // Parent and child for orders
+                    "products": ["/admin/products","/admin/createproducts"],
+                    "categories": ["/admin/categories"],
+                    "salesReport": ["/admin/salesReport"],
+                    "offers": ["/admin/offers"],
+                    "coupons": ["/admin/coupons"]
+                };
+        
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));  // Remove 'active' from all items
+        
+                // Iterate through menuMap and add 'active' class based on the current path
+                for (const [id, paths] of Object.entries(menuMap)) {
+                    if (paths.some(p => path.startsWith(p))) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.add('active');  // Add 'active' class to matching item
+                        }
+                        break;
+                    }
+                }
+            });
+        </script>
+        
 
        
 <script>

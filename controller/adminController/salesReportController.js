@@ -34,13 +34,35 @@ const salesReportLoad = async (req, res, next) => {
                     startDate = new Date(today.getFullYear(), 0, 1);
                     endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999);
                     break;
-                case 'Custom':
-                    // Validate and set custom dates
-                    startDate = new Date(req.query.startDate);
+                // case 'Custom':
+                //     // Validate and set custom dates
+                //     startDate = new Date(req.query.startDate);
+                //     endDate = new Date(req.query.endDate);
+                //     endDate.setHours(23, 59, 59, 999); // Inclusive of the end date
+                //     console.log('Start Date:', startDate);
+                //     console.log('End Date:', endDate);
+                //     break;
+                case 'Custom' :
+                    startDate = new Date(req.query.startDate)
                     endDate = new Date(req.query.endDate);
-                    endDate.setHours(23, 59, 59, 999); // Inclusive of the end date
-                    console.log('Start Date:', startDate);
-                    console.log('End Date:', endDate);
+
+                    if(startDate > today || endDate > today){
+                        startDate = null;
+                        endDate = null;
+
+                        res.render('salesReport',{message : 'No data available for future dates',
+                            orders : [],
+                            totalOrders : 0,
+                            totalPrice : 0,
+                            currentPage : 1,
+                            totalPages :1,
+                        })
+                        return
+                    }else{
+                        endDate.setHours(23,59,59,999);
+                        console.log('Start Date :',startDate);
+                        console.log('End Date :',endDate)
+                    }
                     break;
                 default:
                     startDate = null;
@@ -60,11 +82,11 @@ const salesReportLoad = async (req, res, next) => {
             .skip(skip)
             .limit(limit);
 
-        const totalOrders = await Order.countDocuments(query); // Count the total documents with the same filter
+        const totalOrders = await Order.countDocuments(query); 
         const totalPages = Math.ceil(totalOrders / limit);
         const totalPrice = orders.reduce((sum, order) => sum + order.totalPrice, 0); // Assuming totalPrice is a field in your Order model
 
-        // Render the sales report view with the fetched data
+       
         res.render('salesReport', {
             orders,         // Pass orders to the view
             totalOrders,

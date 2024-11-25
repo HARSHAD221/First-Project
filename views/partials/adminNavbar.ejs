@@ -1,0 +1,33 @@
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const path = window.location.pathname;
+
+        // Map paths to sidebar IDs
+        const menuMap = {
+            "dashboard": ["/admin/dashboard"],
+            "users": ["/admin/users"],
+            "orders": ["/admin/orders", "/admin/order-details"], // Related routes
+            "products": ["/admin/products"],
+            "categories": ["/admin/categories"],
+            "salesReport": ["/admin/salesReport"],
+            "offers": ["/admin/offers"],
+            "coupons": ["/admin/coupons"]
+        };
+
+        // Remove 'active' class from all menu items
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => item.classList.remove('active'));
+
+        // Find and highlight the matching menu item
+        for (const [id, paths] of Object.entries(menuMap)) {
+            if (paths.some(p => path.startsWith(p))) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('active');
+                }
+                break;
+            }
+        }
+    });
+</script>

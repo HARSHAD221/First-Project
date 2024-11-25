@@ -32,25 +32,25 @@
             </div>
             <nav>
                 <ul class="menu-aside">
-                    <li id="dashboard"  class="menu-item">
+                    <li id="dashboard" class="menu-item">
                         <a class="menu-link" href="/admin/dashboard">
                             <i class="icon material-icons md-home"></i>
                             <span class="text">Dashboard</span>
                         </a>
                     </li>
-                    <li  id="users" class="menu-item">
+                    <li id="users" class="menu-item">
                         <a class="menu-link" href="/admin/users">
                             <i class="icon material-icons md-person"></i>
                             <span class="text">Users</span>
                         </a>
                     </li>
-                    <li  id="orders" class="menu-item">
+                    <li id="orders" class="menu-item">
                         <a class="menu-link" href="/admin/orders">
                             <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Orders</span>
                         </a>
                     </li>
-                    <li  id="products" class="menu-item">
+                    <li id="products" class="menu-item">
                         <a class="menu-link" href="/admin/products">
                             <i class="icon material-icons md-shopping_bag"></i>
                             <span class="text">Products</span>
@@ -62,19 +62,19 @@
                             <span class="text">Categories</span>
                         </a>
                     </li>
-                    <li  id="salesReport" class="menu-item">
+                    <li id="salesReport" class="menu-item">
                         <a class="menu-link" href="/admin/salesReport">
                             <i class="icon material-icons md-business"></i>
                             <span class="text">Sales Reports</span>
                         </a>
                     </li>
-                    <li  id="offers" class="menu-item">
+                    <li id="offers" class="menu-item">
                         <a class="menu-link" href="/admin/offers">
                             <i class="icon material-icons md-local_offer"></i>
                             <span class="text">Offers</span>
                         </a>
                     </li>
-                    <li  id="coupons" class="menu-item">
+                    <li id="coupons" class="menu-item">
                         <a class="menu-link" href="/admin/coupons">
                             <i class="icon material-icons md-card_giftcard"></i>
                             <span class="text">Coupons</span>
@@ -168,6 +168,50 @@
 
                     </section>
                     <!-- content-main end// -->
+
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                    <% if(currentPage > 1) { %>
+                       <li class="page-item">
+                        <a  class="page-link" href="?page= <%= currentPage - 1%>" aria-label="Previous">
+                         <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                       </li>
+                    <% }else{ %>
+                        <li class="page-item-disabled">
+                          <a  class="page-link" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;Previous</span>
+                          </a>
+                        </li>
+                   <% } %>
+
+                    <!-- Page Numbers -->
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+
+               <!-- Next Button -->
+               <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                        <span aria-hidden="true">Next &raquo;</span>
+                    </a>
+                </li>
+               <% } else { %>
+                <li class="page-item disabled">
+                    <a class="page-link" aria-label="Next">
+                        <span aria-hidden="true">Next &raquo;</span>
+                    </a>
+                </li>
+                 <% } %>
+                    </ul>
+                    </nav>
+
+                </div>
+                    
                    
                 </main>
 
@@ -237,27 +281,36 @@
                 
 
                  
-        <!-- Script for highlight the sidebar -->
-        <script>
-            document.addEventListener('DOMContentLoaded',function(){
-                const path = window.location.pathname;
-                const menuItems = {
-                    "/admin/dashboard" : "dashboard",
-                    "/admin/users"   : "users",
-                    "/admin/orders" : "orders",
-                    "/admin/products" : "products",
-                    "/admin/categories" : "categories",
-                    "/admin/salesReport" : "salesReport",
-                    "/admin/offers" : 'offers',
-                    "/admin/coupons" : "coupons"
-                 };
-
-                 // Check if the path exists in the menuItems object
-                 if(menuItems[path]){
-                    document.getElementById(menuItems[path]).classList.add('active');
-                 }
-            });
-        </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const path = window.location.pathname;
+                
+                        const menuMap = {
+                            "dashboard": ["/admin/dashboard"],
+                            "users": ["/admin/users"],
+                            "orders": ["/admin/orders", "/admin/order-details"],  // Parent and child for orders
+                            "products": ["/admin/products","/admin/createproducts","/admin/editproducts"],
+                            "categories": ["/admin/categories"],
+                            "salesReport": ["/admin/salesReport"],
+                            "offers": ["/admin/offers","/admin/createOffer"],
+                            "coupons": ["/admin/coupons","/admin/createCoupon"]
+                        };
+                
+                        const menuItems = document.querySelectorAll('.menu-item');
+                        menuItems.forEach(item => item.classList.remove('active'));  // Remove 'active' from all items
+                
+                        // Iterate through menuMap and add 'active' class based on the current path
+                        for (const [id, paths] of Object.entries(menuMap)) {
+                            if (paths.some(p => path.startsWith(p))) {
+                                const element = document.getElementById(id);
+                                if (element) {
+                                    element.classList.add('active');  // Add 'active' class to matching item
+                                }
+                                break;
+                            }
+                        }
+                    });
+                </script>
 
                 <script>
 

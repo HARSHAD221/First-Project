@@ -8,7 +8,7 @@ const categories = require("../../model/adminModel/CategoryModel");
 
 const loadProducts = async (req,res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
+    const page = parseInt(req.query.page) || 1;
     const limit = 5;
     const skip  = (page - 1) * limit;
     const products = await Product.find().sort({createdAt : 1}).limit(limit).skip(skip);
@@ -171,25 +171,64 @@ const editProducts = async (req, res, next) => {
                 return res.status(400).send({ success: 0, message: `${field} is required` });
             }
         }
+         
+        if (isNaN(productInfo.price) || Number(productInfo.price) <= 0) {
+            return res.status(400).send({ success: 0, message: 'Price must be a positive number' });
+        }
+        if (productInfo.stock && (isNaN(productInfo.stock) || Number(productInfo.stock) < 0)) {
+            return res.status(400).send({ success: 0, message: 'Stock must be a non-negative number' });
+        };
 
         // Update product details
         findProduct.productName = productInfo.productName;
         findProduct.description = productInfo.description;
-        findProduct.price = productInfo.price;
-        findProduct.stock = productInfo.stock;
+        findProduct.price = Number(productInfo.price);
+        findProduct.stock = Number(productInfo.stock) || 0;
         findProduct.category = productInfo.category;
+        
+        let updatedImagePaths = [...findProduct.imagePaths];
+
+        // Handle remove images (only remove specified images from existing image paths)
+        if (productInfo.removeImages && Array.isArray(productInfo.removeImages)) {
+            updatedImagePaths = updatedImagePaths.filter(
+                (path) => !productInfo.removeImages.includes(path) // Remove specified images
+            );
+        }
+
+        // Calculate total images after removal
+        const currentImageCount = updatedImagePaths.length; // Current images in the product
+        const newImagesCount = newImageFiles.length; // New images being uploaded
+        const totalImages = currentImageCount + newImagesCount; // Total images after addition
+
+        // Check if total images exceed max limit (3 images)
+        const maxImages = 3;
+        if (totalImages > maxImages) {
+            return res.status(400).send({ success: 0, message: `You can upload a maximum of ${maxImages} images` });
+        }
+
+        // Add new images to the imagePaths
+        newImageFiles.forEach((file) => {
+            const imagePath = `/admin/productImages/${file.filename}`;
+            updatedImagePaths.push(imagePath); // Add new image
+        });
+
+        // Ensure no more than 3 images
+        findProduct.imagePaths = updatedImagePaths.slice(0, maxImages);
+
+
 
         // Update images if new files are provided
-        if (newImageFiles.length > 0) {
-            // Clear existing images if new ones are uploaded
-            findProduct.imagePaths = []; // Reset existing images
-            newImageFiles.forEach(file => {
-                findProduct.imagePaths.push(`/admin/productImages/${file.filename}`); // Add new images
-            });
-        }
+        // if (newImageFiles.length > 0) {
+        //     // Clear existing images if new ones are uploaded
+        //     findProduct.imagePaths = []; // Reset existing images
+        //     newImageFiles.forEach(file => {
+        //         findProduct.imagePaths.push(`/admin/productImages/${file.filename}`); // Add new images
+        //     });
+        // }
 
         // Save the updated product
         const saveUpdate = await findProduct.save();
+        console.log('save and updated :',saveUpdate);
         if (saveUpdate) {
             res.send({ success: 1 });
             console.log("Successfully updated product");

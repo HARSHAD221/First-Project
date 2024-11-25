@@ -43,7 +43,8 @@ const adOrderDetails = async (req, res, next) => {
 
         // Render the EJS template with order data
         res.render('orderDetails', {
-            order
+            order,
+            address : order.deliveryAddress
         });
     } catch (error) {
         console.error('Error fetching order:', error);

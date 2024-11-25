@@ -16,6 +16,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+      <!-- Cropper link -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
       <!-- CDN for sweet alert -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -33,49 +35,49 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item active">
+                <li id="dashboard" class="menu-item">
                     <a class="menu-link" href="/admin/dashboard">
                         <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item ">
+                <li id="users" class="menu-item">
                     <a class="menu-link" href="/admin/users">
                         <i class="icon material-icons md-person"></i>
                         <span class="text">Users</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="orders" class="menu-item">
                     <a class="menu-link" href="/admin/orders">
                         <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="products" class="menu-item">
                     <a class="menu-link" href="/admin/products">
                         <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/category">
+                <li id="categories" class="menu-item">
+                    <a class="menu-link" href="/admin/categories">
                         <i class="icon material-icons md-category"></i>
                         <span class="text">Categories</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="salesReport" class="menu-item">
                     <a class="menu-link" href="/admin/salesReport">
                         <i class="icon material-icons md-business"></i>
                         <span class="text">Sales Reports</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="offers" class="menu-item">
                     <a class="menu-link" href="/admin/offers">
                         <i class="icon material-icons md-local_offer"></i>
                         <span class="text">Offers</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="coupons" class="menu-item">
                     <a class="menu-link" href="/admin/coupons">
                         <i class="icon material-icons md-card_giftcard"></i>
                         <span class="text">Coupons</span>
@@ -88,10 +90,10 @@
         <header class="main-header navbar">
             <div class="col-search">
                 <form class="searchform">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
+                    </div> -->
                     <datalist id="search_terms">
                         <option value="Products">
                         <option value="New orders">
@@ -103,16 +105,16 @@
             <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
                 <ul class="nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link btn-icon" href="#">
                             <i class="material-icons md-notifications animation-shake"></i>
                             <span class="badge rounded-pill">3</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
                     </li>
                     <li class="dropdown nav-item">
@@ -135,7 +137,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </header>
@@ -148,6 +150,8 @@
                             <form id="editProductForm" enctype="multipart/form-data">
                                 <!-- Hidden Product ID -->
                                 <input type="hidden" id="productId" name="productId" value="<%= product._id %>">
+
+                                <input type="hidden" id="currentPage" name="currentPage" value="">
         
                                 <!-- Product title -->
                                 <div class="mb-4">
@@ -186,7 +190,7 @@
                                 
                                 
                                <!-- Images -->
-<div class="mb-4">
+<!-- <div class="mb-4">
     <label class="form-label">Images</label>
     <div class="image-inputs">
         <div class="mb-2">
@@ -201,32 +205,57 @@
            <input class="form-control mt-2" type="file" id="productImage3" name="images" accept="image/*">
             <span id="image3Error" style="color:red;" class="error-message"></span>
         </div>
-    </div>
+    </div> -->
 
-    <!-- Display existing images -->
-    <div class="existing-images">
-        <% product.imagePaths.forEach(function(imagePath, index) { %>
-            <div class="image-container mb-2">
-                <!-- Display the existing image using its relative path -->
-                <img src="<%= imagePath %>" alt="<%= product.productName %> Image <%= index + 1 %>" width="100" class="product-img">
+    <div class="image-section">
+        <h5>Product Images</h5>
     
-                <!-- Displaying the image file name (formatted for better readability) -->
-                <span class="image-filename"><%= imagePath.split('/').pop() %></span>
+        <!-- Display existing images -->
+        <div class="existing-images">
+            <% product.imagePaths.forEach(function(imagePath, index) { %>
+                <div class="image-container mb-3">
+                    <!-- Existing Image Preview -->
+                    <img src="<%= imagePath %>" alt="Product Image <%= index + 1 %>" width="100" class="product-img">
     
-                <!-- Input field for uploading a new image (name attribute includes index for uniqueness) -->
-                <input type="file" name="images[<%= index %>]" accept="image/*" class="upload-input">
+                    <!-- Remove Image Checkbox -->
+                    <label>
+                        <input type="checkbox" name="removeImages[]" value="<%= imagePath %>"> Remove
+                    </label>
     
-                <!-- Checkbox for removing the image -->
-                <label>
-                    <input type="checkbox" name="removeImages[]" value="<%= imagePath %>" class="remove-checkbox">
-                    Remove
-                </label>
+                    <!-- Hidden input to preserve unchanged images -->
+                    <input type="hidden" name="existingImagePaths[]" value="<%= imagePath %>">
+                </div>
+            <% }); %>
+        </div>
     
-                <!-- Hidden input to preserve the existing image paths -->
-                <input type="hidden" name="existingImagePaths[]" value="<%= imagePath %>">
-            </div>
-        <% }); %>
+        <!-- Add new images -->
+        <div class="add-new-images">
+            <h6>Add New Images</h6>
+            <input type="file" name="newImages[]" accept="image/*" class="form-control image-input mb-2" onchange="openCropModal(this)">
+            <input type="file" name="newImages[]" accept="image/*" class="form-control image-input mb-2" onchange="openCropModal(this)">
+            <input type="file" name="newImages[]" accept="image/*" class="form-control image-input mb-2" onchange="openCropModal(this)">
+        </div>
     </div>
+    
+    
+         <!-- Cropping Modal -->
+<div id="cropModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crop Image</h5>
+                <button type="button" class="close" onclick="closeCropModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="cropImagePreview" src="" alt="Crop Preview">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cropImage()">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeCropModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
         
                     <!-- Submit button -->
                                 <button type="button" class="btn btn-primary" id="editProductBtn">Edit Product</button>
@@ -238,10 +267,140 @@
         </section>
         
         
+         <!-- Image cropper script -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+  
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const path = window.location.pathname;
+        
+                const menuMap = {
+                    "dashboard": ["/admin/dashboard"],
+                    "users": ["/admin/users"],
+                    "orders": ["/admin/orders", "/admin/order-details"],  // Parent and child for orders
+                    "products": ["/admin/products","/admin/createproducts","/admin/editproducts"],
+                    "categories": ["/admin/categories"],
+                    "salesReport": ["/admin/salesReport"],
+                    "offers": ["/admin/offers","/admin/createOffer"],
+                    "coupons": ["/admin/coupons"]
+                };
+        
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));  // Remove 'active' from all items
+        
+                // Iterate through menuMap and add 'active' class based on the current path
+                for (const [id, paths] of Object.entries(menuMap)) {
+                    if (paths.some(p => path.startsWith(p))) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.add('active');  // Add 'active' class to matching item
+                        }
+                        break;
+                    }
+                }
+            });
+        </script>
+
+
         <script>
    
    document.addEventListener('DOMContentLoaded', () => {
     const editProductBtn = document.getElementById('editProductBtn');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get('page') || 1;
+    console.log("Captured Current Page:", currentPage);
+    document.getElementById('currentPage').value = currentPage;
+
+    let cropper; // Global cropper instance
+    let currentInput; // Tracks the current file input being cropped
+
+    // Utility function: Validate image file
+    function validateFile(file) {
+        const maxSize = 2 * 1024 * 1024; // 2 MB
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file.');
+            return false;
+        }
+        if (file.size > maxSize) {
+            alert('File size should not exceed 2 MB.');
+            return false;
+        }
+        return true;
+    }
+
+    // Open Crop Modal
+    function openCropModal(input) {
+        const file = input.files[0];
+        if (!validateFile(file)) {
+            input.value = ''; // Clear the input if invalid
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            currentInput = input; // Save the input reference
+            const imagePreview = document.getElementById('cropImagePreview');
+            imagePreview.src = e.target.result;
+
+            // Show modal
+            document.getElementById('cropModal').style.display = 'block';
+
+            // Initialize Cropper.js
+            if (cropper) cropper.destroy(); // Destroy existing instance
+            cropper = new Cropper(imagePreview, {
+                aspectRatio: 1, // Adjust as needed
+                viewMode: 2,
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Crop Image and Replace Input File
+    function cropImage() {
+        if (!cropper) return;
+
+        cropper.getCroppedCanvas().toBlob((blob) => {
+            const croppedFile = new File([blob], currentInput.files[0].name, {
+                type: 'image/jpeg',
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(croppedFile);
+            currentInput.files = dataTransfer.files;
+
+            closeCropModal(); // Close the modal after cropping
+        }, 'image/jpeg');
+    }
+
+    // Close Crop Modal
+    function closeCropModal() {
+        document.getElementById('cropModal').style.display = 'none';
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    }
+
+    // Validate Fields Function
+    const validateFields = (field, validationFn, errorMessage) => {
+        const value = field.value.trim();
+        if (!validationFn(value)) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: errorMessage,
+            });
+            return false;
+        }
+        return true;
+    };
+    
+    window.openCropModal = openCropModal;
+    window.cropImage = cropImage;
+    window.closeCropModal = closeCropModal;
+
 
     // Validation functions
     const isValidProductName = (name) => name && /^[A-Za-z0-9\s]+$/.test(name);
@@ -295,21 +454,37 @@
           
        
       
-        // Collect files from each image input field
-        const imageInputs = [
-            document.getElementById('productImage1'),
-            document.getElementById('productImage2'),
-            document.getElementById('productImage3'),
-        ];
+        // // Collect files from each image input field
+        // const imageInputs = [
+        //     document.getElementById('productImage1'),
+        //     document.getElementById('productImage2'),
+        //     document.getElementById('productImage3'),
+        // ];
 
+        // imageInputs.forEach((input) => {
+        //     const files = input.files;
+        //     for (let i = 0; i < files.length; i++) {
+        //         formData.append('images', files[i]);
+        //     }
+        // });
+         
+         // Dynamically collect all image inputs
+         const imageInputs = document.querySelectorAll('.image-input');
         imageInputs.forEach((input) => {
             const files = input.files;
-            for (let i = 0; i < files.length; i++) {
-                formData.append('images', files[i]);
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('images', files[i]);
+                }
             }
         });
-
         
+         // Collect selected images for removal
+        const removeImageCheckboxes = document.querySelectorAll('input[name="removeImages[]"]:checked');
+        removeImageCheckboxes.forEach((checkbox) => {
+            formData.append('removeImages[]', checkbox.value); // Add removed images to formData
+        });
+
         try {
             const response = await fetch('/admin/editproducts', {
                 method: 'POST',
@@ -327,7 +502,11 @@
                 icon: 'success',
                 title: 'Success',
                 text: 'Product updated successfully!',
-            });
+            })
+            .then(() =>{
+                const currentPage = document.getElementById('currentPage').value;
+                window.location.href = `/admin/products?page=${currentPage}`;
+            })
             console.log(data);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);

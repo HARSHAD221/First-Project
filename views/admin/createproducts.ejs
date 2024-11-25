@@ -35,49 +35,49 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item active">
+                <li id="dashboard" class="menu-item">
                     <a class="menu-link" href="/admin/dashboard">
                         <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item ">
+                <li id="users" class="menu-item">
                     <a class="menu-link" href="/admin/users">
                         <i class="icon material-icons md-person"></i>
                         <span class="text">Users</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="orders" class="menu-item">
                     <a class="menu-link" href="/admin/orders">
                         <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="products" class="menu-item">
                     <a class="menu-link" href="/admin/products">
                         <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/category">
+                <li id="categories" class="menu-item">
+                    <a class="menu-link" href="/admin/categories">
                         <i class="icon material-icons md-category"></i>
                         <span class="text">Categories</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="salesReport" class="menu-item">
                     <a class="menu-link" href="/admin/salesReport">
                         <i class="icon material-icons md-business"></i>
                         <span class="text">Sales Reports</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="offers" class="menu-item">
                     <a class="menu-link" href="/admin/offers">
                         <i class="icon material-icons md-local_offer"></i>
                         <span class="text">Offers</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li id="coupons" class="menu-item">
                     <a class="menu-link" href="/admin/coupons">
                         <i class="icon material-icons md-card_giftcard"></i>
                         <span class="text">Coupons</span>
@@ -90,10 +90,10 @@
         <header class="main-header navbar">
             <div class="col-search">
                 <form class="searchform">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
+                    </div> -->
                     <datalist id="search_terms">
                         <option value="Products">
                         <option value="New orders">
@@ -105,16 +105,16 @@
             <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
                 <ul class="nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link btn-icon" href="#">
                             <i class="material-icons md-notifications animation-shake"></i>
                             <span class="badge rounded-pill">3</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
                     </li>
                     <li class="dropdown nav-item">
@@ -137,7 +137,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </header>
@@ -350,24 +350,28 @@
 
 
 <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Crop Image</h5>
+                <h5 class="modal-title">Crop Image</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <img id="imagePreview" src="" alt="Image preview" style="max-width: 100%;" />
+                <!-- Image for cropping -->
+                <img id="imagePreview" src="" alt="Image preview" style="max-width: 100%; max-height: 500px; object-fit: contain;" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="cropImageButton">Crop Image</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalButton">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cropImageButton">Crop</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -397,49 +401,82 @@
 
     <!-- Image cropper script -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
      <!-- Main Script -->
      <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
 
-     
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const path = window.location.pathname;
+    
+            const menuMap = {
+                "dashboard": ["/admin/dashboard"],
+                "users": ["/admin/users"],
+                "orders": ["/admin/orders", "/admin/order-details"],  // Parent and child for orders
+                "products": ["/admin/products","/admin/createproducts"],
+                "categories": ["/admin/categories"],
+                "salesReport": ["/admin/salesReport"],
+                "offers": ["/admin/offers"],
+                "coupons": ["/admin/coupons"]
+            };
+    
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => item.classList.remove('active'));  // Remove 'active' from all items
+    
+            // Iterate through menuMap and add 'active' class based on the current path
+            for (const [id, paths] of Object.entries(menuMap)) {
+                if (paths.some(p => path.startsWith(p))) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.classList.add('active');  // Add 'active' class to matching item
+                    }
+                    break;
+                }
+            }
+        });
+    </script>
+
+
 <!-- JavaScript for Cropping -->
 <script>    
-  console.log('reached for cropper');
+console.log('reached for cropper');
 let cropper;
-let currentImageIndex = 0; // To track which image is being cropped
-let croppedFiles = []; // To store cropped files
-let imageFiles = []; // To store the uploaded images for cropping
+let currentImageIndex = 0; // Tracks the current image being cropped
+let croppedFiles = []; // Array to store cropped images as blobs
+let imageFiles = []; // Array of uploaded image files
 
+// Triggered when the user selects files
 document.getElementById('productImages').addEventListener('change', function (event) {
-    imageFiles = Array.from(event.target.files); // Store the files
+    imageFiles = Array.from(event.target.files); // Convert FileList to an Array
     currentImageIndex = 0; // Start with the first image
+
     if (imageFiles.length > 0) {
-        loadAndShowCropModal(imageFiles[currentImageIndex]); // Show the crop modal for the first image
+        loadAndShowCropModal(imageFiles[currentImageIndex]); // Start cropping with the first image
     }
 });
 
+// Load and display the cropper modal with the selected image
 function loadAndShowCropModal(file) {
     const reader = new FileReader();
-    reader.onload = function (e) {
-        document.getElementById('imagePreview').src = e.target.result;
-        
-        // Only show modal if it’s not already visible
-        if (!$('#cropImageModal').is(':visible')) {
-            $('#cropImageModal').modal('show'); // Bootstrap method to show the modal
-        }
 
+    reader.onload = function (e) {
+        const imageElement = document.getElementById('imagePreview');
+        imageElement.src = e.target.result; // Load the image into the modal
+
+        // Show the modal
+        $('#cropImageModal').modal('show');
+
+        // Destroy any existing cropper instance
         if (cropper) {
             cropper.destroy();
         }
 
-        // Initialize cropper with the selected image
-        const imageElement = document.getElementById('imagePreview');
-        console.log('image element', imageElement);
+        // Initialize the cropper
         cropper = new Cropper(imageElement, {
-            aspectRatio: 3 / 4, // Define aspect ratio
-            viewMode: 1,
+            aspectRatio: 3 / 4, // Set your desired aspect ratio
+            viewMode: 1,       // Restrict the crop box to stay within the image
+            autoCropArea: 0.8, // Crop box size as a fraction of the image
         });
-        console.log('cropper initialized', cropper);
     };
 
     reader.onerror = function (error) {
@@ -447,44 +484,45 @@ function loadAndShowCropModal(file) {
         closeModal();
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); // Read the image file as a data URL
 }
 
-// Cropping the image when the button is clicked
+// Triggered when the "Crop" button is clicked
 document.getElementById('cropImageButton').addEventListener('click', function () {
     if (cropper) {
-        console.log('Starting to crop the image');
-        cropper.getCroppedCanvas().toBlob(function (blob) {
-            console.log('Cropped image blob created');
-            const croppedImageSrc = URL.createObjectURL(blob); // Get the cropped image blob URL
-            croppedFiles.push(blob); // Store the cropped image
+        cropper.getCroppedCanvas({ width: 300, height: 400 }).toBlob(function (blob) {
+            if (!blob) {
+                console.error('Failed to create blob from cropped canvas.');
+                return;
+            }
 
-            // Update the image preview with the cropped image in your frontend
-            document.getElementById('imagePreview').src = croppedImageSrc;
+            // Store the cropped blob
+            croppedFiles.push(new File([blob], imageFiles[currentImageIndex].name, { type: blob.type }));
 
-            // Move to the next image or close the modal if all images are processed
+            // Move to the next image or close the modal
             currentImageIndex++;
             if (currentImageIndex < imageFiles.length) {
-                cropper.destroy(); // Destroy current cropper instance
-                loadAndShowCropModal(imageFiles[currentImageIndex]); // Load next image for cropping
+                loadAndShowCropModal(imageFiles[currentImageIndex]);
             } else {
-                $('#cropImageModal').modal('hide'); // Hide the modal if all images are cropped
-                cropper.destroy(); // Destroy cropper after cropping is complete
-                currentImageIndex = 0; // Reset index
+                console.log('All images processed.');
+                closeModal();
             }
-        }, 'image/jpeg');
+        }, 'image/jpeg'); // You can change the format if needed
+    } else {
+        console.warn('No cropper instance available.');
     }
 });
 
-
-// Close the modal manually
+// Close the modal and clean up
 function closeModal() {
-    $('#cropImageModal').modal('hide');
+    $('#cropImageModal').modal('hide'); // Hide the modal
     if (cropper) {
-        cropper.destroy();
+        cropper.destroy(); // Destroy the cropper instance
         cropper = null;
     }
 }
+
+
 
 </script>
 
@@ -650,7 +688,8 @@ document.getElementById('addProductBtn').addEventListener('click', function (eve
                 icon: 'success',
                 title: 'Success!',
                 text: 'Product added successfully.',
-            });
+            })
+            .then(()=> window.location.href = '/admin/products')
             // Optionally reset the form or redirect
             document.getElementById('productName').value = '';
             document.getElementById('description').value = '';

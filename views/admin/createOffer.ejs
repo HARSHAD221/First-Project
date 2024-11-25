@@ -33,49 +33,49 @@
             </div>
             <nav>
                 <ul class="menu-aside">
-                    <li class="menu-item active">
+                    <li id="dashboard" class="menu-item">
                         <a class="menu-link" href="/admin/dashboard">
                             <i class="icon material-icons md-home"></i>
                             <span class="text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="menu-item ">
+                    <li id="users" class="menu-item">
                         <a class="menu-link" href="/admin/users">
                             <i class="icon material-icons md-person"></i>
                             <span class="text">Users</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="orders" class="menu-item">
                         <a class="menu-link" href="/admin/orders">
                             <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Orders</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="products" class="menu-item">
                         <a class="menu-link" href="/admin/products">
                             <i class="icon material-icons md-shopping_bag"></i>
                             <span class="text">Products</span>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="/admin/category">
+                    <li id="categories" class="menu-item">
+                        <a class="menu-link" href="/admin/categories">
                             <i class="icon material-icons md-category"></i>
                             <span class="text">Categories</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="salesReport" class="menu-item">
                         <a class="menu-link" href="/admin/salesReport">
                             <i class="icon material-icons md-business"></i>
                             <span class="text">Sales Reports</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="offers" class="menu-item">
                         <a class="menu-link" href="/admin/offers">
                             <i class="icon material-icons md-local_offer"></i>
                             <span class="text">Offers</span>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li id="coupons" class="menu-item">
                         <a class="menu-link" href="/admin/coupons">
                             <i class="icon material-icons md-card_giftcard"></i>
                             <span class="text">Coupons</span>
@@ -185,6 +185,40 @@
 <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
 <!-- Main Script -->
 <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+
+<!-- Script for highlihgting the sidebars -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const path = window.location.pathname;6
+
+        const menuMap = {
+            "dashboard": ["/admin/dashboard"],
+            "users": ["/admin/users"],
+            "orders": ["/admin/orders", "/admin/order-details"],  // Parent and child for orders
+            "products": ["/admin/products","/admin/createproducts","/admin/editproducts"],
+            "categories": ["/admin/categories"],
+            "salesReport": ["/admin/salesReport"],
+            "offers": ["/admin/offers","/admin/createOffer"],
+            "coupons": ["/admin/coupons"]
+        };
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => item.classList.remove('active'));  // Remove 'active' from all items
+
+        // Iterate through menuMap and add 'active' class based on the current path
+        for (const [id, paths] of Object.entries(menuMap)) {
+            if (paths.some(p => path.startsWith(p))) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('active');  // Add 'active' class to matching item
+                }
+                break;
+            }
+        }
+    });
+</script>
+
 
 <script>
     function toggleOfferFields(){

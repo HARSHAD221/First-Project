@@ -171,20 +171,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% orders.forEach((order, index) => { %>
+                                    <% if (orders.length > 0) { %>
+                                        <% orders.forEach((order, index) => { %>
+                                            <tr>
+                                                <td><%= index + 1 %></td>
+                                                <td><b><%= order.user.name %></b></td>
+                                                <td><%= order.user.email %></td>
+                                                <td>₹<%= order.totalPrice %></td>
+                                                <td>
+                                                    <span class="badge rounded-pill alert-success" style="height: 20px; width: 65px;">Delivered</span>
+                                                </td>
+                                                <td><%= new Date(order.createdAt).toLocaleDateString('en-GB') %></td>
+                                                <td><%= order.paymentMethod %></td>
+                                            </tr>
+                                        <% }) %>
+                                    <% } else { %>
                                         <tr>
-                                            <td><%= index + 1 %></td>
-                                            <td><b><%= order.user.name %></b></td>
-                                            <td><%= order.user.email %></td>
-                                            <td>₹<%= order.totalPrice %></td>
-                                            <td>
-                                                <span class="badge rounded-pill alert-success" style="height: 20px; width: 65px;">Delivered</span>
+                                            <td colspan="7" class="text-center">
+                                                <p style="color: red; font-weight: bold; font-size: 16px;">
+                                                    <%= message || 'No orders found for the selected dates.' %>
+                                                </p>
                                             </td>
-                                            <td><%= new Date(order.createdAt).toLocaleDateString('en-GB') %></td>
-                                            <td><%= order.paymentMethod %></td>
                                         </tr>
-                                    <% }) %>
+                                    <% } %>
                                 </tbody>
+                                
                             </table>
                         </div>
                     </div>
@@ -429,23 +440,32 @@ function exportToExcel() {
 
         <!-- Script for highlight the sidebar -->
         <script>
-            document.addEventListener('DOMContentLoaded',function(){
+            document.addEventListener('DOMContentLoaded', function () {
                 const path = window.location.pathname;
-                const menuItems = {
-                    "/admin/dashboard" : "dashboard",
-                    "/admin/users"   : "users",
-                    "/admin/orders" : "orders",
-                    "/admin/products" : "products",
-                    "/admin/categories" : "categories",
-                    "/admin/salesReport" : "salesReport",
-                    "/admin/offers" : 'offers',
-                    "/admin/coupons" : "coupons"
-                 };
-
-                 // Check if the path exists in the menuItems object
-                 if(menuItems[path]){
-                    document.getElementById(menuItems[path]).classList.add('active');
-                 }
+    
+                const menuMap = {
+                    "dashboard": ["/admin/dashboard"],
+                    "users": ["/admin/users"],
+                    "orders": ["/admin/orders", "/admin/order-details"],
+                    "products": ["/admin/products"],
+                    "categories": ["/admin/categories"],
+                    "salesReport": ["/admin/salesReport"],
+                    "offers": ["/admin/offers"],
+                    "coupons": ["/admin/coupons"]
+                };
+    
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));
+    
+                for (const [id, paths] of Object.entries(menuMap)) {
+                    if (paths.some(p => path.startsWith(p))) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.add('active');
+                        }
+                        break;
+                    }
+                }
             });
         </script>
     

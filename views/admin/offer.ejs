@@ -200,23 +200,32 @@
  
   <!-- Script for highlight the sidebar -->
   <script>
-    document.addEventListener('DOMContentLoaded',function(){
+    document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.pathname;
-        const menuItems = {
-            "/admin/dashboard" : "dashboard",
-            "/admin/users"   : "users",
-            "/admin/orders" : "orders",
-            "/admin/products" : "products",
-            "/admin/categories" : "categories",
-            "/admin/salesReport" : "salesReport",
-            "/admin/offers" : 'offers',
-            "/admin/coupons" : "coupons"
-         };
 
-         // Check if the path exists in the menuItems object
-         if(menuItems[path]){
-            document.getElementById(menuItems[path]).classList.add('active');
-         }
+        const menuMap = {
+            "dashboard": ["/admin/dashboard"],
+            "users": ["/admin/users"],
+            "orders": ["/admin/orders", "/admin/order-details"],
+            "products": ["/admin/products"],
+            "categories": ["/admin/categories"],
+            "salesReport": ["/admin/salesReport"],
+            "offers": ["/admin/offers"],
+            "coupons": ["/admin/coupons"]
+        };
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => item.classList.remove('active'));
+
+        for (const [id, paths] of Object.entries(menuMap)) {
+            if (paths.some(p => path.startsWith(p))) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('active');
+                }
+                break;
+            }
+        }
     });
 </script>
 
