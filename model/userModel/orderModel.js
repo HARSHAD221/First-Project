@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
         },
         status : {
             type : String,
-            enum : ['Pending','Delivered','Cancelled'],
+            enum : ['Pending','Delivered','Cancelled','Returned'],
             default : 'Pending',
         },
         deliveryDate : Date,
@@ -33,6 +33,23 @@ const orderSchema = new mongoose.Schema({
         },
         returnReason : String,
         returnDate : Date,
+        cancellationDetails : {
+            isCancelled : {
+                type : Boolean,
+                default : false,
+        },
+        refundAmount : {
+            type : Number,
+            default : 0,
+        },
+        refundStatus : {
+            type : String,
+            enum : ['Pending','Refunded','Not Applicable'],
+            default : 'Not Applicable'
+        },
+        cancellationReason : String,
+        cancelledAt : Date,
+      }
     }],
     totalPrice: {
         type: Number,
@@ -44,7 +61,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled','Partially Cancelled'],
         default: 'Pending',
     },
     paymentMethod: {

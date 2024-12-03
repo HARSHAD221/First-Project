@@ -93,6 +93,13 @@ const addToCart = async (req,res,next) => {
             })
         }
 
+        if(product.stock <= 0){
+            return res.status(400).json({
+                success : false,
+                message : 'This product is out of stock'
+            })
+        }
+
         const MAX_QTY_PER_USER = 5;
         
         let existingCart = await Cart.findOne({user : userId});

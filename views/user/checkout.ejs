@@ -281,9 +281,16 @@
                     </div>
                     <div class="form-group">
                         <label for="country">Country</label>
-                        <input type="text" class="form-control" id="country" name="country" required>
-                        <small id="countryErr"  class="text-danger"></small>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="">Select Country</option>
+                            <option value="USA">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="IN">India</option>
+                        </select>
+                        <small id="countryErr" class="text-danger"></small>
                     </div>
+                    
 
                     <!-- Save Address Button -->
                     <button type="submit" class="btn btn-primary">Save Address</button>
@@ -366,7 +373,7 @@ document.getElementById('addressForm').addEventListener('submit', function (e) {
         city: formData.get('city').trim().toLowerCase(),
         state: formData.get('state').trim().toLowerCase(),
         zip: formData.get('zip').trim(),
-        country: formData.get('country').trim().toLowerCase()
+        country: formData.get('country').trim().toUpperCase()
     };
 
     // Validate each field one last time before submitting

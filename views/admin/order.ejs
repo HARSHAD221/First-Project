@@ -191,8 +191,8 @@
                                     <% orders.forEach((order, index) => { %> <!-- Loop through each order -->
                                         <tr>
                                             <td><%= index + 1 %></td> <!-- Display running number -->
-                                            <td><b><%= order.user.name %></b></td> <!-- User's name -->
-                                            <td><%= order.user.email %></td> <!-- User's email -->
+                                            <td><b><%= order.user ? order.user.name : 'Unknown' %></b></td> <!-- User's name -->
+                                            <td><%= order.user ? order.user.email : 'No email' %></td> <!-- User's email -->
                                             <td>$<%= order.totalPrice.toFixed(2) %></td> <!-- Total price -->
                                             <td>
                                                 <span class="badge rounded-pill 

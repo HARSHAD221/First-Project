@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/style.css">
+     <!-- Main CDN File --> 
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -84,15 +86,15 @@
                         </a>
                     
                         <!-- Wishlist Button -->
-                        <div class="product-action-vertical">
+                        <!-- <div class="product-action-vertical">
                             <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
-                        </div>
+                        </div> -->
                     </figure>
                     
       
                   <div class="product-body">
                     <!-- Product Name -->
-                    <h3 class="product-title"><a href="/product/<%= product._id %>"><%= product.productName %></a></h3>
+                    <h3 class="product-title"><a href="/product?id=<%= product._id %>"><%= product.productName %></a></h3>
       
                     <!-- Product Price -->
                       <div class="product-price">
@@ -112,23 +114,103 @@
                         </div>
                     
                     <!-- Optional: Color dots (if applicable) -->
-                    <div class="product-nav product-nav-dots">
+                    <!-- <div class="product-nav product-nav-dots">
                       <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
                       <a href="#" style="background: #e8e8e8;"><span class="sr-only">Color name</span></a>
-                    </div>
+                    </div> -->
                   </div>
       
                   <!-- Add to Cart Button -->
-                  <div class="product-action">
+                  <!-- <div class="product-action">
                     <a href="/cart/add/<%= product._id %>" class="btn-product btn-cart"><span>Add to Cart</span></a>
-                  </div>
+                  </div> -->
+
+                  <div class="product-action">
+                    <% if (product.stock === 0) { %>
+                        
+                        <button class="btn-product btn-outofstock" disabled>
+                            <span>Out of Stock</span>
+                        </button>
+                    
+                    <% } else { %>
+                        
+                        <button class="btn-product btn-cart" data-id="<%= product._id %>">
+                            <span>Add to Cart</span>
+                        </button>
+                    <% } %>
+                </div>
+                
                 </div>
               </div>
             <% }); %>
           </div>
         <% } %>
       </div>
+    
 
+      <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+    
+                <!-- First Page Button -->
+                <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+                <% } %>
+    
+                <!-- Previous Button -->
+                <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="page-item disabled">
+                        <a class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>
+                <% } %>
+    
+                <!-- Page Numbers -->
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+    
+                <!-- Next Button -->
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="page-item disabled">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>
+                <% } %>
+    
+                <!-- Last Page Button -->
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= totalPages %>" aria-label="Last">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                <% } %>
+    
+            </ul>
+        </nav>
+    </div>
+    
     <%- include('../partials/footer.ejs') %>
 
  
@@ -243,8 +325,6 @@
 
 
 
-
-
 <script>
     async function fetchProducts(sortBy, category) {
         try {
@@ -290,12 +370,10 @@
                                 <img src="${product.imagePaths[0]}" alt="${product.productName} Image" class="">
                                 <img src="${product.imagePaths[1]}" alt="${product.productName} Image" class="product-image-hover">
                             </a>
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
-                            </div>
+            
                         </figure>
                         <div class="product-body">
-                        <h3 class="product-title"><a href="/product/${product._id}">${product.productName}</a></h3>
+                        <h3 class="product-title"><a href="/product?id=${product._id}">${product.productName}</a></h3>
                         <div class="product-price">
                             ${
                                 product.discount > 0 
@@ -304,13 +382,17 @@
                                 : `$${product.price.toFixed(2)}`
                             }
                         </div>
-                        <div class="product-nav product-nav-dots">
-                            <a href="#" class="active" style="background: #333333;"></a>
-                            <a href="#" style="background: #e8e8e8;"></a>
-                        </div>
                     </div>
-                    <div class="product-action">
-                        <a href="/cart/add/${product._id}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                     <div class="product-action">
+                        ${
+                            product.stock === 0
+                                ? `<button class="btn-product btn-outofstock" disabled>
+                                       <span>Out of Stock</span>
+                                   </button>`
+                                : `<button class="btn-product btn-cart" data-id="${product._id}">
+                                       <span>Add to Cart</span>
+                                   </button>`
+                        }
                     </div>
                 </div>
             `;
@@ -331,8 +413,38 @@
         const sortBy = document.getElementById('sortBy').value;
         const selectedCategory = document.getElementById('categorySelect').value;
         fetchProducts(sortBy, selectedCategory);  // Fetch products with both sorting and category
-    }
+    }   
 </script>
+
+
+<script>
+    document.querySelectorAll('.btn-product').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-id');
+
+            fetch('/addToCart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, quantity: 1 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Success', data.message, 'success')
+                    .then(() => location.reload() )
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+            });
+        });
+    });
+</script>
+
 
 </body>
 

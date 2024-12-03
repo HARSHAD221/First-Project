@@ -17918,3 +17918,47 @@ p {
       font-size: 16px;
   }
 }
+
+
+
+/* CSS FOR PAGINATION IN THE PRODUCTS LISTING SECTION */
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #007bff;
+}
+
+.pagination .page-link:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+
+
+.col-sm-12 {
+  display: flex;
+  justify-content: center;
+}
+.btn-login.btn-g {
+  padding: 10px 20px;
+  font-size: 14px;
+  max-width: 250px;
+  flex-shrink: 0; /* Prevent the button from shrinking */
+}

@@ -94,8 +94,8 @@
 	                		<div class="col-md-8 col-lg-9">
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<p>Hello <span class="font-weight-normal text-dark"><%= user.name%></span> (not <span class="font-weight-normal text-dark"> <%= user.name%>
-                                        </span>? <a href="/logout">Log out</a>) 
+								    	<p>Hello <span class="font-weight-normal text-dark"><%= user.name%></span> 
+                                        
 								    	<br>
                                         <%= user.email%>
                                         <br>
@@ -466,7 +466,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>  
 
   
 
@@ -876,6 +876,46 @@
         <%- JSON.stringify(wallet.transactions) %>
     </script>
     
+    
+    <!-- Script for staying in the selected side bars -->
+    <!-- <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Retrieve the active tab from Local Storage
+    const savedTabId = localStorage.getItem('activeTab');
+    
+    // 2. Activate the saved tab if it exists
+    if (savedTabId) {
+        // Remove 'active' class from all tabs
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Activate the saved tab
+        const savedTab = document.getElementById(savedTabId);
+        if (savedTab) {
+            savedTab.classList.add('active');
+            // Also activate the corresponding tab content
+            const tabContentId = savedTab.getAttribute('href'); // e.g., #tab-dashboard
+            document.querySelectorAll('.tab-pane').forEach(content => {
+                content.classList.remove('show', 'active');
+            });
+            document.querySelector(tabContentId).classList.add('show', 'active');
+        }
+    }
+
+    // 3. Listen for clicks on sidebar links to update Local Storage
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (event) => {
+            const clickedTabId = event.target.id; // Get the ID of the clicked tab
+            localStorage.setItem('activeTab', clickedTabId); // Save it to Local Storage
+        });
+    });
+});
+
+    </script> -->
+    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Parse JSON data from the script tag
@@ -1229,11 +1269,14 @@ document.querySelectorAll('.edit-address').forEach(button => {
                     
                     document.getElementById('firstName').value = data.address.firstName;
                     document.getElementById('lastName').value = data.address.lastName;
-                    document.getElementById('phone').value = data.address.phone;
+                    document.getElementById('Editphone').value = data.address.phone;
                     document.getElementById('streetAddress').value = data.address.streetAddress;
                     document.getElementById('city').value = data.address.city;
                     document.getElementById('state').value = data.address.state;
                     document.getElementById('zip').value = data.address.zip;
+                    console.log('Country in data:', data.address.country);
+                    document.getElementById('country').value = data.address.country;
+
                     document.getElementById('country').value = data.address.country;
 
                     // Set the hidden addressId field

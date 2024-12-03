@@ -17,6 +17,8 @@ const Coupon = require('../model/adminModel/CouponModel');
 
 const Wallet = require('../model/userModel/walletModel');
 
+const flash = require('connect-flash');
+
 const applyoffer = require('../middleware/applyOfferMiddleware');
 
 const nodemailer = require('nodemailer');
@@ -87,7 +89,8 @@ const loadHomePage = async (req, res, next) => {
 
 const loginLoad = async(req,res) => {
     try {
-        res.render('login')
+        console.log('Login load have issue')
+        res.render('login',{error : req.flash('error')});
     } catch (error) {
         console.log("login error:",error.message)
     }
@@ -311,14 +314,16 @@ const loginUser = async (req,res) => {
             });
         }
         
-     
-
+      const wishlist = await WishList.findOne({user : user._id})
+      const wishlistCount = wishlist ? wishlist.products.length : 0
+      console.log('wishlistCount',wishlistCount);
 
         req.session.user = {
             id : user._id,
             email : user.email,
             name : user.name,
-            phone : user.phone
+            phone : user.phone,
+            wishlistCount
         };
 
      
@@ -338,7 +343,8 @@ const loginUser = async (req,res) => {
                     id: user._id,
                     email: user.email,
                     name: user.name,
-                    phone: user.phone
+                    phone: user.phone,
+                    wishlistCount
                 },
         
             });
@@ -507,26 +513,62 @@ const loadSingleProduct = async (req, res, next) => {
 
 const userLoginGoogle = async (req, res, next) => {
     try {
-      console.log('Google callback reached here');
-      
-      // Check if the user exists in the session after login
-      if (req.user) {
-        // Store the user's email and ID in session
-        req.session.user = req.user.email;
-        req.session.userId = req.user._id;
-        console.log('Session details:', req.session);
-  
-        // Redirect to homepage or dashboard after successful login
-        res.redirect('/');
-      } else {
-        // Redirect to login page if there's an issue
-        res.redirect('/login');
-      }
+        console.log('Google callback reached here');
+        
+        if (req.user) {
+            console.log('reached i');
+
+            // Store the user's email and ID in session
+            if (req.user.is_block) {
+                console.log('reached for blocked google');
+                
+                const user = await User.findById(req.user.id);
+
+                if (user && user.is_block) {
+                    console.log('Blocked user attempted to login', req.user.email);
+                   console.log('setting flash message :Your account has been blocked by the admin')
+                    // Use req.flash before destroying the session
+                    req.flash('error', 'Your account has been blocked by the admin.');
+
+                    // Destroy the session after setting flash message
+                    req.session.destroy((err) => {
+                        if (err) {
+                            console.log('Error destroying session for blocked user', err.message);
+                        } else {
+                            // After destroying the session, redirect to the login page
+                            return res.redirect('/login');
+                        }
+                    });
+                    return;
+                }
+            };
+            
+            const wallet = await Wallet.findOne({userId : req.user.id});
+            if(!wallet){
+                console.log('Not wallet for user :',req.user.id);
+            }
+            req.session.user = {
+                id: req.user.id,
+                email: req.user.email,
+                name: req.user.name,
+                phone: req.user.phone,
+                wallet : wallet ? wallet.balance : 0,   
+            };
+
+            req.session.userId = req.user.id;
+
+            console.log('session details with google :', req.session);
+            res.redirect('/');
+        } else {
+            // Redirect to login page if there's an issue
+            res.redirect('/login');
+        }
     } catch (error) {
-      console.log('Error in Google login:', error.message);
-      next(error);
+        console.log('Error in Google login:', error.message);
+        next(error);
     }
-  };
+};
+
  
 
 const searchAndFilterProducts = async (req, res, next) => {
@@ -591,18 +633,38 @@ const searchAndFilterProducts = async (req, res, next) => {
 const productsPage = async (req,res,next) => {
     try {
         const userId = req.session.user ? req.session.user.id : null;
+         
+        const page = parseInt(req.query.page) || 1;
 
+        const  limit = 12;
+        const skip = (page - 1) * limit
         const products = await Products.find({isBlock : false})
         .sort({createdAt : -1})
-        .limit(12);
+        .skip(skip)
+        .limit(limit);
+
+        const totalProducts = await Products.countDocuments({isBlock : false});
+
+        const totalPages = Math.ceil(totalProducts/limit)
+        
         
         const categories = await Category.find({isBlock : false})
         
         const productsWithOffers = await Promise.all(products.map(async (product) => {
             return await applyOfferToProduct(product);
         }));
+        
+        let cartProducts = [];
+        if(userId){
+            const cart = await Cart.findOne({user : userId}).select('products.product')
+            if(cart){
+                cartProducts = cart.products.map(item => item.product.toString());
+            }
+        };
 
-        res.render('products',{products : productsWithOffers,userId,categories });
+        res.render('products',{products : productsWithOffers,userId,categories,cartProducts : cartProducts ? cartProducts: [] ,
+            currentPage : page,totalPages,
+        });
     } catch (error) {
         console.error('Error while loading products page',error.message);
         next(error);
